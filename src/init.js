@@ -1,6 +1,7 @@
 /*jslint bitwise: true, browser: true, devel: true, eqeqeq: true, immed: true, newcap: true, nomen: true, onevar: true, regexp: true, undef: true */
 /*global $, $$, $cls, $$cls, $tag, $$tag, document, window, ActiveXObject, SIMULATE_DEVICE */
 
+//Quick change to the comments
 var builder;
 if( !builder ) {
     builder = {};
