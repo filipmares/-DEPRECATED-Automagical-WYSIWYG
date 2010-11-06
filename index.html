@@ -1,0 +1,63 @@
+<html>
+
+	<head>
+		<title>Automagical</title>
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="Styles/clientStyles.css" />
+		<!-- End CSS -->
+		
+		<!-- JQuery CDN link-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"></script>
+		
+		
+		<script src="src/initNew.js"></script>
+
+		<!-- Menu Animation Script -->
+		<script type="text/javascript">
+			$(document).ready(function()
+			{
+				builder.init.initialize();
+				$("nav#selector").hide();
+				$("nav#selector > a").draggable({				
+					appendTo: "body"
+				});
+				
+				$("#canvas").droppable({
+				     drop: function() { 
+				     alert('dropped onto canvas'); }
+				   });
+				
+				$("nav#nav > a").click(function()
+				{
+					alert('tryign to open');
+					$("nav#selector").slideToggle("slow");
+					$(this).addClass("active");
+				});
+			});
+		
+		</script>
+		<!-- End Menu Animation Script -->
+		
+	</head>
+
+	<body>
+		
+		<!-- Toolbar Code -->
+		<!-- Nav Bar -->
+		<nav id="nav"></nav>
+		
+		<!-- Selector -->
+		<nav id="selector">
+			<a href="#"><img src="images/cells/text.gif" alt="text" width="55" height="27" /></a>
+			<a href="#"><img src="images/cells/label.gif" alt="label" width="55" height="27" /></a>
+			<a href="#"><img src="images/cells/link.gif" alt="link" width="55" height="27" /></a>
+		</nav>
+		
+		<div id="canvasContainer">
+			<div id="canvas"></div>
+		</div>
+		
+	</body>
+
+</html>

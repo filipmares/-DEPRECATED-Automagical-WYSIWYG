@@ -1,0 +1,77 @@
+{
+    "main": {
+        "title": "General",
+        "cells": [
+            {
+                "name": "Cell 1",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 2",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 3",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 4",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 5",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 6",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 7",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 8",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+			{
+                "name": "Cell 9",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            },
+            {
+                "name": "Cell 10",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            } 
+        ] 
+    }
+}

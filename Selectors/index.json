@@ -1,0 +1,15 @@
+{
+    "main": {
+    	"selectors":[
+    		{
+    			"Folder_Name": "General",
+    			"JSON":"general.json"   		
+    		},
+    		{
+				"Folder_Name": "Layouts",
+    			"JSON":"layouts.json" 
+    		}
+    	]
+    
+    }
+}
