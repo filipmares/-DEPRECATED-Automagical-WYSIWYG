@@ -22,13 +22,13 @@
 				
 				
 				
-				$("nav#selector > a").draggable({				
-
-				});
+				$("nav#selector > a").draggable();
 				
 				$("#canvas").droppable({
-				     drop: function() { 
-				     alert('dropped onto canvas'); }
+				     drop: function(ev, ui) { 
+				     alert('dropped onto canvas'); 
+				     $(this).append(ui.draggable);
+				     }
 				   });
 				
 				
