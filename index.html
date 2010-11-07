@@ -29,12 +29,9 @@
 				
 				$("#canvas").droppable({
 					drop: function(ev, ui) { 
-						var cloned = $(ui.helper.clone());
-						$(this).append(cloned);
-						cloned.draggable({
-							revert: true,
-							appendTo:"body"
-						});
+						if (!ui.draggable.hasClass("added")) {
+							$(this).append(ui.draggable.clone().draggable().addClass("added"));
+						}
 					}
 				});
 				

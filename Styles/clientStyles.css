@@ -116,7 +116,6 @@
 #canvasContainer{
 	position:relative;
 	top:23px;
-	z-index: -1;
 	background-color: #4c4c4c;}
 
 #canvas{
