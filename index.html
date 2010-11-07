@@ -19,8 +19,11 @@
 			{
 				builder.init.initialize();
 				$("nav#selector").hide();
+				
+				
+				
 				$("nav#selector > a").draggable({				
-					appendTo: "body"
+
 				});
 				
 				$("#canvas").droppable({
@@ -28,12 +31,7 @@
 				     alert('dropped onto canvas'); }
 				   });
 				
-				$("nav#nav > a").click(function()
-				{
-					alert('tryign to open');
-					$("nav#selector").slideToggle("slow");
-					$(this).addClass("active");
-				});
+				
 			});
 		
 		</script>
@@ -57,7 +55,13 @@
 		<div id="canvasContainer">
 			<div id="canvas"></div>
 		</div>
-		
+		<script type="text/javascript">
+			$("nav#nav").click(function()
+			{
+				$("nav#selector").show("slow");
+				$(this).addClass("active");
+			});
+		</script>
 	</body>
 
 </html>
