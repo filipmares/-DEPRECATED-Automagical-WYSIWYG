@@ -21,7 +21,6 @@
 				$("nav#selector").hide();
 				
 				
-				
 				$("nav#selector > a").draggable();
 				
 				$("#canvas").droppable({
@@ -29,9 +28,8 @@
 				     alert('dropped onto canvas'); 
 				     $(this).append(ui.draggable);
 				     }
-				   });
-				
-				
+				});
+
 			});
 		
 		</script>
@@ -55,13 +53,6 @@
 		<div id="canvasContainer">
 			<div id="canvas"></div>
 		</div>
-		<script type="text/javascript">
-			$("nav#nav").click(function()
-			{
-				$("nav#selector").show("slow");
-				$(this).addClass("active");
-			});
-		</script>
 	</body>
 
 </html>

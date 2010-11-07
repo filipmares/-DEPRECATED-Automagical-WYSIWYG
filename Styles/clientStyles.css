@@ -44,6 +44,13 @@
 	border-left: 1px solid black;	
 }
 
+#nav a.active{
+	color:white;
+	border-left: 1px #333333 solid;
+	text-shadow: 1px 1px 0px #353535;
+	background-color: #333333;
+}
+
 #nav a:hover{
 	color:white;
 	border-right: 1px black solid;
@@ -51,12 +58,7 @@
 	background-color: #333333;
 }
 
-#nav a:active{
-	color:white;
-	border-left: 1px #333333 solid;
-	text-shadow: 1px 1px 0px #353535;
-	background-color: #333333;
-}
+
 
 /* END NAVBAR */
 
