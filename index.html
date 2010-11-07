@@ -18,19 +18,18 @@
 			$(document).ready(function()
 			{
 				builder.init.initialize();
-				$("nav#selector").hide();
-				
-				
-				
-				$("nav#selector > a").draggable();
+				$("#selector").hide();
+					
+				$("#selector > a").draggable({
+					helper: "clone",
+					appendTo:"body"
+				});
 				
 				$("#canvas").droppable({
-				     drop: function(ev, ui) { 
-				     alert('dropped onto canvas'); 
-				     $(this).append(ui.draggable);
-				     }
-				   });
-				
+					drop: function(ev, ui) { 
+						$(this).append(ui.draggable);
+					}
+				});
 				
 			});
 		
@@ -40,7 +39,6 @@
 	</head>
 
 	<body>
-		
 		<!-- Toolbar Code -->
 		<!-- Nav Bar -->
 		<nav id="nav"></nav>
