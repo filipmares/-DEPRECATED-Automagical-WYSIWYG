@@ -21,13 +21,19 @@
 				$("#selector").hide();
 					
 				$("#selector > a").draggable({
+					revert: "invalid",
 					helper: "clone",
 					appendTo:"body"
 				});
 				
 				$("#canvas").droppable({
 					drop: function(ev, ui) { 
-						$(this).append(ui.draggable);
+						var cloned = $(ui.helper.clone());
+						$(this).append(cloned);
+						cloned.draggable({
+							revert: true,
+							appendTo:"body"
+						});
 					}
 				});
 				
