@@ -45,6 +45,23 @@ builder.init = (function ()
 						$(".active").removeClass("active");
 						$(this).addClass("active");
 					}
+					
+					$.getJSON('Selectors/'+cell.Folder_Name+'/'+cell.Folder_Name+'.json',function(jsonInner, statusInnter){
+		
+						$('nav#selector').html("");
+						$.each(jsonInner.main.cells,function(nameInner, cellInner){
+								$('nav#selector').append('<a href=\"#\"><img src=\"images/cells/'+cellInner.icon+'\" alt=\"'+cellInner.name+'\" width=\"55\" height=\"27\" /></a>');
+					
+						});
+						
+						$("#selector > a").draggable({
+							revert: "invalid",
+							helper: "clone",
+							appendTo: "body",
+							containment: "#canvasContainer"
+						});
+						
+					});
 				});
 			});
 		});
