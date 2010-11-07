@@ -24,13 +24,18 @@
 				$("#selector > a").draggable({
 					revert: "invalid",
 					helper: "clone",
-					appendTo:"body"
+					appendTo: "body",
+					containment: "#canvasContainer"
 				});
 				
 				$("#canvas").droppable({
 					drop: function(ev, ui) { 
 						if (!ui.draggable.hasClass("added")) {
-							$(this).append(ui.helper.clone().draggable().addClass("added"));
+							var cloned = ui.helper.clone();
+							$(this).append(cloned
+								.draggable({containment:"parent"})
+								.addClass("added"));
+							cloned.css("top",(cloned.position().top - 20 - $("#selector").height() - $("#nav").height())+"px");
 						}
 					}
 				});
