@@ -30,7 +30,7 @@
 				$("#canvas").droppable({
 					drop: function(ev, ui) { 
 						if (!ui.draggable.hasClass("added")) {
-							$(this).append(ui.draggable.clone().draggable().addClass("added"));
+							$(this).append(ui.helper.clone().draggable().addClass("added"));
 						}
 					}
 				});
