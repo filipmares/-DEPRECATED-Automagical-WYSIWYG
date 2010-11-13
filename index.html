@@ -19,26 +19,6 @@
 			{
 				builder.init.initialize();
 
-				$("#selector").hide();
-					
-				$("#selector > a").draggable({
-					revert: "invalid",
-					helper: "clone",
-					appendTo: "body",
-					containment: "#canvasContainer"
-				});
-				
-				$("#canvas").droppable({
-					drop: function(ev, ui) { 
-						if (!ui.draggable.hasClass("added")) {
-							var cloned = ui.helper.clone();
-							$(this).append(cloned
-								.draggable({containment:"parent"})
-								.addClass("added"));
-						}
-					}
-				});
-				
 			});
 		
 		</script>

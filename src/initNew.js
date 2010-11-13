@@ -10,7 +10,10 @@ builder.init = (function ()
 	var init =
 	{
 	},
-		populateNavList;
+		populateNavList,
+		populateSelectorList,
+		initializeDraggableAreas;
+		
 		
 	/*This funtion populates the MenuBar and Selector bar with extensions and their various cells*/	
 	populateNavList = function ()
@@ -46,29 +49,70 @@ builder.init = (function ()
 						$(this).addClass("active");
 					}
 					
-					$.getJSON('Selectors/'+cell.Folder_Name+'/'+cell.Folder_Name+'.json',function(jsonInner, statusInnter){
-		
-						$('nav#selector').html("");
-						$.each(jsonInner.main.cells,function(nameInner, cellInner){
-								$('nav#selector').append('<a href=\"#\"><img src=\"images/cells/'+cellInner.icon+'\" alt=\"'+cellInner.name+'\" width=\"55\" height=\"27\" /></a>');
-					
-						});
-						
-						$("#selector > a").draggable({
-							revert: "invalid",
-							helper: "clone",
-							appendTo: "body",
-							containment: "#canvasContainer"
-						});
-						
-					});
+					populateSelectorList(cell.Folder_Name);
 				});
 			});
 		});
 	};
+	
+	populateSelectorList = function(folderName)
+	{
+	
+				//Populate the selectors using the json file in the correct folder pointed to by main json file
+			$.getJSON('Selectors/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
+
+				//Clear everything currently in selecter
+				$('nav#selector').html("");
+				
+				//Append to the nav
+				$.each(jsonInner.main.cells,function(nameInner, cellInner){
+						$('nav#selector').append('<a href=\"#\" id=\"'+folderName+cellInner.name+'\"><img src=\"images/cells/'+cellInner.icon+'\" alt=\"'+cellInner.name+'\" width=\"55\" height=\"27\" /></a>');
+						
+					//Make the item draggable
+					$("#"+folderName+cellInner.name).draggable({
+						revert: "invalid",
+						appendTo: "body",
+						containment: "#canvasContainer",
+						helper: function() {
+						   return $( cellInner.tag )[0];
+						}
+					});
+					
+
+			
+				});
+				
+
+				
+			});
+	};
+	
+	initializeDraggableAreas = function()
+	{
+		$("#selector").hide();
+
+		
+		$("#canvas").droppable({
+			drop: function(ev, ui) { 
+				if (!ui.draggable.hasClass("added")) {
+					var cloned = ui.helper.clone();
+					$(this).append(cloned
+						.draggable({containment:"parent"})
+						.addClass("added")
+
+						
+					);
+
+
+				}
+			}
+		});
+	};
+	
 	init.initialize = function ()
 	{
 		populateNavList();
+		initializeDraggableAreas();
 	};
 	return init;
 }());
