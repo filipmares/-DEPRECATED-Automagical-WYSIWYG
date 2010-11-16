@@ -9,7 +9,7 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 	
-		var attrubutes_html = '<div id="attributes-panel">' +
+		var attrubutes_html = '<div id="attributes-panel" align="right">' +
 			'<div id="attributes-selector">' +
 				'<label for="attributes-selector-input">Element</label>' +
 				'<input type="text" id="attributes-selector-input">' +
@@ -26,19 +26,27 @@
 		
 		var selector_field = $('#attributes-selector-input', wrapper);
 		var attributes_list = $('#attributes-list', wrapper);
+		var selected = null; //The element currently selected for manipulation
 		
 		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').click(function(){
-			var element = $(this);
+			selected = $(this);
 			
-			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(element));
+			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
+			attributes_list.empty();
 			
-			if (element.get(0).tagName == 'DIV'){
+			if (selected.get(0).tagName == 'DIV'){
 				jQuery.each($.fn.automagicalCss.divCommonStyles, function(key, value){
-					attributes_list.append('<label>' + key + '</label> <input type="text" value="' + 
-											element.css(value) + '" /> <br/>');
+					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+											selected.css(value) + '" cssValue="' + value + '" /> <br/>');
 				});
 			}
 		});
+		
+		$('.cssInput').live('keyup', function(event){
+			var element = $(this);
+			
+			selected.css(element.attr('cssValue'), element.val());
+		})
 	}
 	
 	$.fn.automagicalCss.extractCssSelectorPath = function(element){
