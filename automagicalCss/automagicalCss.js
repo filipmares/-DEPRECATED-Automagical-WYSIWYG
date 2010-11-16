@@ -26,8 +26,9 @@
 		
 		var selector_field = $('#attributes-selector-input', wrapper);
 		var attributes_list = $('#attributes-list', wrapper);
-		var selected = null; //The element currently selected for manipulation
+		var selected = null;
 		
+		//When an element on the canvas is clicked, populate the css attributes list
 		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').click(function(){
 			selected = $(this);
 			
@@ -42,11 +43,24 @@
 			}
 		});
 		
+		//Listen to when the user changes a css property, then change the property
 		$('.cssInput').live('keyup', function(event){
 			var element = $(this);
 			
 			selected.css(element.attr('cssValue'), element.val());
-		})
+		});
+		
+		//Add drag and resize functionality
+		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseenter(function(){
+			var element = $(this);
+			element.draggable();
+			element.resizable();
+		});
+		
+		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseleave(function(){
+			var element = $(this);
+			
+		});
 	}
 	
 	$.fn.automagicalCss.extractCssSelectorPath = function(element){
