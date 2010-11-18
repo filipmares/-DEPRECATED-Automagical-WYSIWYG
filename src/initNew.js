@@ -12,7 +12,9 @@ builder.init = (function ()
 	},
 		populateNavList,
 		populateSelectorList,
-		initializeDraggableAreas;
+		initializeDroppableAreas,
+		clearDroppableAreas,
+		reinitializeDroppableAreas;
 		
 		
 	/*This funtion populates the MenuBar and Selector bar with extensions and their various cells*/	
@@ -72,10 +74,19 @@ builder.init = (function ()
 					$("#"+folderName+cellInner.name).draggable({
 						revert: "invalid",
 						appendTo: "body",
-						containment: "#canvasContainer",
+						containment: "#canvas",
 						helper: function() {
+							//Return the new tag to be created
 						   return $( cellInner.tag )[0];
+						},
+						start: function(event, ui) {
+							//We need to know if something is a container so it can be initialized properly
+							if (cellInner.container == true) {
+								$(ui.helper).addClass("container");
+							}
+							
 						}
+
 					});
 					
 
@@ -87,32 +98,85 @@ builder.init = (function ()
 			});
 	};
 	
-	initializeDraggableAreas = function()
+	initializeDroppableAreas = function( droppableAttr )
 	{
-		$("#selector").hide();
+
 
 		
-		$("#canvas").droppable({
+		droppableAttr.droppable({
+			greedy: true,	//Stop droppable event propogation
 			drop: function(ev, ui) { 
-				if (!ui.draggable.hasClass("added")) {
+				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
 					$(this).append(cloned
-						.draggable({containment:"parent"})
+						.draggable({containment:"#canvas"})
 						.addClass("added")
-
+						.removeClass("ui-draggable-dragging")
 						
 					);
+					
+					
+					//TODO: Preliminary step to implement contentEditable areas at some point in future
+					cloned.click(function() {
+						$(this).focus();
+					});
+					
+					
+					
+					
+					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
+					if ($(cloned).hasClass("container")) {
+						clearDroppableAreas();
+						initializeDroppableAreas($(cloned));
+						reinitializeDroppableAreas();
+
+					}
+
+					cloned.css('top', ui.position.top - $(this).offset().top);
+       				cloned.css('left', ui.position.left - $(this).offset().left);
 
 
+
+				}
+				else { //Element already on canvas
+					
+
+					$(this).append($(ui.draggable));
+
+					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
+       				$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
 				}
 			}
 		});
 	};
 	
+	reinitializeDroppableAreas = function() {
+	
+		var droppableAreas = $("#canvasContainer .container");
+		
+		$.each(droppableAreas, function(index, element) { 
+ 			initializeDroppableAreas($(element));
+		});
+		
+	};
+	
+	clearDroppableAreas = function() {
+	
+		var droppableAreas = $("#canvasContainer .container");
+		
+		$.each(droppableAreas, function(index, element) { 
+ 			$(element).droppable("destroy");
+		});
+
+
+	
+	};
+	
 	init.initialize = function ()
 	{
+		$("#selector").hide();
 		populateNavList();
-		initializeDraggableAreas();
+		initializeDroppableAreas($("#canvas"));
 	};
 	return init;
 }());
