@@ -40,7 +40,7 @@ builder.init = (function ()
 					}
 					else
 					{
-					//Else if any MenuBar item is acitve, remove active class and hide menu.
+					//Else if any MenuBar item is active, remove active class and hide menu.
 					//Make item clicked active and slide SelectorBar.
 						if ($("nav#selector").is(":visible"))
 						{
@@ -175,6 +175,7 @@ builder.init = (function ()
 	init.initialize = function ()
 	{
 		$("#selector").hide();
+		$("#nav").hide();
 		populateNavList();
 		initializeDroppableAreas($("#canvas"));
 	};
