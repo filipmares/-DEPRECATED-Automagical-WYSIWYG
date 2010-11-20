@@ -9,7 +9,7 @@
 	padding-top:6px;
 	background-color: #c9c9c9;
 	box-shadow: 0 2px 2px black;
-	
+	z-index: 150;	/* Display in front of canvas */
 	/* Webkit */
 	-webkit-box-shadow: 0 2px 2px black;
 	
@@ -71,6 +71,7 @@
 	padding-top: 20px;
 	background-color: #333333;
 	overflow: auto;
+	z-index: 150;	/* Display in front of canvas */
 	
 	/* Standard */
 	box-shadow: 0 2px 2px black;
@@ -113,15 +114,16 @@
 /* CANVAS STYLING */
 #canvasContainer{
 	background-color: #4c4c4c;
+
 }
 
 #canvas{
-	width:auto;
-	margin-left: 15%;
-	margin-right: 15%;
-	height:400px;
+	width:100%;
+	height:100%;
 	border: 1px solid black;
 	background-color: white;
+	position: relative;
+
 }
 
 /* THIS NEEDS TO BE LOOKED AT SINCE IT WAS FROM PREVIOUS VERSION */
@@ -141,6 +143,8 @@
 
 
 /* END CANVAS STYLING */
+
+
 
 #footer{
 	position:absolute;
