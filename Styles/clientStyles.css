@@ -1,15 +1,40 @@
+#menuContainer{
+	position:fixed;
+	height:auto;
+	width: 100%;
+	margin: -8px;
+	z-index: 150;	/* Display in front of canvas */
+}
+
+#menuDisplayControl{
+	text-align: center; 
+	position:relative; 
+	background-color:grey;
+	margin-left: auto;
+	margin-right: auto;
+	width:100px;
+	
+	/* Standard */
+  	border-bottom-right-radius: 3px;
+  	border-bottom-left-radius: 3px;  
+  	/* Webkit */
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;  
+  	/* Firefox */
+	-moz-border-bottomright-radius: 3px;
+	-moz-border-bottomleft-radius: 3px;
+}
+
 /* NAVBAR STYLING */
 #nav{
 	/* Standard */
 	font-family: helvetica;
-	position:fixed;
 	width:100%;
 	height: 25px;
-	margin: -8px;
 	padding-top:6px;
 	background-color: #c9c9c9;
 	box-shadow: 0 2px 2px black;
-	z-index: 150;	/* Display in front of canvas */
+	
 	/* Webkit */
 	-webkit-box-shadow: 0 2px 2px black;
 	
@@ -65,13 +90,11 @@
 /* SELECTOR STYLING */
 #selector{
 	position: relative;
-	top: 23px;
 	height:50px;
 	width:100%;	border-top: none;
 	padding-top: 20px;
 	background-color: #333333;
 	overflow: auto;
-	z-index: 150;	/* Display in front of canvas */
 	
 	/* Standard */
 	box-shadow: 0 2px 2px black;

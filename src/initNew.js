@@ -174,8 +174,6 @@ builder.init = (function ()
 	
 	init.initialize = function ()
 	{
-		$("#selector").hide();
-		//$("#nav").hide();
 		populateNavList();
 		initializeDroppableAreas($("#canvas"));
 	};

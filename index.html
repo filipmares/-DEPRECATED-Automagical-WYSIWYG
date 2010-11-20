@@ -17,8 +17,13 @@
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
+				$("#navContainer").hide();
+				$("#selector").hide();
+				$("label#drop-down").click(function(){
+					$("#navContainer").slideDown("slow");
+				
+				});
 				builder.init.initialize();
-
 			});
 		
 		</script>
@@ -28,15 +33,18 @@
 
 	<body>
 		<!-- Toolbar Code -->
-		<!-- Nav Bar -->
-		<nav id="nav"></nav>
-		
-		<!-- Selector -->
-		<nav id="selector">
-
-		</nav>
-		<div style="position:realtive;"><label id="drop-down">Show Menu</label></div>
-		
+		<div id="menuContainer">
+			<div id="navContainer">
+			<!-- Nav Bar -->
+			<nav id="nav"></nav>
+	
+			<!-- Selector -->
+			<nav id="selector"></nav>
+			</div>
+	
+			<div id="menuDisplayControl"><label id="drop-down">Show Menu</label></div>
+		</div>
+			
 		<div id="canvasContainer">
 			<div id="canvas" class="container"></div>
 		</div>
