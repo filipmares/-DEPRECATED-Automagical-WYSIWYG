@@ -53,14 +53,23 @@
 		//Add drag and resize functionality
 		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseenter(function(){
 			var element = $(this);
-			element.draggable();
-			element.resizable();
+			
+			element.draggable({resize : function(event, ui){
+				
+			}});
+			
+			element.resizable({drag : function(event, ui){
+				
+			}});
 		});
 		
+		//Remove the drag and drop functionality from the component
 		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseleave(function(){
 			var element = $(this);
-			
+			element.resizable('destroy');
+			element.draggable('destroy');
 		});
+
 	}
 	
 	$.fn.automagicalCss.extractCssSelectorPath = function(element){
