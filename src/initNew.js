@@ -109,10 +109,13 @@ builder.init = (function ()
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
 					$(this).append(cloned
-						.draggable({containment:"#canvas"})
+						.draggable({containment:"parent"})
 						.addClass("added")
 						.removeClass("ui-draggable-dragging")
+						.resizable({
+							containment:"parent"
 						
+						})
 					);
 					
 					

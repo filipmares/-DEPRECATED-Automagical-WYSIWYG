@@ -29,18 +29,18 @@
 		var selected = null;
 		
 		//When an element on the canvas is clicked, populate the css attributes list
-		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').click(function(){
+		$('#canvas *').live('click', function(){
 			selected = $(this);
 			
 			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
 			attributes_list.empty();
 			
-			if (selected.get(0).tagName == 'DIV'){
-				jQuery.each($.fn.automagicalCss.divCommonStyles, function(key, value){
-					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
-											selected.css(value) + '" cssValue="' + value + '" /> <br/>');
-				});
-			}
+
+			jQuery.each($.fn.automagicalCss.divCommonStyles, function(key, value){
+				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+			});
+
 		});
 		
 		//Listen to when the user changes a css property, then change the property
@@ -50,8 +50,11 @@
 			selected.css(element.attr('cssValue'), element.val());
 		});
 		
+		//TODO: We have to add this functionality later in a way where it plays nice with initalization. This functionality is
+		//necessary when working with stuff that's not from scratch
+		/*
 		//Add drag and resize functionality
-		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseenter(function(){
+		$('#canvas *').mouseenter(function(){
 			var element = $(this);
 			
 			element.draggable({resize : function(event, ui){
@@ -64,18 +67,19 @@
 		});
 		
 		//Remove the drag and drop functionality from the component
-		$('body *:not(#attributes-wrapper, #attributes-wrapper *)').mouseleave(function(){
+		$('#canvas *').mouseleave(function(){
 			var element = $(this);
 			element.resizable('destroy');
 			element.draggable('destroy');
 		});
+		*/
 
 	}
 	
 	$.fn.automagicalCss.extractCssSelectorPath = function(element){
 		if (element.attr('id')) return '#' + element.attr('id');
 		
-		var path = $.fn.automagical.extractCssSelectorPath(element.parent());
+		var path = $.fn.automagicalCss.extractCssSelectorPath(element.parent());
 		
 		if (element.attr('class') && element.attr('class') != ' ') return path + ' .' + element.attr('class');
 		return path + ' ' + element.get(0).tagName().toLowerCase(); 
@@ -83,7 +87,7 @@
 	
 	
 	$.fn.automagicalCss.defaults = {
-		stylesheet : 'css/jquery.automagicalCss.css',
+		stylesheet : 'automagicalCss/css/jquery.automagicalCss.css',
 		position: 'right'
 	};
 	
