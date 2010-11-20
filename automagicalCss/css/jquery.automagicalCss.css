@@ -1,0 +1,16 @@
+#attributes-panel {
+  background: #f0f0f0;
+  margin: 10px 10px 0 10px;
+  padding: 10px;
+  border-bottom: 1px solid #8F8F8F;
+}
+
+#attributes-wrapper {
+  position: fixed;
+  text-align: left;
+  color: #212121;
+  font-family: Helvetica, Arial, serif;
+  font-size: 13px;
+}
+
+.automagicalCss-right { top: 0; right: 0; width: 200; }

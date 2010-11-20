@@ -1,0 +1,15 @@
+{
+    "main": {
+        "title": "Template",
+        "masterScript": "/ScriptLocation/Script",
+        "cells": [
+            {
+                "name": "Cell 1",
+                "icon": "Cell.jpg",
+                "image": "none",
+                "width": 500,
+                "height": 500 
+            } 
+        ] 
+    }
+}

@@ -1,0 +1,59 @@
+{"main": {
+    "title": "Layouts",
+	"masterScript": "/src/",
+	"cells": [
+    {
+        "name": "1 column",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genOneCol"
+    },
+    {
+        "name": "2 columns",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genTwoCol"
+    },
+	{
+        "name": "3 columns",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genThreeCol"
+    },
+	{
+        "name": "1 column + Banner",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genOneColBan"
+    },
+	{
+        "name": "2 columns + Banner",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genTwoColBan"
+    },
+	{
+        "name": "3 columns + Banner",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genThreeColBan"
+    },
+	{
+        "name": "1 column + Footer",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genOneColFoot"
+    },
+	{
+        "name": "2 columns + Footer",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genTwoColFoot"
+    },
+	{
+        "name": "3 columns + Footer",
+        "icon": "Cell.jpg",
+        "image": "none",
+		"function": "genThreeColFoot"
+    } ]
+}}

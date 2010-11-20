@@ -1,0 +1,15 @@
+<!--
+<!-- Initialization Script --*>
+<script src="src/initNew.js"></script>
+
+<!-- Menu Animation Script --*>
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+	
+		builder.init.initialize();
+		$('nav#selector').hide();
+	});
+
+</script>
+<!-- End Menu Animation Script --*>-->

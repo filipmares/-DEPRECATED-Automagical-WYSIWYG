@@ -1,0 +1,11 @@
+html { font-size: 16px; }
+#testDiv {
+  width: 600px;
+  margin: 30px auto 30px auto;
+  background: #c0c0c0;
+  border: 5px solid #aaaaaa;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  padding: 50px 50px 10px 50px;
+}
