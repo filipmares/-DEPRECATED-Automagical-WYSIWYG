@@ -40,6 +40,15 @@
 }
 
 
+#attributesPanel{
+	position:absolute;
+	z-index: 150;	/* Display in front of canvas */
+	top:25%;
+	width:200px;
+	height:600px;
+	border: solid 1px black;
+}
+
 
 /* NAVBAR STYLING */
 #nav{

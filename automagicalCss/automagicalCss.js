@@ -9,7 +9,7 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 	
-		var attrubutes_html = '<div id="attributes-panel" align="right">' +
+		var attrubutes_html = '<div id="attributes-panel">' +
 			'<div id="attributes-selector">' +
 				'<label for="attributes-selector-input">Element</label>' +
 				'<input type="text" id="attributes-selector-input">' +
