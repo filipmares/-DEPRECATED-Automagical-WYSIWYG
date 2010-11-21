@@ -28,6 +28,11 @@
 		var attributes_list = $('#attributes-list', wrapper);
 		var selected = null;
 		
+		$('#attributes-panel', wrapper).dblclick(function(){
+			var panel = $(this);
+			panel.animate({marginLeft: parseInt(panel.css('marginLeft'), 10) == 0 ? panel.outerWidth() : 0});
+		});
+		
 		//When an element on the canvas is clicked, populate the css attributes list
 		$('#canvas *').live('click', function(){
 			selected = $(this);
@@ -41,12 +46,14 @@
 										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
 			});
 			
-			if ($("div#attributesWrapper").is(':hidden')) {
+			
+			// This doesn't work well. The panel will just show/hide with every alternating click
+			/*if ($("div#attributesWrapper").is(':hidden')) {
 				$("div#attributesWrapper").show();
 			}
 			else {
 				$("div#attributesWrapper").hide();
-			}
+			}*/
 		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list

@@ -1,16 +1,25 @@
 #attributes-panel {
-  background: #f0f0f0;
-  margin: 10px 10px 0 10px;
-  padding: 10px;
-  border-bottom: 1px solid #8F8F8F;
+	background: #f0f0f0;
+	margin: 10px 10px 0 10px;
+	padding: 10px;
+	border-bottom: 1px solid #8F8F8F;
+	position: relative;
+	left: 0px;
+	bottom: 0px;
 }
 
 #attributes-wrapper {
-  position: fixed;
-  text-align: left;
-  color: #212121;
-  font-family: Helvetica, Arial, serif;
-  font-size: 10px;
+	position: fixed;
+	text-align: left;
+	color: #212121;
+	font-family: Helvetica, Arial, serif;
+	font-size: 10px;
 }
 
-.automagicalCss-right { top: 20%; right: 0; width: 220; }
+.automagicalCss-right {
+	top: 20%; 
+	right: 0; 
+	width: 220; 
+	overflow: hidden;
+	position: relative;
+}

@@ -21,17 +21,17 @@ builder.init = (function ()
 		
 	hideElements = function () {
 		$("#navContainer").hide();
-		$("div#attributesWrapper").hide();
+		//$("div#attributesWrapper").hide();
 		$("#selector").hide();
 	};
 	
 	initializeMenuDisplayControl = function() {
 		$("#lblDropDown").click(function(){
 			if($("#navContainer").is(":visible")){
-				$("#navContainer").slideUp("slow");
+				$("#navContainer").slideUp("fast");
 				$("#lblDropDown").text("Show Menu");										
 			}else{
-				$("#navContainer").slideDown("slow");
+				$("#navContainer").slideDown("fast");
 				$("#lblDropDown").text("Hide Menu");				
 			}
 		});
