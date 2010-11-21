@@ -4,7 +4,7 @@
 		<title>Automagical</title>
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="Styles/clientStyles.css" />
-		<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.6.custom.css"/>
+		<link rel="stylesheet" type="text/css" href="Styles/ui-lightness/jquery-ui-1.8.6.custom.css"/>
 		
 		<!-- End CSS -->
 		
@@ -22,9 +22,15 @@
 			{
 				$("#navContainer").hide();
 				$("#selector").hide();
-				$("label#drop-down").click(function(){
-					$("#navContainer").slideDown("slow");
-				
+				$("#lblDropDown").click(function(){
+					if($("#navContainer").is(":visible")){
+						$("#navContainer").slideUp("slow");
+						$("#lblDropDown").text("Show Menu");
+						$()											
+					}else{
+						$("#navContainer").slideDown("slow");
+						$("#lblDropDown").text("Hide Menu");				
+					}
 				});
 				builder.init.initialize();
 			});
@@ -45,7 +51,8 @@
 			<nav id="selector"></nav>
 			</div>
 	
-			<div id="menuDisplayControl"><label id="drop-down">Show Menu</label></div>
+			<div id="menuDisplayControl"><label id="lblDropDown">Show Menu</label></div>
+
 		</div>
 			
 		<div id="canvasContainer">

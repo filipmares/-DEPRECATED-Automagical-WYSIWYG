@@ -7,23 +7,39 @@
 }
 
 #menuDisplayControl{
+	color:#292929;
 	text-align: center; 
 	position:relative; 
-	background-color:grey;
+	background-color:#c9c9c9; opacity: 0.4;
 	margin-left: auto;
 	margin-right: auto;
 	width:100px;
 	
 	/* Standard */
-  	border-bottom-right-radius: 3px;
-  	border-bottom-left-radius: 3px;  
+  	border-bottom-right-radius: 5px;
+  	border-bottom-left-radius: 5px;  
   	/* Webkit */
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;  
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;  
   	/* Firefox */
-	-moz-border-bottomright-radius: 3px;
-	-moz-border-bottomleft-radius: 3px;
+	-moz-border-bottomright-radius: 5px;
+	-moz-border-bottomleft-radius: 5px;
+	
+		/* Standard */
+	box-shadow: 0 2px 2px black;
+
+	/* Webkit */	
+	-webkit-box-shadow: 0 2px 2px black;
+	
+	/* Firefox */
+	-moz-box-shadow: 0 2px 2px black;
 }
+
+#menuDisplayControl:hover{
+	background-color:#c9c9c9; opacity: 1;
+}
+
+
 
 /* NAVBAR STYLING */
 #nav{
@@ -141,11 +157,11 @@
 }
 
 #canvas{
+	position: absolute;
 	width:100%;
 	height:100%;
-	border: 1px solid black;
 	background-color: white;
-	position: relative;
+
 
 }
 
