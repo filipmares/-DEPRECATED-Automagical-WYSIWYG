@@ -9,7 +9,7 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 	
-		var attrubutes_html = '<div id="attributes-panel">' +
+		var attrubutes_html = '<div id="attributes-panel" align="right">' +
 			'<div id="attributes-selector">' +
 				'<label for="attributes-selector-input">Element</label>' +
 				'<input type="text" id="attributes-selector-input">' +
@@ -94,8 +94,7 @@
 	$.fn.automagicalCss.divCommonStyles = {
 		width: 'width',
 		height: 'height',
-		background: 'backgroundColor',
-		color: 'color'
+		bkgcolor: 'backgroundColor',
 	};
 	
 })(jQuery);
