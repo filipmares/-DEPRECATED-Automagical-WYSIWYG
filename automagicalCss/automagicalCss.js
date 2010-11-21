@@ -119,7 +119,7 @@
 	$.fn.automagicalCss.divCommonStyles = {
 		width: 'width',
 		height: 'height',
-		bkgcolor: 'backgroundColor',
+		bkgcolor: 'backgroundColor'
 	};
 	
 }
