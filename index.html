@@ -21,7 +21,15 @@
 			$(document).ready(function()
 			{
 				$("#navContainer").hide();
+				$("div#attributesWrapper").hide();
 				$("#selector").hide();
+				
+				$("div#canvasContainer").click(function(){
+					event.stopPropagation();
+					$("div#attributesWrapper").hide();
+				});
+				
+				
 				$("#lblDropDown").click(function(){
 					if($("#navContainer").is(":visible")){
 						$("#navContainer").slideUp("slow");
@@ -57,6 +65,7 @@
 		<div id="canvasContainer">
 			<div id="canvas" class="container"></div>
 		</div>
+		<div id="attributesWrapper"></div>
 	</body>
 
 </html>

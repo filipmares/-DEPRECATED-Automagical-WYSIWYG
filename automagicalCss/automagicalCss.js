@@ -22,7 +22,7 @@
 			id: 'attributes-wrapper',
 			'class' : 'automagicalCss-' + opts.position,
 			html: attrubutes_html
-		}).appendTo("body");
+		}).appendTo("div#attributesWrapper");
 		
 		var selector_field = $('#attributes-selector-input', wrapper);
 		var attributes_list = $('#attributes-list', wrapper);

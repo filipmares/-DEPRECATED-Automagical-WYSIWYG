@@ -121,6 +121,9 @@ builder.init = (function ()
 					
 					//TODO: Preliminary step to implement contentEditable areas at some point in future
 					cloned.click(function() {
+						//PUT IT IN HERE FOR THE ATTRIBUTES WINDOW
+						event.stopPropagation();
+						$("div#attributesWrapper").show();
 						$(this).focus();
 					});
 					
