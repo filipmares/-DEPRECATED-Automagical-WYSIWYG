@@ -10,6 +10,8 @@ builder.init = (function ()
 	var init =
 	{
 	},
+		hideElements,
+		initializeMenuDisplayControl,
 		populateNavList,
 		populateSelectorList,
 		initializeDroppableAreas,
@@ -17,6 +19,26 @@ builder.init = (function ()
 		reinitializeDroppableAreas;
 		
 		
+	hideElements = function () {
+		$("#navContainer").hide();
+		$("div#attributesWrapper").hide();
+		$("#selector").hide();
+	};
+	
+	initializeMenuDisplayControl = function() {
+		$("#lblDropDown").click(function(){
+			if($("#navContainer").is(":visible")){
+				$("#navContainer").slideUp("slow");
+				$("#lblDropDown").text("Show Menu");										
+			}else{
+				$("#navContainer").slideDown("slow");
+				$("#lblDropDown").text("Hide Menu");				
+			}
+		});
+	
+	};
+	
+	
 	/*This funtion populates the MenuBar and Selector bar with extensions and their various cells*/	
 	populateNavList = function ()
 	{
@@ -26,7 +48,7 @@ builder.init = (function ()
 			//Iterate Through extensions
 			$.each(json.main.selectors, function (name, cell)
 			{
-				console.log("Found Folder: " + cell.Folder_Name);
+				//console.log("Found Folder: " + cell.Folder_Name);
 				//Populate MenuBar with extension folder names.
 				$("nav#nav").append('<a id="' + cell.Folder_Name + '" href="#">' + cell.Folder_Name + '</a>');
 				//Add on-click behaviour to MenuBar Items.
@@ -81,7 +103,7 @@ builder.init = (function ()
 						},
 						start: function(event, ui) {
 							//We need to know if something is a container so it can be initialized properly
-							if (cellInner.container == true) {
+							if (cellInner.container === true) {
 								$(ui.helper).addClass("container");
 							}
 							
@@ -114,16 +136,13 @@ builder.init = (function ()
 						.removeClass("ui-draggable-dragging")
 						.resizable({
 							containment:"parent"
-						
 						})
 					);
 					
 					
 					//TODO: Preliminary step to implement contentEditable areas at some point in future
-					cloned.click(function() {
-						//PUT IT IN HERE FOR THE ATTRIBUTES WINDOW
-						event.stopPropagation();
-						$("div#attributesWrapper").show();
+					cloned.click(function(event) {
+
 						$(this).focus();
 					});
 					
@@ -139,7 +158,7 @@ builder.init = (function ()
 					}
 
 					cloned.css('top', ui.position.top - $(this).offset().top);
-       				cloned.css('left', ui.position.left - $(this).offset().left);
+					cloned.css('left', ui.position.left - $(this).offset().left);
 
 
 
@@ -150,7 +169,7 @@ builder.init = (function ()
 					$(this).append($(ui.draggable));
 
 					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
-       				$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
+					$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
 				}
 			}
 		});
@@ -161,7 +180,7 @@ builder.init = (function ()
 		var droppableAreas = $("#canvasContainer .container");
 		
 		$.each(droppableAreas, function(index, element) { 
- 			initializeDroppableAreas($(element));
+			initializeDroppableAreas($(element));
 		});
 		
 	};
@@ -171,7 +190,7 @@ builder.init = (function ()
 		var droppableAreas = $("#canvasContainer .container");
 		
 		$.each(droppableAreas, function(index, element) { 
- 			$(element).droppable("destroy");
+			$(element).droppable("destroy");
 		});
 
 
@@ -180,6 +199,8 @@ builder.init = (function ()
 	
 	init.initialize = function ()
 	{
+		initializeMenuDisplayControl();
+		hideElements();
 		populateNavList();
 		initializeDroppableAreas($("#canvas"));
 	};

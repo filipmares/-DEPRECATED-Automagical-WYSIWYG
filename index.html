@@ -20,26 +20,7 @@
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
-				$("#navContainer").hide();
-				$("div#attributesWrapper").hide();
-				$("#selector").hide();
-				
-				$("div#canvasContainer").click(function(){
-					event.stopPropagation();
-					$("div#attributesWrapper").hide();
-				});
-				
-				
-				$("#lblDropDown").click(function(){
-					if($("#navContainer").is(":visible")){
-						$("#navContainer").slideUp("slow");
-						$("#lblDropDown").text("Show Menu");
-						$()											
-					}else{
-						$("#navContainer").slideDown("slow");
-						$("#lblDropDown").text("Hide Menu");				
-					}
-				});
+
 				builder.init.initialize();
 			});
 		

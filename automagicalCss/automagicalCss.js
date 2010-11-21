@@ -40,8 +40,20 @@
 				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
 										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
 			});
-
+			
+			if ($("div#attributesWrapper").is(':hidden')) {
+				$("div#attributesWrapper").show();
+			}
+			else {
+				$("div#attributesWrapper").hide();
+			}
 		});
+		
+		//When an element on the canvas is clicked, populate the css attributes list
+		$('#canvas *').live('resize', function(event, ui){
+			$.fn.automagicalCss.changeWidthHeight(ui.size.width, ui.size.height);
+		});
+		
 		
 		//Listen to when the user changes a css property, then change the property
 		$('.cssInput').live('keyup', function(event){
@@ -74,17 +86,30 @@
 		});
 		*/
 
-	}
+	};
 	
 	$.fn.automagicalCss.extractCssSelectorPath = function(element){
-		if (element.attr('id')) return '#' + element.attr('id');
+		if (element.attr('id')){
+			return '#' + element.attr('id');
+		}
 		
 		var path = $.fn.automagicalCss.extractCssSelectorPath(element.parent());
 		
-		if (element.attr('class') && element.attr('class') != ' ') return path + ' .' + element.attr('class');
+		if (element.attr('class') && element.attr('class') != ' '){ 
+			return path + ' .' + element.attr('class');
+		}
+		
 		return path + ' ' + element.get(0).tagName().toLowerCase(); 
 	};
 	
+	$.fn.automagicalCss.changeWidthHeight = function(width, height){
+		
+		//TODO: This doesn't actually modify the value attribute in the html but is it even necessary to update this value?
+
+		$('#attributes-list input[cssvalue="width"]').val(width +'px');
+		$('#attributes-list input[cssvalue="height"]').val(height + 'px');
+
+	};
 	
 	$.fn.automagicalCss.defaults = {
 		stylesheet : 'automagicalCss/css/jquery.automagicalCss.css',
@@ -97,6 +122,10 @@
 		bkgcolor: 'backgroundColor',
 	};
 	
-})(jQuery);
+}
+
+
+
+)(jQuery);
 
 $(function () { $.fn.automagicalCss(); });
