@@ -9,13 +9,19 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 	
-		var attrubutes_html = '<div id="attributes-panel" align="right">' +
-			'<div id="attributes-selector">' +
-				'<label for="attributes-selector-input">Element</label>' +
-				'<input type="text" id="attributes-selector-input">' +
+		var attrubutes_html = 
+		'<div id="attributes-panel" align="right">' +
+			'<div id="showHide">' +
+				'<label id="showHideLabel">&gt&gt</label>' +
 			'</div>' +
-			'<div id="attributes-list">' +
-			'</div>' +
+			'<div id="marginDiv">' +
+				'<div id="attributes-selector">' +
+					'<label for="attributes-selector-input">Element</label>' +
+					'<input type="text" id="attributes-selector-input">' +
+				'</div>' +
+				'<div id="attributes-list">' +
+				'</div>' +
+			'</div>'
 		'</div>';
 		
 		var wrapper = jQuery('<div/>', {
@@ -28,9 +34,20 @@
 		var attributes_list = $('#attributes-list', wrapper);
 		var selected = null;
 		
-		$('#attributes-panel', wrapper).dblclick(function(){
-			var panel = $(this);
-			panel.animate({marginLeft: parseInt(panel.css('marginLeft'), 10) == 0 ? panel.outerWidth() : 0});
+		$('#showHide', wrapper).click(function(){
+			var panel = $('#attributes-panel');
+			var label = $('#showHideLabel');
+			var marginDiv = $('#marginDiv');
+			
+			if (parseInt(panel.css('marginLeft'), 10) == 0){
+				panel.animate({marginLeft: attributes_list.outerWidth()});
+				marginDiv.hide();
+				label.text("<<");
+			} else{
+				panel.animate({marginLeft: 0});
+				marginDiv.show();
+				label.text(">>");
+			}
 		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list
@@ -45,15 +62,7 @@
 				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
 										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
 			});
-			
-			
-			// This doesn't work well. The panel will just show/hide with every alternating click
-			/*if ($("div#attributesWrapper").is(':hidden')) {
-				$("div#attributesWrapper").show();
-			}
-			else {
-				$("div#attributesWrapper").hide();
-			}*/
+
 		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list

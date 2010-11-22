@@ -21,7 +21,6 @@ builder.init = (function ()
 		
 	hideElements = function () {
 		$("#navContainer").hide();
-		//$("div#attributesWrapper").hide();
 		$("#selector").hide();
 	};
 	

@@ -1,11 +1,21 @@
 #attributes-panel {
 	background: #f0f0f0;
-	margin: 10px 10px 0 10px;
+	margin: 10px 10px 0 0;
 	padding: 10px;
 	border-bottom: 1px solid #8F8F8F;
 	position: relative;
 	left: 0px;
 	bottom: 0px;
+}
+
+#showHide{
+	position: absolute;
+	top: 50%;
+}
+
+#showHide:hover{
+	background-color:#c9c9c9;
+	
 }
 
 #attributes-wrapper {
@@ -21,5 +31,4 @@
 	right: 0; 
 	width: 220; 
 	overflow: hidden;
-	position: relative;
 }
