@@ -6,6 +6,7 @@
 	position: relative;
 	left: 0px;
 	bottom: 0px;
+	min-height: 15px;
 }
 
 #showHide{
@@ -31,4 +32,12 @@
 	right: 0; 
 	width: 220; 
 	overflow: hidden;
+}
+
+.outline-element {
+	outline: 1px solid #c00; 
+}
+
+.outline-element-clicked{
+	outline: 1px solid #00c;
 }

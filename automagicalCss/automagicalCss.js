@@ -78,6 +78,20 @@
 			selected.css(element.attr('cssValue'), element.val());
 		});
 		
+		//Support for outlining the current element
+		$('#canvas *').live('mouseenter', function(event){
+			$(this).addClass('outline-element');
+		});
+		
+		$('#canvas *').live('mouseout', function(event){
+			$(this).removeClass('outline-element');
+		});
+		
+		$('#canvas *').live('click', function(event){
+			$('#canvas *').removeClass('outline-element-clicked');
+			$(this).addClass('outline-element-clicked');
+		});
+		
 		//TODO: We have to add this functionality later in a way where it plays nice with initalization. This functionality is
 		//necessary when working with stuff that's not from scratch
 		/*
