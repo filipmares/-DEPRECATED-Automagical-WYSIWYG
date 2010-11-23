@@ -57,10 +57,15 @@
 			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
 			attributes_list.empty();
 			
-
-			jQuery.each($.fn.automagicalCss.divCommonStyles, function(key, value){
+			var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+			
+			jQuery.each(typeMapping, function(key, value){
+				var validStyle = "";
+				jQuery.each(value, function(index, style){
+					if (selected.css(style) != null) validStyle = style;
+				});
 				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
-										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+										selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
 			});
 
 		});
@@ -74,8 +79,12 @@
 		//Listen to when the user changes a css property, then change the property
 		$('.cssInput').live('keyup', function(event){
 			var element = $(this);
-			
-			selected.css(element.attr('cssValue'), element.val());
+			var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+			var styleMapping = null;
+			if (typeMapping[element.attr('cssValue')] != null) styleMapping = typeMapping[element.attr('cssValue')];
+			jQuery.each(styleMapping, function(index, value){
+				selected.css(value, element.val());
+			});
 		});
 		
 		//Support for outlining the current element
@@ -147,9 +156,18 @@
 	};
 	
 	$.fn.automagicalCss.divCommonStyles = {
-		width: 'width',
-		height: 'height',
-		bkgcolor: 'backgroundColor'
+		width: ['width'],
+		height: ['height'],
+		bkgcolor: ['backgroundColor'],
+		radius: ['-webkit-border-radius', 'border-radius', '-moz-border-radius',
+				'-webkit-border-bottom-left-radius', '-moz-border-radius-bottomleft', 'border-bottom-left-radius',
+				'-webkit-border-bottom-right-radius', '-moz-border-radius-bottomright', 'border-bottom-right-radius',
+				'-webkit-border-top-right-radius', '-moz-border-radius-topright', 'border-top-right-radius',
+				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius']
+	};
+	
+	$.fn.automagicalCss.tagMappings = {
+		DIV : $.fn.automagicalCss.divCommonStyles
 	};
 	
 }
