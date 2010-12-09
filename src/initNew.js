@@ -78,6 +78,16 @@ builder.init = (function ()
 		});
 	};
 	
+	snapToGrid = function(element){
+    element.css('top',Math.floor(parseInt(element.css("top").replace("px",""))/80)*80+'px');
+	  element.css('left',Math.floor(parseInt(element.css("left").replace("px",""))/80)*80+'px'); 
+	};
+	
+	snapSize = function(element){
+	  element.css('width','70px');
+	  element.css('height','70px');
+	};
+	
 	populateSelectorList = function(folderName)
 	{
 	
@@ -145,7 +155,8 @@ builder.init = (function ()
 						$(this).focus();
 					});
 					
-					
+					snapToGrid(cloned);
+					snapSize(cloned);
 					
 					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
@@ -164,7 +175,7 @@ builder.init = (function ()
 
 					$(this).append($(ui.draggable));
 
-
+          snapToGrid(ui.draggable);
 				}
 			}
 		});
