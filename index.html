@@ -31,7 +31,8 @@
 				$('a#getHTML').click(function(){
 					var canvasHTML = $('div#canvas').html();
 					var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
-					allHTML = allHTML.replace("{body}", canvasHTML);
+					allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
+					
 					console.log(allHTML);
 				});
 			});
