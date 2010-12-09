@@ -21,7 +21,7 @@
 				'</div>' +
 				'<div id="attributes-list">' +
 				'</div>' +
-			'</div>'
+			'</div>' +
 		'</div>';
 		
 		var wrapper = jQuery('<div/>', {
