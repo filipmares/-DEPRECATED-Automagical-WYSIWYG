@@ -1,9 +1,10 @@
+html,body,div{border:0;margin:0;padding:0;}
+
 #menuContainer{
 	position:fixed;
 	height:auto;
 	width: 100%;
-	margin: -8px;
-	z-index: 150;	/* Display in front of canvas */
+	z-index: 150;	/* Display in front of */
 }
 
 #menuDisplayControl{
@@ -120,6 +121,9 @@
 	padding-top: 20px;
 	background-color: #333333;
 	overflow: auto;
+  	filter:alpha(opacity=90);
+  	opacity: 0.9;
+
 	
 	/* Standard */
 	box-shadow: 0 2px 2px black;
@@ -160,18 +164,14 @@
 /* END SELECTOR STYLING */
 
 /* CANVAS STYLING */
-#canvasContainer{
-	background-color: #4c4c4c;
-
-}
 
 #canvas{
-	position: absolute;
-	width:100%;
-	height:100%;
-	background-color: white;
-
-
+}
+.container{
+	width:996px;
+	padding-top:10px;
+	margin:0 auto;
+	border: black solid 1px;
 }
 
 /* THIS NEEDS TO BE LOOKED AT SINCE IT WAS FROM PREVIOUS VERSION */
