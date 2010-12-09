@@ -17,12 +17,17 @@
 		<!-- Our JavaScript Sources -->
 		<script src="src/initNew.js"></script>
 		<script src="automagicalCss/automagicalCss.js"></script>
+		
+		<!-- CKEditor JQuery Plugin -->
+		<script type="text/javascript" src="src/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="src/ckeditor/adapters/jquery.js"></script>
 
 		<!-- Menu Animation Script -->
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
 				builder.init.initialize();
+				$('p').ckeditor();
 			});
 		
 		</script>
