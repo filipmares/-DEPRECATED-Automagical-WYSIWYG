@@ -27,6 +27,12 @@
 			$(document).ready(function()
 			{
 				builder.init.initialize();
+				
+				$('a#getHTML').click(function(){
+					var fromCanvas = $('div#canvas').html();
+					var allHTML = $.get('template.html');
+					console.log(allHTML);
+				});
 			});
 		
 		</script>
@@ -38,7 +44,9 @@
 		<div id="menuContainer">
 			<div id="navContainer">
 			<!-- Nav Bar -->
-			<nav id="nav"></nav>
+			<nav id="nav">
+				<a id="getHTML" href="#">Get HTML</a>
+			</nav>
 	
 			<!-- Selector -->
 			<nav id="selector"></nav>
