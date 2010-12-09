@@ -1,5 +1,7 @@
 html,body,div{border:0;margin:0;padding:0; height:100%;}
 
+body{height:100%;}
+
 #menuContainer{
 	position:fixed;
 	height:auto;
@@ -171,7 +173,12 @@ html,body,div{border:0;margin:0;padding:0; height:100%;}
 	width:996px;
 	padding-top:10px;
 	margin:0 auto;
+<<<<<<< HEAD
 	border: gray dotted 1px;
+=======
+	border: black solid 1px;
+	height:640px;
+>>>>>>> 5c59b5e03720d15ed2273a382fcc5040d987ff53
 }
 
 /* THIS NEEDS TO BE LOOKED AT SINCE IT WAS FROM PREVIOUS VERSION */
