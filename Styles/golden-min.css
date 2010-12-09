@@ -27,6 +27,6 @@ html,body,div{border:0;margin:0;padding:0;}
 .ml960{margin-left:970px;}
 .inside{margin-left:0;}
 p.grid{padding-left:10px;}
-.clear{clear:both;}
+.clear{clear:both; height:10px;}
 .clearfix:after,.main:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .clearfix,.main{display:block;}

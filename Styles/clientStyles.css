@@ -171,7 +171,7 @@ html,body,div{border:0;margin:0;padding:0;}
 	width:996px;
 	padding-top:10px;
 	margin:0 auto;
-	border: black solid 1px;
+	border: gray dotted 1px;
 }
 
 /* THIS NEEDS TO BE LOOKED AT SINCE IT WAS FROM PREVIOUS VERSION */
