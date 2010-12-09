@@ -29,8 +29,9 @@
 				builder.init.initialize();
 				
 				$('a#getHTML').click(function(){
-					var fromCanvas = $('div#canvas').html();
-					var allHTML = $.get('template.html');
+					var canvasHTML = $('div#canvas').html();
+					var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
+					allHTML = allHTML.replace("{body}", canvasHTML);
 					console.log(allHTML);
 				});
 			});
