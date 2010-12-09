@@ -156,9 +156,6 @@ builder.init = (function ()
 
 					}
 
-					cloned.css('top', ui.position.top - $(this).offset().top);
-					cloned.css('left', ui.position.left - $(this).offset().left);
-
 
 
 				}
@@ -167,8 +164,7 @@ builder.init = (function ()
 
 					$(this).append($(ui.draggable));
 
-					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
-					$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
+
 				}
 			}
 		});

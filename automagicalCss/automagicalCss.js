@@ -9,7 +9,7 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 	
-		var attrubutes_html = 
+		var attributes_html = 
 		'<div id="attributes-panel" align="right">' +
 			'<div id="showHide">' +
 				'<label id="showHideLabel">&gt&gt</label>' +
@@ -21,13 +21,13 @@
 				'</div>' +
 				'<div id="attributes-list">' +
 				'</div>' +
-			'</div>'
+			'</div>' +
 		'</div>';
 		
 		var wrapper = jQuery('<div/>', {
 			id: 'attributes-wrapper',
 			'class' : 'automagicalCss-' + opts.position,
-			html: attrubutes_html
+			html: attributes_html
 		}).appendTo("div#attributesWrapper");
 		
 		var selector_field = $('#attributes-selector-input', wrapper);
