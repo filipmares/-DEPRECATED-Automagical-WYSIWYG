@@ -1,7 +1,7 @@
 {
     "main": {
         "title": "General",
-        "cells": [
+        "elements": [
             {
                 "name": "Text",
                 "icon": "text.gif",

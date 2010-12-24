@@ -1,6 +1,6 @@
 {
     "main": {
-        "selectors" : [
+        "tools" : [
             {
                 "Folder_Name": "General",
                 "JSON": "general.json" 

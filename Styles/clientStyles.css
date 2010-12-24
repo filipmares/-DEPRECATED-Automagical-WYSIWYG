@@ -1,62 +1,18 @@
-html,body,div{border:0;margin:0;padding:0; height:100%;}
+html,body,div{border:0;margin:0;padding:0; height:100%; font-family: Helvetica, Arial; font-size: 16px;}
 
 body{height:100%;}
+#canvas{border: gray dotted 1px;}
 
 #menuContainer{
 	position:fixed;
 	height:auto;
 	width: 100%;
-	z-index: 150;	/* Display in front of */
+	z-index: 150;
 }
-
-#menuDisplayControl{
-	color:#292929;
-	text-align: center; 
-	position:relative; 
-	background-color:#c9c9c9; opacity: 0.4;
-	margin-left: auto;
-	margin-right: auto;
-	width:100px;
-	
-	/* Standard */
-  	border-bottom-right-radius: 5px;
-  	border-bottom-left-radius: 5px;  
-  	/* Webkit */
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-bottom-left-radius: 5px;  
-  	/* Firefox */
-	-moz-border-bottomright-radius: 5px;
-	-moz-border-bottomleft-radius: 5px;
-	
-		/* Standard */
-	box-shadow: 0 2px 2px black;
-
-	/* Webkit */	
-	-webkit-box-shadow: 0 2px 2px black;
-	
-	/* Firefox */
-	-moz-box-shadow: 0 2px 2px black;
-}
-
-#menuDisplayControl:hover{
-	background-color:#c9c9c9; opacity: 0.8;
-}
-
-
-#attributesPanel{
-	position:absolute;
-	z-index: 150;	/* Display in front of canvas */
-	top:25%;
-	width:200px;
-	height:600px;
-	border: solid 1px black;
-}
-
 
 /* NAVBAR STYLING */
 #nav{
 	/* Standard */
-	font-family: helvetica;
 	width:100%;
 	height: 25px;
 	padding-top:6px;
@@ -110,22 +66,17 @@ body{height:100%;}
 	text-shadow: 1px 1px 0px #353535;
 	background-color: #333333;
 }
-
-
-
 /* END NAVBAR */
 
-/* SELECTOR STYLING */
-#selector{
+/* Toolbox STYLING */
+#menuToolbox{
 	position: relative;
-	height:50px;
-	width:100%;	border-top: none;
-	padding-top: 20px;
+	width:100%;	
+	padding-top: 10px;
+	padding-bottom:8px;
 	background-color: #333333;
-	overflow: auto;
-  	filter:alpha(opacity=90);
+	filter:alpha(opacity=90);
   	opacity: 0.9;
-
 	
 	/* Standard */
 	box-shadow: 0 2px 2px black;
@@ -137,15 +88,15 @@ body{height:100%;}
 	-moz-box-shadow: 0 2px 2px black;
 }
 
-#selector a:first-child {
+#menuToolbox a:first-child {
 	margin-left: 25px;
 }
 
-#selector a {
+#menuToolbox a {
 	margin-right:10px;
 }
 
-#selector img {
+#menuToolbox img {
   border: 1px #fff solid;
   
   /* Standard */
@@ -158,52 +109,51 @@ body{height:100%;}
   -moz-border-radius: 3px;
 }
 
-#selector a:hover img {
+#menuToolbox a:hover img {
   filter:alpha(opacity=50);
   opacity: 0.5;
 }
 
-/* END SELECTOR STYLING */
+/* END Toolbox STYLING */
 
-/* CANVAS STYLING */
+/* Display Contorol STYLING*/
+#menuDisplayControl{
+	color:#292929;
+	text-align: center; 
+	position:relative; 
+	background-color:#c9c9c9; opacity: 0.4;
+	margin-left: auto;
+	margin-right: auto;
+	width:160px;
+	
+	/* Standard */
+  	border-bottom-right-radius: 5px;
+  	border-bottom-left-radius: 5px;  
+  	/* Webkit */
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;  
+  	/* Firefox */
+	-moz-border-bottomright-radius: 5px;
+	-moz-border-bottomleft-radius: 5px;
+	
+	/* Standard */
+	box-shadow: 0 2px 2px black;
 
-#canvas{
+	/* Webkit */	
+	-webkit-box-shadow: 0 2px 2px black;
+	
+	/* Firefox */
+	-moz-box-shadow: 0 2px 2px black;
 }
-.container{
-	width:996px;
-	padding-top:10px;
-	margin:0 auto;
-<<<<<<< HEAD
-	border: gray dotted 1px;
-=======
-	border: black solid 1px;
-	height:640px;
->>>>>>> 5c59b5e03720d15ed2273a382fcc5040d987ff53
+
+#menuDisplayControl:hover{
+	background-color:#c9c9c9; opacity: 1.1;
+}
+/* END Display Control Styling */
+
+/* Attributes Panel STYLING */
+
+#attributesContainer{
 }
 
-/* THIS NEEDS TO BE LOOKED AT SINCE IT WAS FROM PREVIOUS VERSION */
-#selectorList {
- 
-  height: 125px;
-  /* Max width here, for users without Javascript */
-  width: 1500px;
-  padding: 15px 0 0 15px;
-  /* Remove default margin */
-  margin: 0;
-  background: url('navigation.png');
-  list-style: none;
-}
-
-/* ALL THE WAY TO HERE */
-
-
-/* END CANVAS STYLING */
-
-
-
-#footer{
-	position:absolute;
-	bottom: 0px;
-	width: 100%;
-	background-color: black;
-	}
+/* END Attributes Panel Styling*/

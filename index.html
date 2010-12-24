@@ -5,7 +5,7 @@
 		<title>Automagical</title>
 		<!-- CSS -->
 		<link rel="stylesheet" href="Styles/clientStyles.css" />
-				<link rel="stylesheet" href="Styles/golden-min.css" />
+		<link rel="stylesheet" href="Styles/golden-min.css" />
 		<link rel="stylesheet" href="Styles/ui-lightness/jquery-ui-1.8.6.custom.css"/>
 		
 		<!-- End CSS -->
@@ -16,18 +16,18 @@
 		
 		<!-- Our JavaScript Sources -->
 		<script src="src/initNew.js"></script>
-		<script src="automagicalCss/automagicalCss.js"></script>
+		<!--<script src="automagicalCss/automagicalCss.js"></script>-->
 		
 		<!-- CKEditor JQuery Plugin -->
-		<script type="text/javascript" src="src/ckeditor/ckeditor.js"></script>
+		<script src="src/ckeditor/ckeditor.js"></script>
 		<!--<script type="text/javascript" src="src/ckeditor/adapters/jquery.js"></script>-->
 
 		<!-- Menu Animation Script -->
-		<script type="text/javascript">
+		<script>
 			$(document).ready(function()
 			{
 				builder.init.initialize();
-				
+				$('#lblShowAttributes').text ("<<");
 				$('a#getHTML').click(function(){
 					var canvasHTML = $('div#canvas').html();
 					var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
@@ -45,130 +45,29 @@
 	<body>
 		<div id="menuContainer">
 			<div id="navContainer">
-			<!-- Nav Bar -->
-			<nav id="nav">
-				<a id="getHTML" href="#">Get HTML</a>
-			</nav>
+				<!-- Nav Bar -->
+				<nav id="nav">
+					<a id="getHTML" href="#">Get HTML</a>
+				</nav>
 	
-			<!-- Selector -->
-			<nav id="selector"></nav>
+				<!-- Toolbox -->
+				<nav id="menuToolbox"></nav>
 			</div>
-	
+			
+			<!-- Tab for toggling menu view -->
 			<div id="menuDisplayControl"><label id="lblDropDown">Show Menu</label></div>
-
 		</div>
 			
-		<div id="canvas" class="container">
-			<!--<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>			
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>	
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>	
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="g80">&nbsp;</div>
-			<div class="clear">&nbsp;</div>-->
+		<div id="canvas" class="container"></div>
+		
+		<div style="position: absolute; top: 35%; right: 0; height: 400px; width: 320px;">
+			<div style="position: absolute; top: 40%; float: left; height: auto; width: 20px; padding: 10px 0 10px 10px; border: black solid 1px; background-color: #c9c9c9;"><label id="lblShowAttributes"></label></div>
+			<div style="float: right; width: 290px; margin:0 0 20px 0; background-color: #c9c9c9;">
+
+				<h3 style=" text-align: center;">Attributes</h3>
+				<div style="border: solid grey 1px; height:320px; background-color: #333333; margin: 0 20px 20px 20px;">&nbsp;</div>
+			</div>
 		</div>
-		
-		<div id="attributesWrapper">
-		
-		</div>
-		
 	</body>
 
 </html>

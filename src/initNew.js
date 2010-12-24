@@ -13,7 +13,7 @@ builder.init = (function ()
 		hideElements,
 		initializeMenuDisplayControl,
 		populateNavList,
-		populateSelectorList,
+		populateToolboxList,
 		initializeDroppableAreas,
 		clearDroppableAreas,
 		reinitializeDroppableAreas;
@@ -21,7 +21,7 @@ builder.init = (function ()
 		
 	hideElements = function () {
 		$("#navContainer").hide();
-		$("#selector").hide();
+		$("#menuToolbox").hide();
 	};
 	
 	initializeMenuDisplayControl = function() {
@@ -36,43 +36,42 @@ builder.init = (function ()
 		});
 	
 	};
-	
-	
-	/*This funtion populates the MenuBar and Selector bar with extensions and their various cells*/	
+		
+	/*This funtion populates the MenuBar and Toolbox bar with extensions and their various elements*/	
 	populateNavList = function ()
 	{
 		//Get INDEX JSON file to iterate through extensions
-		$.getJSON('Selectors/index.json', function (json, status)
+		$.getJSON('Toolbox/index.json', function (json, status)
 		{
 			//Iterate Through extensions
-			$.each(json.main.selectors, function (name, cell)
+			$.each(json.main.tools, function (name, element)
 			{
-				//console.log("Found Folder: " + cell.Folder_Name);
+				//console.log("Found Folder: " + element.Folder_Name);
 				//Populate MenuBar with extension folder names.
-				$("nav#nav").append('<a id="' + cell.Folder_Name + '" href="#">' + cell.Folder_Name + '</a>');
+				$("nav#nav").append('<a id="' + element.Folder_Name + '" href="#">' + element.Folder_Name + '</a>');
 				//Add on-click behaviour to MenuBar Items.
-				$('a#' + cell.Folder_Name).click(function ()
+				$('a#' + element.Folder_Name).click(function ()
 				{
-					//If this menu item is active then remove active class and hide SelectorBar.
+					//If this menu item is active then remove active class and hide Toolbox Bar.
 					if ($(this).hasClass('active'))
 					{
 						$(".active").removeClass("active");
-						$("nav#selector").slideUp("slow");
+						$("nav#menuToolbox").slideUp();
 					}
 					else
 					{
 					//Else if any MenuBar item is active, remove active class and hide menu.
-					//Make item clicked active and slide SelectorBar.
-						if ($("nav#selector").is(":visible"))
+					//Make item clicked active and slide menuToolbox Bar.
+						if ($("nav#menuToolbox").is(":visible"))
 						{
-							$("nav#selector").hide();
+							$("nav#menuToolbox").hide();
 						}
-						$("nav#selector").slideDown("slow");
+						$("nav#menuToolbox").slideDown("fast");
 						$(".active").removeClass("active");
 						$(this).addClass("active");
 					}
 					
-					populateSelectorList(cell.Folder_Name);
+					populateToolboxList(element.Folder_Name);
 				});
 			});
 		});
@@ -88,31 +87,31 @@ builder.init = (function ()
 	  element.css('height','70px');
 	};
 	
-	populateSelectorList = function(folderName)
+	populateToolboxList = function(folderName)
 	{
 	
-				//Populate the selectors using the json file in the correct folder pointed to by main json file
-			$.getJSON('Selectors/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
+				//Populate the Toolbox items using the json file in the correct folder pointed to by main json file
+			$.getJSON('Toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
 
-				//Clear everything currently in selecter
-				$('nav#selector').html("");
+				//Clear everything currently in ToolBox
+				$('nav#menuToolbox').html("");
 				
 				//Append to the nav
-				$.each(jsonInner.main.cells,function(nameInner, cellInner){
-						$('nav#selector').append('<a href=\"#\" id=\"'+folderName+cellInner.name+'\"><img src=\"images/cells/'+cellInner.icon+'\" alt=\"'+cellInner.name+'\" width=\"55\" height=\"27\" /></a>');
+				$.each(jsonInner.main.elements,function(nameInner, elementInner){
+						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
-					$("#"+folderName+cellInner.name).draggable({
+					$("#"+folderName+elementInner.name).draggable({
 						revert: "invalid",
 						appendTo: "body",
 						containment: "#canvas",
 						helper: function() {
 							//Return the new tag to be created
-						   return $( cellInner.tag )[0];
+						   return $( elementInner.tag )[0];
 						},
 						start: function(event, ui) {
 							//We need to know if something is a container so it can be initialized properly
-							if (cellInner.container === true) {
+							if (elementInner.container === true) {
 								$(ui.helper).addClass("container");
 							}
 							

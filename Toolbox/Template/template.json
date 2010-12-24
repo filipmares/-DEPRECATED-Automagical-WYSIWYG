@@ -2,10 +2,10 @@
     "main": {
         "title": "Template",
         "masterScript": "/ScriptLocation/Script",
-        "cells": [
+        "elements": [
             {
-                "name": "Cell 1",
-                "icon": "Cell.jpg",
+                "name": "Element 1",
+                "icon": "Element.jpg",
                 "image": "none",
                 "width": 500,
                 "height": 500 
