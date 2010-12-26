@@ -10,13 +10,19 @@ builder.init = (function ()
 	var init =
 	{
 	},
+		/* DEBUGGING VARIABLE: Use this to specify whether to use the grid system or not*/
+		gridSystem = true,
+		
 		hideElements,
 		initializeMenuDisplayControl,
 		populateNavList,
 		populateToolboxList,
 		initializeDroppableAreas,
 		clearDroppableAreas,
-		reinitializeDroppableAreas;
+		reinitializeDroppableAreas,
+		
+		snapToGrid,
+		snapSize;
 		
 		
 	hideElements = function () {
@@ -77,15 +83,45 @@ builder.init = (function ()
 		});
 	};
 	
+	/* This function snaps the dropped element to the underlying grid*/
 	snapToGrid = function(element){
-    element.css('top',Math.floor(parseInt(element.css("top").replace("px",""))/80)*80+'px');
-	  element.css('left',Math.floor(parseInt(element.css("left").replace("px",""))/80)*80+'px'); 
+		
+		
+		var top = 70 * Math.round(parseInt(element.css("top").replace("px",""), 10)/70);
+		var left = 70 * Math.round(parseInt(element.css("left").replace("px",""), 10)/70);
+		
+		//if element is at left most region, no need for a left margin; also no need for margin if it is an element inside another
+		if ((left === 0) || (element.parent().attr("id") != "canvas")) {
+			element.css("margin", "0px 0px 10px 0px");
+		}
+		else {
+			element.css("margin", "0px 0px 10px 10px");
+		}
+
+		element.css("top",	top + 'px');
+		element.css("left", left + 'px');
 	};
 	
+	/* This function snaps the size of a resized element so it conforms to the underlying grid*/
 	snapSize = function(element){
-	  element.css('width','70px');
-	  element.css('height','70px');
+	
+		var width = 70 * Math.round(element.width() / 70);
+		var height = 70 * Math.round(element.height() / 70);
+		
+		if (width === 0) {
+			width = 70;
+		}
+		
+		if (height === 0) {
+			height = 70;
+		}
+		
+		element.css('width', width + 'px');
+		element.css('height', height + 'px');
 	};
+	
+
+
 	
 	populateToolboxList = function(folderName)
 	{
@@ -139,11 +175,21 @@ builder.init = (function ()
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
 					$(this).append(cloned
-						.draggable({containment:"parent"})
+						.draggable({containment:"#canvas"})
 						.addClass("added")
 						.removeClass("ui-draggable-dragging")
 						.resizable({
-							containment:"parent"
+							containment:"parent",
+							resize: function(event, ui) {
+								
+								if (gridSystem) {				
+									snapSize(cloned);
+								}
+					
+
+							}
+							
+						
 						})
 					);
 					
@@ -154,8 +200,15 @@ builder.init = (function ()
 						$(this).focus();
 					});
 					
-					snapToGrid(cloned);
-					snapSize(cloned);
+					
+					//Need these offsets when appending children to a container that's not the canvas
+					cloned.css('top', ui.position.top - $(this).offset().top);
+					cloned.css('left', ui.position.left - $(this).offset().left);
+					
+					if (gridSystem) {
+						snapToGrid(cloned);
+						snapSize(cloned);
+					}
 					
 					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
@@ -166,15 +219,20 @@ builder.init = (function ()
 
 					}
 
-
-
 				}
 				else { //Element already on canvas
 					
 
 					$(this).append($(ui.draggable));
-
-          snapToGrid(ui.draggable);
+					
+					//Need these offsets when appending children to a container that's not the canvas
+					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
+					$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
+					
+					if (gridSystem) {
+						snapToGrid(ui.draggable);
+						snapSize(ui.draggable);
+					}
 				}
 			}
 		});
