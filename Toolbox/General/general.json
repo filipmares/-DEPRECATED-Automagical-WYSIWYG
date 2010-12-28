@@ -5,51 +5,44 @@
             {
                 "name": "Text",
                 "icon": "text.gif",
-                "tag": "<p contentEditable=\"true\" style=\"border: 1px dotted #464646; width: 100px;\">A p tag</p>",
-                "image": "none",
-                "container": false
+                "tag": "<p class=\"component\" style=\" width: 70px;\">A p tag</p>",
+                "image": "none"
             },
             {
                 "name": "Label",
                 "icon": "label.gif",
-                "tag": "<h1 contentEditable=\"true\" style=\"border: 1px dotted #464646;width: 100px;\">A h1 label</h1>",
-                "image": "none",
-                "container": false
+                "tag": "<h1 class=\"component\" style=\"width: 70px;\">A h1 label</h1>",
+                "image": "none"
             },
             {
                 "name": "Link",
                 "icon": "link.gif",
-                "tag": "<a contentEditable=\"true\" style=\"border: 1px dotted #464646;width: 60px;\"> A link </a>",
-                "image": "none",
-                "container": false
+                "tag": "<a class=\"component\" style=\"width: 70px;\"> A link </a>",
+                "image": "none"
             },
             {
                 "name": "Container",
                 "icon": "container.gif",
-                "tag": "<div style=\"border: 1px dotted #464646; width: 100px; height: 100px;\"></div>",
-                "image": "none",
-                "container": true
+                "tag": "<div class=\"component container\" style=\"width: 140px; height: 140px;\"></div>",
+                "image": "none"
             },
             {
                 "name": "Audio",
                 "icon": "audio.gif",
-                "tag": "<audio style=\"border: 1px dotted #464646;\"></audio>",
-                "image": "none",
-                "container": false
+                "tag": "<audio class=\"component\" style=\"width: 70px;\"></audio>",
+                "image": "none"
             },
             {
                 "name": "Image",
                 "icon": "image.gif",
-                "tag": "<img style=\"border: 1px dotted #464646;\"></img>",
-                "image": "none",
-                "container": false
+                "tag": "<img class=\"component\" style=\"width: 70px\"></img>",
+                "image": "none"
             },
             {
                 "name": "Video",
                 "icon": "video.gif",
                 "tag": "<video style=\"border: 1px dotted #464646;\"></video>",
-                "image": "none",
-                "container": false
+                "image": "none"
             } 
         ] 
     }

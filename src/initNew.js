@@ -92,11 +92,13 @@ builder.init = (function ()
 		
 		//if element is at left most region, no need for a left margin; also no need for margin if it is an element inside another
 		if ((left === 0) || (element.parent().attr("id") != "canvas")) {
-			element.css("margin", "0px 0px 10px 0px");
+			element.css("margin-left", "0px");
+			
 		}
 		else {
-			element.css("margin", "0px 0px 10px 10px");
+			element.css("margin-left", "10px");
 		}
+		element.css("margin-bottom", "10px");
 
 		element.css("top",	top + 'px');
 		element.css("left", left + 'px');
@@ -144,13 +146,6 @@ builder.init = (function ()
 						helper: function() {
 							//Return the new tag to be created
 						   return $( elementInner.tag )[0];
-						},
-						start: function(event, ui) {
-							//We need to know if something is a container so it can be initialized properly
-							if (elementInner.container === true) {
-								$(ui.helper).addClass("container");
-							}
-							
 						}
 
 					});
@@ -194,11 +189,6 @@ builder.init = (function ()
 					);
 					
 					
-					//TODO: Preliminary step to implement contentEditable areas at some point in future
-					cloned.click(function(event) {
-
-						$(this).focus();
-					});
 					
 					
 					//Need these offsets when appending children to a container that's not the canvas

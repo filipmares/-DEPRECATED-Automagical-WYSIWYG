@@ -51,7 +51,7 @@
 		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list
-		$('#canvas *').live('click', function(){
+		/*$('#canvas *').live('click', function(){
 			selected = $(this);
 			
 			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
@@ -68,10 +68,15 @@
 										selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
 			});
 
-		});
+		});*/
 		
 		//When an element on the canvas is clicked, populate the css attributes list
 		$('#canvas *').live('resize', function(event, ui){
+		
+			//Need to do this to handle case where during resize mouse moves outside of element being resized
+			$('#canvas *').removeClass('outline-element');				
+			$(this).addClass('outline-element');
+			
 			$.fn.automagicalCss.changeWidthHeight(ui.size.width, ui.size.height);
 		});
 		
@@ -88,16 +93,24 @@
 		});
 		
 		//Support for outlining the current element
-		$('#canvas *').live('mouseenter', function(event){
+		
+		//Need mouseover event so that outline stays even when mousing over resizing div's on east and south of component
+		$('#canvas .component').live('mouseover', function(event){
+			$('#canvas *').removeClass('outline-element');
 			$(this).addClass('outline-element');
 		});
 		
-		$('#canvas *').live('mouseout', function(event){
+		$('#canvas .component').live('mouseenter', function(event){
+			$('#canvas *').removeClass('outline-element');
+			$(this).addClass('outline-element');
+		});
+		
+		$('#canvas .component').live('mouseout', function(event){
 			$(this).removeClass('outline-element');
 		});
 		
-		$('#canvas *').live('click', function(event){
-			$('#canvas *').removeClass('outline-element-clicked');
+		$('#canvas .component').live('click', function(event){
+			$('#canvas .component').removeClass('outline-element-clicked');
 			$(this).addClass('outline-element-clicked');
 		});
 		
