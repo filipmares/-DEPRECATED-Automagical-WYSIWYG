@@ -1,23 +1,95 @@
-#showHide{
-	position: absolute;
-	top: 50%;
-}
-
-#showHide:hover{
-	background-color:#c9c9c9;	
-}
-
-.automagicalCss-right {
-	top: 20%; 
-	right: 0; 
-	width: 220; 
-	overflow: hidden;
-}
-
 .outline-element {
 	outline: 1px solid #c00; 
 }
 
 .outline-element-clicked{
 	outline: 1px solid #00c;
+}
+
+/* Attributed Box STYLING*/
+#showHide{
+	color:#292929;
+	text-align: center; 
+	position:relative; 
+	background-color:#c9c9c9; opacity: 0.4;
+	float:left;
+	left: 2px;
+	width:20px;
+	height:20px;
+
+	
+	/* Standard */
+  	border-top-left-radius: 2px;
+  	border-bottom-right-radius: 2px;  
+  	/* Webkit */
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-bottom-right-radius: 2px;  
+  	/* Firefox */
+	-moz-border-topleft-radius: 2px;
+	-moz-border-bottomright-radius: 2px;
+	
+	/* Standard */
+	box-shadow: 0 2px 2px black;
+
+	/* Webkit */	
+	-webkit-box-shadow: 0 2px 2px black;
+	
+	/* Firefox */
+	-moz-box-shadow: 0 2px 2px black;
+}
+
+#showHide:hover{
+	background-color:#c9c9c9; opacity: 1.1;
+}
+
+
+#attributesWrapper{
+	height:auto;
+	width: auto;
+	position:fixed;
+	right: 0px;
+	top: 100px;
+	
+}
+
+#attributes-wrapper{
+	height: auto;
+	width: 223px;
+	overflow:hidden;
+}
+
+#attributes-panel{
+	width: auto;
+	height: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-bottom: 3px;
+}
+
+#marginDiv{
+	position:relative;
+	width: 200px;
+	height: auto;
+	float:right;
+	background-color: #c9c9c9;
+	
+	/* Standard */
+  	border-bottom-left-radius: 2px;
+  	border-bottom-right-radius: 2px;  
+	/* Webkit */
+	-webkit-border-bottom-left-radius: 2px;
+	-webkit-border-bottom-right-radius: 2px;  
+	/* Firefox */
+	-moz-border-bottomleft-radius: 5px;
+	-moz-border-bottomright-radius: 5px;
+	
+	box-shadow: 0 2px 2px black;
+	
+	/* Webkit */
+	-webkit-box-shadow: 0 2px 2px black;
+	
+	/* Firefox */
+	-moz-box-shadow: 0 2px 2px black;
+	
+	white-space: nowrap;
 }

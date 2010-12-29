@@ -12,7 +12,7 @@
 		var attributes_html = 
 		'<div id="attributes-panel" align="right">' +
 			'<div id="showHide">' +
-				'<label id="showHideLabel">&gt&gt</label>' +
+				'<label id="showHideLabel">&gt&gt </label>' +
 			'</div>' +
 			'<div id="marginDiv">' +
 				'<div id="attributes-selector">' +
@@ -39,20 +39,23 @@
 			var label = $('#showHideLabel');
 			var marginDiv = $('#marginDiv');
 			
-			if (parseInt(panel.css('marginLeft'), 10) == 0){
-				panel.animate({marginLeft: attributes_list.outerWidth()});
-				marginDiv.hide();
-				label.text("<<");
+			if (marginDiv.is(":visible")){
+				marginDiv.animate({width: 'hide', 'opacity':'toggle'});
+				$('#showHide').animate({marginLeft: attributes_list.outerWidth()});
+				label.text("<< ");
 			} else{
-				panel.animate({marginLeft: 0});
-				marginDiv.show();
-				label.text(">>");
+				marginDiv.animate({width: 'show', 'opacity':'toggle'});
+				$('#showHide').animate({marginLeft: 0});
+				label.text(">> ");
 			}
 		});
 		
+
 		//When an element on the canvas is clicked, populate the css attributes list
-		/*$('#canvas *').live('click', function(){
+		$('#canvas .component').live('click', function(){
 			selected = $(this);
+			var marginDiv = $('#marginDiv');
+			var label = $('#showHideLabel');
 			
 			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
 			attributes_list.empty();
@@ -62,17 +65,33 @@
 			jQuery.each(typeMapping, function(key, value){
 				var validStyle = "";
 				jQuery.each(value, function(index, style){
-					if (selected.css(style) != null) validStyle = style;
+					if (selected.css(style) != null) {
+						validStyle = style;
+					}
 				});
+				
 				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
 										selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
 			});
 
-		});*/
+			//Highlight clicked element
+			$('#canvas .component').removeClass('outline-element-clicked');
+			$(this).addClass('outline-element-clicked');
+			
+			//Show the attributes box if it already isn't shown
+			if (!(marginDiv.is(":visible"))){
+				marginDiv.animate({width: 'show', 'opacity':'toggle'});
+				$('#showHide').animate({marginLeft: 0});
+				label.text(">> ");
+			} 
+		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list
-		$('#canvas *').live('resize', function(event, ui){
+		$('#canvas .component').live('resize', function(event, ui){
 		
+			//TODO: On resize, we have to make sure the attributes box is showing the right element
+			
+			
 			//Need to do this to handle case where during resize mouse moves outside of element being resized
 			$('#canvas *').removeClass('outline-element');				
 			$(this).addClass('outline-element');
@@ -109,10 +128,9 @@
 			$(this).removeClass('outline-element');
 		});
 		
-		$('#canvas .component').live('click', function(event){
-			$('#canvas .component').removeClass('outline-element-clicked');
-			$(this).addClass('outline-element-clicked');
-		});
+		/*$('#canvas .component').live('click', function(event){
+
+		});*/
 		
 		//TODO: We have to add this functionality later in a way where it plays nice with initalization. This functionality is
 		//necessary when working with stuff that's not from scratch
