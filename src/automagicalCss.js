@@ -182,7 +182,7 @@
 	};
 	
 	$.fn.automagicalCss.defaults = {
-		stylesheet : 'automagicalCss/css/jquery.automagicalCss.css',
+		stylesheet : 'Styles/jquery.automagicalCss.css',
 		position: 'right'
 	};
 	

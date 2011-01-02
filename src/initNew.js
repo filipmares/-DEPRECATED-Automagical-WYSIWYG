@@ -11,7 +11,7 @@ builder.init = (function ()
 	{
 	},
 		/* DEBUGGING VARIABLE: Use this to specify whether to use the grid system or not*/
-		gridSystem = true,
+		//gridSystem = true,
 		
 		hideElements,
 		initializeMenuDisplayControl,
@@ -23,10 +23,10 @@ builder.init = (function ()
 		initializeGetHtml,
 		getOuterHTML,
 		recursiveHTMLAppendFunction,
-		defineInlineCssProperty,
+		defineInlineCssProperty;
 		
-		snapToGrid,
-		snapSize;
+		//snapToGrid,
+		//snapSize;
 		
 	/* This function returns the entire html of an element, including its tag*/	
 	getOuterHTML = function(element) {
@@ -58,9 +58,6 @@ builder.init = (function ()
 
 			});
 	};
-	
-	
-
 
 	/* This function recursively iterates through all of an element's children to produce it's html */
     recursiveHTMLAppendFunction = function( canvasHTML, element) {
@@ -69,7 +66,6 @@ builder.init = (function ()
 		if ((element.filter('.ui-resizable-handle, .ui-resizable-e, .ui-resizable-handle, .ui-resizable-s, .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se')).size() > 0) {
 			return "";
 		}
-		
 		
 		//remove all the classes we are using for editing purposes
 		element.removeClass('component container ui-draggable added ui-resizable ');
@@ -89,7 +85,6 @@ builder.init = (function ()
        	canvasHTML += "</"+ element.get(0).tagName + ">";
        	
        	return canvasHTML;
-
     };
     
     /* This function is used to get all the inline style attributes of an element that is set*/
@@ -162,48 +157,6 @@ builder.init = (function ()
 		});
 	};
 	
-	/* This function snaps the dropped element to the underlying grid*/
-	snapToGrid = function(element){
-		
-		
-		var top = 70 * Math.round(parseInt(element.css("top").replace("px",""), 10)/70);
-		var left = 70 * Math.round(parseInt(element.css("left").replace("px",""), 10)/70);
-		
-		//if element is at left most region, no need for a left margin; also no need for margin if it is an element inside another
-		if ((left === 0) || (element.parent().attr("id") != "canvas")) {
-			element.css("margin-left", "0px");
-			
-		}
-		else {
-			element.css("margin-left", "10px");
-		}
-		element.css("margin-bottom", "10px");
-
-		element.css("top",	top + 'px');
-		element.css("left", left + 'px');
-	};
-	
-	/* This function snaps the size of a resized element so it conforms to the underlying grid*/
-	snapSize = function(element){
-	
-		var width = 70 * Math.round(element.width() / 70);
-		var height = 70 * Math.round(element.height() / 70);
-		
-		if (width === 0) {
-			width = 70;
-		}
-		
-		if (height === 0) {
-			height = 70;
-		}
-		
-		element.css('width', width + 'px');
-		element.css('height', height + 'px');
-	};
-	
-
-
-	
 	populateToolboxList = function(folderName)
 	{
 	
@@ -228,21 +181,12 @@ builder.init = (function ()
 						}
 
 					});
-					
-
-			
-				});
-				
-
-				
+				});	
 			});
 	};
 	
 	initializeDroppableAreas = function( droppableAttr )
 	{
-
-
-		
 		droppableAttr.droppable({
 			greedy: true,	//Stop droppable event propogation
 			drop: function(ev, ui) { 
@@ -256,36 +200,27 @@ builder.init = (function ()
 							containment:"parent",
 							resize: function(event, ui) {
 								
-								if (gridSystem) {				
-									snapSize(cloned);
-								}
-					
-
+								//if (gridSystem) {				
+								//	snapSize(cloned);
+								//}
 							}
-							
-						
 						})
 					);
-					
-					
-					
-					
+
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);
 					
-					if (gridSystem) {
-						snapToGrid(cloned);
-						snapSize(cloned);
-					}
-					
+					//if (gridSystem) {
+					//	snapToGrid(cloned);
+					//	snapSize(cloned);
+					//}
 					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
 					if ($(cloned).hasClass("container")) {
 						clearDroppableAreas();
 						initializeDroppableAreas($(cloned));
 						reinitializeDroppableAreas();
-
 					}
 
 				}
@@ -298,10 +233,10 @@ builder.init = (function ()
 					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
 					$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
 					
-					if (gridSystem) {
-						snapToGrid(ui.draggable);
-						snapSize(ui.draggable);
-					}
+					//if (gridSystem) {
+					//	snapToGrid(ui.draggable);
+					//	snapSize(ui.draggable);
+					//}
 				}
 			}
 		});
@@ -324,9 +259,6 @@ builder.init = (function ()
 		$.each(droppableAreas, function(index, element) { 
 			$(element).droppable("destroy");
 		});
-
-
-	
 	};
 	
 	init.initialize = function ()
