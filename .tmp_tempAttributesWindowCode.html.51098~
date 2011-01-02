@@ -1,0 +1,7 @@
+<div id="attributes-panel" align="right">
+	<div id="attributes-selector">
+		<label for="attributes-selector-input">Element</label><br/>
+			<input type="text" id="attributes-selector-input">
+	</div>
+	<div id="attributes-list"></div>
+</div>
