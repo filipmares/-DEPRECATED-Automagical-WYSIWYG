@@ -27,14 +27,8 @@
 			$(document).ready(function()
 			{
 				builder.init.initialize();
-				$('#lblShowAttributes').text ("<<");
-				$('a#getHTML').click(function(){
-					var canvasHTML = $('div#canvas').html();
-					var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
-					allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
-					//Output HTML to console
-					console.log(allHTML);
-				});
+
+
 			});
 		
 		</script>
