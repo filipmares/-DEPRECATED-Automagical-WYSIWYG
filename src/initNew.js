@@ -267,7 +267,17 @@ builder.init = (function ()
 						})
 					);
 					
+					//To set default id, get how many of this specific tag already exist on document
+					var idNumber = $("#canvas " + cloned.get(0).tagName + '.component').size();
 					
+					//If an element with this id number exists already, increment id number until it doesn't
+					while ($('#'+cloned.get(0).tagName + '_' + idNumber).size() !== 0) {
+						console.log('#'+cloned.get(0).tagName + '-' + idNumber);
+						idNumber++;
+					}
+					
+					//Set default id for element
+					cloned.attr('id', cloned.get(0).tagName + '-' + idNumber);
 					
 					
 					//Need these offsets when appending children to a container that's not the canvas
@@ -309,7 +319,7 @@ builder.init = (function ()
 	
 	reinitializeDroppableAreas = function() {
 	
-		var droppableAreas = $("#canvasContainer .container");
+		var droppableAreas = $("#canvas .container");
 		
 		$.each(droppableAreas, function(index, element) { 
 			initializeDroppableAreas($(element));
@@ -319,7 +329,7 @@ builder.init = (function ()
 	
 	clearDroppableAreas = function() {
 	
-		var droppableAreas = $("#canvasContainer .container");
+		var droppableAreas = $("#canvas .container");
 		
 		$.each(droppableAreas, function(index, element) { 
 			$(element).droppable("destroy");
