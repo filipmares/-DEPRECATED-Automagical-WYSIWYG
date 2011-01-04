@@ -30,3 +30,8 @@ p.grid{padding-left:10px;}
 .clear{clear:both; height:10px;}
 .clearfix:after,.main:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .clearfix,.main{display:block;}
+
+.outline-element {
+	outline: 1px solid #c00; 
+	position: absolute;
+}

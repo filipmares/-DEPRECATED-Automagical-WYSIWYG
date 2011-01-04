@@ -8,20 +8,31 @@
 			media: 'screen',
 			href: opts.stylesheet
 		}).appendTo('head');
-		
-		var currentlyDragged = null;
+				
+		var helperDiv = jQuery('<div id="golden-drig-helper-div" class="outline-element"></div>');
 		
 		$('#canvas .component').live('resize', function(event, ui){
 			$.fn.goldenGrid.snapSize($(this));
 		});
 		
 		$('#canvas .component').live('dragstart', function(event, ui){
-			currentlyDragged = ui.helper;
+			helperDiv.appendTo('body');
+			helperDiv.width(ui.helper.width());
+			helperDiv.height(ui.helper.height());
+			$.fn.goldenGrid.snapSize(helperDiv);
+		});
+		
+		$('#canvas .component').live('drag', function(event, ui){
+			helperDiv.css('top', ui.helper.css('top'));
+			helperDiv.css('left', ui.helper.css('left'));
+			$.fn.goldenGrid.snapToGrid(helperDiv);
+			
 		});
 		
 		$('#canvas .component').live('dragstop', function(event, ui){
 			$.fn.goldenGrid.snapToGrid(ui.helper);
 			$.fn.goldenGrid.snapSize(ui.helper);
+			helperDiv.remove();
 		});
 		
 	}

@@ -10,8 +10,6 @@ builder.init = (function ()
 	var init =
 	{
 	},
-		/* DEBUGGING VARIABLE: Use this to specify whether to use the grid system or not*/
-		//gridSystem = true,
 		
 		hideElements,
 		initializeMenuDisplayControl,
@@ -25,8 +23,6 @@ builder.init = (function ()
 		recursiveHTMLAppendFunction,
 		defineInlineCssProperty;
 		
-		//snapToGrid,
-		//snapSize;
 		
 	/* This function returns the entire html of an element, including its tag*/	
 	getOuterHTML = function(element) {
@@ -199,10 +195,7 @@ builder.init = (function ()
 						.resizable({
 							containment:"parent",
 							resize: function(event, ui) {
-								
-								//if (gridSystem) {				
-								//	snapSize(cloned);
-								//}
+								//This function can now be removed as the golden grid snapping has been factored out
 							}
 						})
 					);
@@ -210,11 +203,6 @@ builder.init = (function ()
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);
-					
-					//if (gridSystem) {
-					//	snapToGrid(cloned);
-					//	snapSize(cloned);
-					//}
 					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
 					if ($(cloned).hasClass("container")) {
@@ -232,11 +220,6 @@ builder.init = (function ()
 					//Need these offsets when appending children to a container that's not the canvas
 					$(ui.draggable).css('top', ui.offset.top - $(this).offset().top);
 					$(ui.draggable).css('left', ui.offset.left - $(this).offset().left);
-					
-					//if (gridSystem) {
-					//	snapToGrid(ui.draggable);
-					//	snapSize(ui.draggable);
-					//}
 				}
 			}
 		});
