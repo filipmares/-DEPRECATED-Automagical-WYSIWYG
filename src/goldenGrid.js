@@ -2,6 +2,7 @@
 	$.fn.goldenGrid = function(options){
 		var opts = $.extend({}, $.fn.goldenGrid.defaults, options);
 		
+		//Link to the style sheet for the golden grid
 		jQuery('<link/>',{
 			rel: 'stylesheet',
 			type: 'text/css',
@@ -9,12 +10,15 @@
 			href: opts.stylesheet
 		}).appendTo('head');
 				
+		//An outline to help the user see where the element will drop
 		var helperDiv = jQuery('<div id="golden-drig-helper-div" class="outline-element"></div>');
 		
+		//When an element is resized make sure it snaps to the grid
 		$('#canvas .component').live('resize', function(event, ui){
 			$.fn.goldenGrid.snapSize($(this));
 		});
 		
+		//When we start dragging, show the helper div
 		$('#canvas .component').live('dragstart', function(event, ui){
 			helperDiv.appendTo('body');
 			helperDiv.width(ui.helper.width());
@@ -22,6 +26,7 @@
 			$.fn.goldenGrid.snapSize(helperDiv);
 		});
 		
+		//Move the helper div as we are dragging the element
 		$('#canvas .component').live('drag', function(event, ui){
 			helperDiv.css('top', ui.helper.css('top'));
 			helperDiv.css('left', ui.helper.css('left'));
@@ -29,6 +34,7 @@
 			
 		});
 		
+		//When dragging is complete, remove the helper div, and snap the element into it's new place
 		$('#canvas .component').live('dragstop', function(event, ui){
 			$.fn.goldenGrid.snapToGrid(ui.helper);
 			$.fn.goldenGrid.snapSize(ui.helper);
