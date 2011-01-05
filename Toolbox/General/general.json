@@ -5,19 +5,19 @@
             {
                 "name": "Text",
                 "icon": "text.gif",
-                "tag": "<p class=\"component\" style=\" width: 70px;\">A p tag</p>",
+                "tag": "<p class=\"component\" style=\"height:auto; width: 400px;\">{placeholder}</p>",
                 "image": "none"
             },
             {
                 "name": "Label",
                 "icon": "label.gif",
-                "tag": "<h1 class=\"component\" style=\"width: 70px;\">A h1 label</h1>",
+                "tag": "<label class=\"component\" style=\"height:auto; width:auto;\">{placeholder}</label>",
                 "image": "none"
             },
             {
                 "name": "Link",
                 "icon": "link.gif",
-                "tag": "<a class=\"component\" style=\"width: 70px;\"> A link </a>",
+                "tag": "<a class=\"component\" style=\"color: blue;\">A link</a>",
                 "image": "none"
             },
             {
@@ -29,19 +29,19 @@
             {
                 "name": "Audio",
                 "icon": "audio.gif",
-                "tag": "<audio class=\"component\" style=\"width: 70px;\"></audio>",
+                "tag": "<audio class=\"component\" style=\"\">Audio not found</audio>",
                 "image": "none"
             },
             {
                 "name": "Image",
                 "icon": "image.gif",
-                "tag": "<img class=\"component\" style=\"width: 70px\"></img>",
+                "tag": "<img class=\"component\" style=\"width: 70px\">Image not found</img>",
                 "image": "none"
             },
             {
                 "name": "Video",
                 "icon": "video.gif",
-                "tag": "<video style=\"border: 1px dotted #464646;\"></video>",
+                "tag": "<video style=\"border: 1px dotted #464646;\">Video not found</video>",
                 "image": "none"
             } 
         ] 

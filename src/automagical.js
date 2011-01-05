@@ -1,4 +1,7 @@
 var builder;
+var LONG_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla laoreet venenatis nisl, at viverra urna semper eget. Fusce pellentesque justo id ligula tincidunt volutpat. Suspendisse ut metus sed tellus dictum imperdiet. Nunc vestibulum justo eu velit blandit laoreet. Donec tempor sollicitudin eleifend. Praesent venenatis ante quis magna vulputate ultricies. Duis fringilla pharetra tellus ut sollicitudin. Vivamus tempor nunc eu neque euismod nec adipiscing tellus faucibus. In massa turpis, congue eget ullamcorper nec, laoreet vel odio. Pellentesque a nisl ac erat molestie pharetra sed ac est. Sed tempor luctus odio, eget pretium tellus venenatis pretium. Donec neque lectus, semper egestas consectetur vel, tincidunt sit amet libero. Nam lectus risus, accumsan sit amet volutpat ac, volutpat id nisl. Cras urna velit, aliquet a viverra a, condimentum at justo. Sed non massa non neque molestie interdum mattis eu enim.";
+var SHORT_LOREM_IPSUM = "Lorem ipsum dolor";
+
 if (!builder)
 {
 	builder =
@@ -97,7 +100,7 @@ builder.init = (function ()
 	populateToolboxList = function(folderName)
 	{
 	
-				//Populate the Toolbox items using the json file in the correct folder pointed to by main json file
+			//Populate the Toolbox items using the json file in the correct folder pointed to by main json file
 			$.getJSON('Toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
 
 				//Clear everything currently in ToolBox
@@ -105,6 +108,7 @@ builder.init = (function ()
 				
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
+						console.log('element name ' + elementInner.name);
 						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
@@ -113,8 +117,21 @@ builder.init = (function ()
 						appendTo: "body",
 						containment: "#canvas",
 						helper: function() {
+							var response = elementInner.tag;
+							console.log('tag is ' + response.replace('{placeholder}', LONG_LOREM_IPSUM));
+							switch (elementInner.name){
+								case('Text'):
+									response = response.replace('{placeholder}', LONG_LOREM_IPSUM);
+									break;
+								case ('Label'):
+									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM);
+									break;
+								default:
+									response = elementInner.tag;
+									break;
+							}
 							//Return the new tag to be created
-						   return $( elementInner.tag )[0];
+						   return $(response.replace('{placeholder}', LONG_LOREM_IPSUM))[0];
 						}
 
 					});
