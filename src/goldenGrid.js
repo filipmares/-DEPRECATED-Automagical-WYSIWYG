@@ -43,29 +43,39 @@
 		
 	}
 	
+	/* This function returns the default grid size used for the golden grid */
+	$.fn.goldenGrid.GRIDSIZE = function() {
+		return 10;
+	}
+	
 	/* This function snaps the size of a resized element so it conforms to the underlying grid*/
 	$.fn.goldenGrid.snapSize = function(element){
 		
-		var width = 70 * Math.round(element.width() / 70);
-		var height = 70 * Math.round(element.height() / 70);
+		var width = $.fn.goldenGrid.GRIDSIZE() * Math.round(element.width() / $.fn.goldenGrid.GRIDSIZE());
+		var height = $.fn.goldenGrid.GRIDSIZE() * Math.round(element.height() / $.fn.goldenGrid.GRIDSIZE());
 			
 		if (width === 0) {
-			width = 70;
+			width = $.fn.goldenGrid.GRIDSIZE();
 		}
 			
 		if (height === 0) {
-			height = 70;
+			height = $.fn.goldenGrid.GRIDSIZE();
 		}
-			
-		element.css('width', width + 'px');
+	
+		if (element.width() > $('#canvas').width()) {
+			element.css('width','100%');
+		}
+		else {
+			element.css('width', width + 'px');
+		}
 		element.css('height', height + 'px');
 	};
 		
 	/* This function snaps the dropped element to the underlying grid*/
 	$.fn.goldenGrid.snapToGrid = function(element){
 			
-		var top = 70 * Math.round(parseInt(element.css("top").replace("px", ""), 10) / 70);
-		var left = 70 * Math.round(parseInt(element.css("left").replace("px", ""), 10) / 70);
+		var top = $.fn.goldenGrid.GRIDSIZE() * Math.round(parseInt(element.css("top").replace("px", ""), 10) / $.fn.goldenGrid.GRIDSIZE());
+		var left = $.fn.goldenGrid.GRIDSIZE() * Math.round(parseInt(element.css("left").replace("px", ""), 10) / $.fn.goldenGrid.GRIDSIZE());
 			
 		//if element is at left most region, no need for a left margin; also no need for margin if it is an element inside another
 		if ((left === 0) || (element.parent().attr("id") != "canvas")) {
