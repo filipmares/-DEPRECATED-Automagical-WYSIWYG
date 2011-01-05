@@ -145,10 +145,6 @@ body{height:100%;}
 	/* Firefox */
 	-moz-box-shadow: 0 2px 2px black;
 }
-
-#menuDisplayControl:hover{
-	background-color:#c9c9c9; opacity: 1.1;
-}
 /* END Display Control Styling */
 
 /* Attributes Panel STYLING */

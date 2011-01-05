@@ -45,13 +45,32 @@ builder.init = (function ()
 	};
 	
 	initializeMenuDisplayControl = function() {
-		$("#lblDropDown").click(function(){
+		var isSelected = 0;
+		
+		if (isSelected == 0){
+			$("#menuDisplayControl").hover(function(){
+				$(this).css('opacity', '1.0');
+			},function(){
+				$(this).css('opacity', '0.4');
+			});
+		}
+		
+		
+		$("#menuDisplayControl").click(function(){
 			if($("#navContainer").is(":visible")){
 				$("#navContainer").slideUp("fast");
-				$("#lblDropDown").text("Show Menu");										
+				$("#lblDropDown").text("Show Menu");
+				$('#menuDisplayControl').css('opacity', '0.4');										
+				$("#lblDropDown").css('color', '#292929');	
+				console.log('MenuDisplay Hidden');
+				isSelected = 0;
 			}else{
 				$("#navContainer").slideDown("fast");
-				$("#lblDropDown").text("Hide Menu");				
+				$("#lblDropDown").text("Hide Menu");		
+				$('#menuDisplayControl').css('opacity', '1.0');
+				$("#lblDropDown").css('color', '#FF6600');
+				console.log('MenuDisplay Selected');
+				isSelected = 1;		
 			}
 		});
 	
