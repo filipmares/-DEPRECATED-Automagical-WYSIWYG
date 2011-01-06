@@ -190,7 +190,6 @@ builder.init = (function ()
 					
 					//If an element with this id number exists already, increment id number until it doesn't
 					while ($('#'+cloned.get(0).tagName + '_' + idNumber).size() !== 0) {
-						console.log('#'+cloned.get(0).tagName + '-' + idNumber);
 						idNumber++;
 					}
 					
@@ -201,12 +200,17 @@ builder.init = (function ()
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);
 					
+
+					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
 					if ($(cloned).hasClass("container")) {
 						clearDroppableAreas();
 						initializeDroppableAreas($(cloned));
 						reinitializeDroppableAreas();
 					}
+					
+					//Make a custom event to show when element is first added to canvas
+					cloned.trigger('appendToCanvas');
 
 				}
 				else { //Element already on canvas
