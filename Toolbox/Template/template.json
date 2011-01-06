@@ -5,10 +5,37 @@
         "elements": [
             {
                 "name": "Element 1",
-                "icon": "Element.jpg",
-                "image": "none",
-                "width": 500,
-                "height": 500 
+                "icon": "Element.jpg"
+				"properties": [
+					{
+						"height"
+						"width""
+						color
+						background
+							background-color
+							background-image
+						border
+							border-width
+							border-style
+							border-color
+						font
+							font-style
+							font-variant
+							font-weight
+							font-size
+							font-family
+						margin
+							margin-top
+							margin-bottom
+							margin-right
+							margin-left
+						padding
+							padding-top
+							padding-bottom
+							padding-right
+							padding-left
+					}
+				]
             } 
         ] 
     }

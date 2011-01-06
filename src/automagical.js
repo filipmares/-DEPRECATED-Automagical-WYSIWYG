@@ -45,32 +45,38 @@ builder.init = (function ()
 	};
 	
 	initializeMenuDisplayControl = function() {
-		var isSelected = 0;
-		
-		if (isSelected == 0){
-			$("#menuDisplayControl").hover(function(){
-				$(this).css('opacity', '1.0');
-			},function(){
-				$(this).css('opacity', '0.4');
+		//TODO: Find a way to bind and unbind hover properly
+		$.fn.bindHover = function(e){
+			$(this).bind({
+				mouseover: function(){
+			    	$(this).css('opacity', '1.0');
+			  },
+			  	mouseout: function(){$(this).css('opacity', '0.4');
+			  }
 			});
-		}
+		};
+
+		$.fn.unbindHover = function (){
+			$(this).unbind('mouseover');
+			$(this).unbind('mouseout');
+		};
+	
 		
+		$("#menuDisplayControl").bindHover();
 		
 		$("#menuDisplayControl").click(function(){
 			if($("#navContainer").is(":visible")){
 				$("#navContainer").slideUp("fast");
-				$("#lblDropDown").text("Show Menu");
-				$('#menuDisplayControl').css('opacity', '0.4');										
+				$("#lblDropDown").text("Show Menu");							
 				$("#lblDropDown").css('color', '#292929');	
-				console.log('MenuDisplay Hidden');
-				isSelected = 0;
+				console.log($(this).attr('id') + " hidden");
+				$(this).bindHover();
 			}else{
 				$("#navContainer").slideDown("fast");
-				$("#lblDropDown").text("Hide Menu");		
-				$('#menuDisplayControl').css('opacity', '1.0');
-				$("#lblDropDown").css('color', '#FF6600');
-				console.log('MenuDisplay Selected');
-				isSelected = 1;		
+				$("#lblDropDown").text("Hide Menu");
+				$("#lblDropDown").css('color', '#ee4411');
+				console.log($(this).attr('id') + " shown");
+				$(this).unbindHover();
 			}
 		});
 	
@@ -127,7 +133,7 @@ builder.init = (function ()
 				
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
-						console.log('element name ' + elementInner.name);
+						console.log('Populating ' + folderName +' with element ' + elementInner.name);
 						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
@@ -137,12 +143,14 @@ builder.init = (function ()
 						containment: "#canvas",
 						helper: function() {
 							var response = elementInner.tag;
-							console.log('tag is ' + response.replace('{placeholder}', LONG_LOREM_IPSUM));
 							switch (elementInner.name){
 								case('Text'):
 									response = response.replace('{placeholder}', LONG_LOREM_IPSUM);
 									break;
 								case ('Label'):
+									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM);
+									break;
+								case ('Heading'):
 									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM);
 									break;
 								default:
