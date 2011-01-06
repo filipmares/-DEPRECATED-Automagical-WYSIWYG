@@ -102,6 +102,14 @@
 			$.fn.automagicalCss.changeWidthHeight(ui.size.width, ui.size.height);
 		});
 		
+		//Listen to when the user changes id, then change the id
+		$('#attributes-selector-input').live('keyup', function(event){
+			var element = $(this);
+			
+			if (element.val() !== "") {
+				selected.attr('id', element.val());
+			}
+		});
 		
 		//Listen to when the user changes a css property, then change the property
 		$('.cssInput').live('keyup', function(event){
@@ -176,7 +184,18 @@
 	};
 	
 	$.fn.automagicalCss.tagMappings = {
-		DIV : $.fn.automagicalCss.divCommonStyles
+	
+		//TODO: Figure out a better way to discern between styles for different elements
+		DIV : $.fn.automagicalCss.divCommonStyles,
+		A : $.fn.automagicalCss.divCommonStyles,
+		H1 : $.fn.automagicalCss.divCommonStyles,
+		P : $.fn.automagicalCss.divCommonStyles,
+		LABEL : $.fn.automagicalCss.divCommonStyles,
+		HEADER : $.fn.automagicalCss.divCommonStyles,
+		FOOTER : $.fn.automagicalCss.divCommonStyles,
+		AUDIO : $.fn.automagicalCss.divCommonStyles,
+		IMAGE : $.fn.automagicalCss.divCommonStyles,
+		VIDEO : $.fn.automagicalCss.divCommonStyles
 	};
 	
 }
