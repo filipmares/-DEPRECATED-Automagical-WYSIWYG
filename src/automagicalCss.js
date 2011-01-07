@@ -35,6 +35,8 @@
 		var attributes_list = $('#attributes-list', wrapper);
 		var selected = null;
 		
+
+		
 		//Animate (show/hide) the attributes box when the user clicks the handle ('>>') component
 		$('#showHide', wrapper).click(function(){
 			var panel = $('#attributes-panel');
@@ -54,46 +56,120 @@
 		});
 		
 
+
+
 		//When an element on the canvas is clicked, populate the css attributes list
 		$('#canvas .component').live('click', function(){
-			selected = $(this);
-			var marginDiv = $('#marginDiv');
-			var label = $('#showHideLabel');
-			
-			selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
-			attributes_list.empty();
-			
-			var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
-			
-			jQuery.each(typeMapping, function(key, value){
-				var validStyle = "";
-				jQuery.each(value, function(index, style){
-					if (selected.css(style) != null) {
-						validStyle = style;
-					}
-				});
+				selected = $(this);
+				var marginDiv = $('#marginDiv');
+				var label = $('#showHideLabel');
 				
-				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
-										selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
-			});
+				selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
+				attributes_list.empty();
+				
+				var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+				
+				jQuery.each(typeMapping, function(key, value){
+					var validStyle = "";
+					jQuery.each(value, function(index, style){
+						if (selected.css(style) != null) {
+							validStyle = style;
+						}
+					});
+					
+					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+											selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
+				});
+	
+				//Highlight clicked element
+				$('#canvas .component').removeClass('outline-element-clicked');
+				$(this).addClass('outline-element-clicked');
+				
+				//Show the attributes box if it already isn't shown
+				if (!(marginDiv.is(":visible"))){
+					marginDiv.animate({width: 'show', 'opacity':'toggle'});
+					$('#showHide').animate({marginLeft: 0});
+					label.text(">> ");
+				}  
+		});
 
-			//Highlight clicked element
-			$('#canvas .component').removeClass('outline-element-clicked');
-			$(this).addClass('outline-element-clicked');
-			
-			//Show the attributes box if it already isn't shown
-			if (!(marginDiv.is(":visible"))){
-				marginDiv.animate({width: 'show', 'opacity':'toggle'});
-				$('#showHide').animate({marginLeft: 0});
-				label.text(">> ");
-			} 
+		//When an element on the canvas is dropped onto canvas, populate the css attributes list		
+		$('#canvas .component').live('appendToCanvas', function(){
+				selected = $(this);
+				var marginDiv = $('#marginDiv');
+				var label = $('#showHideLabel');
+				
+				selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
+				attributes_list.empty();
+				
+				var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+				
+				jQuery.each(typeMapping, function(key, value){
+					var validStyle = "";
+					jQuery.each(value, function(index, style){
+						if (selected.css(style) != null) {
+							validStyle = style;
+						}
+					});
+					
+					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+											selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
+				});
+	
+				//Highlight clicked element
+				$('#canvas .component').removeClass('outline-element-clicked');
+				$(this).addClass('outline-element-clicked');
+				
+				//Show the attributes box if it already isn't shown
+				if (!(marginDiv.is(":visible"))){
+					marginDiv.animate({width: 'show', 'opacity':'toggle'});
+					$('#showHide').animate({marginLeft: 0});
+					label.text(">> ");
+				}  
 		});
 		
 		//When an element on the canvas is clicked, populate the css attributes list
 		$('#canvas .component').live('resize', function(event, ui){
 		
-			//TODO: On resize, we have to make sure the attributes box is showing the right element
 			
+			//TODO: On resize, we have to make sure the attributes box is showing the right element. We can refactor this code out somehow.
+			if (selected !== null) {
+				if (selected.parent()[0] !== $(ui.helper).get(0)) {
+					
+					selected = $(ui.helper);
+					var marginDiv = $('#marginDiv');
+					var label = $('#showHideLabel');
+					
+					selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
+					attributes_list.empty();
+					
+					var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+					
+					jQuery.each(typeMapping, function(key, value){
+						var validStyle = "";
+						jQuery.each(value, function(index, style){
+							if (selected.css(style) != null) {
+								validStyle = style;
+							}
+						});
+						
+						attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+												selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
+					});
+		
+					//Highlight clicked element
+					$('#canvas .component').removeClass('outline-element-clicked');
+					$(this).addClass('outline-element-clicked');
+					
+					//Show the attributes box if it already isn't shown
+					if (!(marginDiv.is(":visible"))){
+						marginDiv.animate({width: 'show', 'opacity':'toggle'});
+						$('#showHide').animate({marginLeft: 0});
+						label.text(">> ");
+					}  
+				
+				}
+			}
 			
 			//Need to do this to handle case where during resize mouse moves outside of element being resized
 			$('#canvas *').removeClass('outline-element');				
@@ -102,6 +178,61 @@
 			$.fn.automagicalCss.changeWidthHeight(ui.size.width, ui.size.height);
 		});
 		
+		
+		//When an element on the canvas is resized, use mouseup to say when it's done. We need this part to account for golden grid, and the fact that when you resize, the size doesn't corresponding to the resizing correctly because of snapping.
+		
+		$('#canvas .component').live('resizestop', function(event,ui){
+		
+			selected = $(event.target);
+			
+			//TODO: On resize, we have to make sure the attributes box is showing the right element. We can refactor this code out somehow.
+			if (selected !== null) {
+				if (selected.parent()[0] !== $(ui.helper).get(0)) {
+					selected = $(ui.helper);
+					var marginDiv = $('#marginDiv');
+					var label = $('#showHideLabel');
+					
+					selector_field.val($.fn.automagicalCss.extractCssSelectorPath(selected));
+					attributes_list.empty();
+					
+					var typeMapping = $.fn.automagicalCss.tagMappings[selected.get(0).tagName];
+					
+					jQuery.each(typeMapping, function(key, value){
+						var validStyle = "";
+						jQuery.each(value, function(index, style){
+							if (selected.css(style) != null) {
+								validStyle = style;
+							}
+						});
+						
+						attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+												selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
+					});
+		
+					//Highlight clicked element
+					$('#canvas .component').removeClass('outline-element-clicked');
+					$(this).addClass('outline-element-clicked');
+					
+					//Show the attributes box if it already isn't shown
+					if (!(marginDiv.is(":visible"))){
+						marginDiv.animate({width: 'show', 'opacity':'toggle'});
+						$('#showHide').animate({marginLeft: 0});
+						label.text(">> ");
+					}  
+					
+				}
+			}
+			
+			//Need to do this to handle case where during resize mouse moves outside of element being resized
+			$('#canvas *').removeClass('outline-element');				
+			$(this).addClass('outline-element');
+			
+			//We use event.target here again to account for golden grid. This will give you the snapped width and height.
+			$.fn.automagicalCss.changeWidthHeight($(event.target).width(), $(event.target).height());
+
+		});
+		
+
 		//Listen to when the user changes id, then change the id
 		$('#attributes-selector-input').live('keyup', function(event){
 			var element = $(this);
@@ -139,6 +270,13 @@
 		$('#canvas .component').live('mouseout', function(event){
 			$(this).removeClass('outline-element');
 		});
+
+
+	};
+	
+	//TODO: Refactor some attributes display code into here. Display the attributes box if it isn't displayed. Pass in the currently selected element.
+	$.fn.automagicalCss.showAttributesBox = function(element, selector_field, attributes_list){
+		
 		
 
 	};
