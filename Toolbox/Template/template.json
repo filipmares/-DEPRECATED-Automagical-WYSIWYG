@@ -5,37 +5,55 @@
         "elements": [
             {
                 "name": "Element 1",
-                "icon": "Element.jpg"
+                "icon": "Element.jpg",
 				"properties": [
 					{
-						"height"
-						"width""
-						color
-						background
-							background-color
-							background-image
-						border
-							border-width
-							border-style
-							border-color
-						font
-							font-style
-							font-variant
-							font-weight
-							font-size
-							font-family
-						margin
-							margin-top
-							margin-bottom
-							margin-right
-							margin-left
-						padding
-							padding-top
-							padding-bottom
-							padding-right
-							padding-left
-					}
-				]
+						"height": "auto",
+						"width": "auto",
+						"color": "black",
+						"background": [
+							{
+								"background-color": "white",
+								"background-image": "none"
+							}],
+						"border": [
+							{
+								"border-width": "0px",
+								"border-style":	"none",
+								"border-color": "black"
+							}],
+						"font": [
+							{
+								"font-style": "normal",
+								"font-variant": "normal",
+								"font-weight": "normal",
+								"font-size": "medium",
+								"font-family": "Arial"
+							}],
+						"margin": [
+							{
+								"margin-top": "0px",
+								"margin-bottom": "0px",
+								"margin-right": "0px",
+								"margin-left": "0px"
+							}],
+						"padding": [
+							{
+								"padding-top": "0px",
+								"padding-bottom": "0px",
+								"padding-right": "0px",
+								"padding-left": "0px"
+							}]
+							
+					}],
+				"attributes":[{
+					alt
+					href
+					src
+					placeholder
+					
+				
+				}]
             } 
         ] 
     }
