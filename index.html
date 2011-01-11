@@ -6,6 +6,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="Styles/clientStyles.css" />
 		<link rel="stylesheet" href="Styles/golden-min.css" />
+		<link rel="stylesheet" href="Styles/jquery.automagicalCss.css" />
 		<link rel="stylesheet" href="Styles/ui-lightness/jquery-ui-1.8.6.custom.css"/>
 		
 		<!-- End CSS -->
@@ -17,6 +18,7 @@
 		<!-- Our JavaScript Sources -->
 		<script src="src/automagical.js"></script>
 		<script src="src/automagicalCss.js"></script>
+		<script src="src/automagicalUI.js"></script>
 		<script src="src/goldenGrid.js"></script>
 		<script src="src/postProcessing.js"></script>
 		
@@ -28,7 +30,7 @@
 		<script>
 			$(document).ready(function()
 			{
-				builder.init.initialize();
+				$.fn.initialize();
 			});
 		
 		</script>
@@ -55,6 +57,22 @@
 		<div id="canvas" class="container"></div>
 		
 		<div id="attributesWrapper">
+		
+			<div id="attributes-wrapper" class="automagicalCss-right">		
+				<div id="attributes-panel" align="right">
+					<div id="showHide">
+						<label id="showHideLabel">&gt&gt </label>
+					</div>
+					<div id="marginDiv">
+						<div id="attributes-selector">
+							<label for="attributes-selector-input">Element</label>
+							<input type="text" id="attributes-selector-input">
+						</div>
+						<div id="attributes-list">
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 	</body>

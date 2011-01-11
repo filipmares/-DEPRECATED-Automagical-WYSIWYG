@@ -1,87 +1,31 @@
-var builder;
-var LONG_LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla laoreet venenatis nisl, at viverra urna semper eget. Fusce pellentesque justo id ligula tincidunt volutpat. Suspendisse ut metus sed tellus dictum imperdiet. Nunc vestibulum justo eu velit blandit laoreet. Donec tempor sollicitudin eleifend. Praesent venenatis ante quis magna vulputate ultricies. Duis fringilla pharetra tellus ut sollicitudin. Vivamus tempor nunc eu neque euismod nec adipiscing tellus faucibus. In massa turpis, congue eget ullamcorper nec, laoreet vel odio. Pellentesque a nisl ac erat molestie pharetra sed ac est. Sed tempor luctus odio, eget pretium tellus venenatis pretium. Donec neque lectus, semper egestas consectetur vel, tincidunt sit amet libero. Nam lectus risus, accumsan sit amet volutpat ac, volutpat id nisl. Cras urna velit, aliquet a viverra a, condimentum at justo. Sed non massa non neque molestie interdum mattis eu enim.";
-var SHORT_LOREM_IPSUM = "Lorem ipsum dolor";
-
-if (!builder)
-{
-	builder =
-	{
+(function($){
+	$.fn.initialize = function(){
+	
+		
+		$.fn.initializeUI();
+		$.fn.automagicalCss();
+		
+		initializeGetHtml();
+		populateNavList();
+		initializeDroppableAreas($("#canvas"));
 	};
-}
-builder.init = (function ()
-{
-	var init =
-	{
-	},
-		
-		hideElements,
-		initializeMenuDisplayControl,
-		populateNavList,
-		populateToolboxList,
-		initializeDroppableAreas,
-		clearDroppableAreas,
-		reinitializeDroppableAreas,
-		initializeGetHtml,
-		getOuterHTML,
-		recursiveHTMLAppendFunction,
-		defineInlineCssProperty;
-		
-		
-	/* This function returns the entire html of an element, including its tag*/	
-	getOuterHTML = function(element) {
-    	return $('<div>').append( element.eq(0).clone() ).html();
+	
+
+	LONG_LOREM_IPSUM = function() { 
+		return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla laoreet venenatis nisl, at viverra urna semper eget. Fusce pellentesque justo id ligula tincidunt volutpat. Suspendisse ut metus sed tellus dictum imperdiet. Nunc vestibulum justo eu velit blandit laoreet. Donec tempor sollicitudin eleifend. Praesent venenatis ante quis magna vulputate ultricies. Duis fringilla pharetra tellus ut sollicitudin. Vivamus tempor nunc eu neque euismod nec adipiscing tellus faucibus. In massa turpis, congue eget ullamcorper nec, laoreet vel odio. Pellentesque a nisl ac erat molestie pharetra sed ac est. Sed tempor luctus odio, eget pretium tellus venenatis pretium. Donec neque lectus, semper egestas consectetur vel, tincidunt sit amet libero. Nam lectus risus, accumsan sit amet volutpat ac, volutpat id nisl. Cras urna velit, aliquet a viverra a, condimentum at justo. Sed non massa non neque molestie interdum mattis eu enim.";
+	};
+	
+	SHORT_LOREM_IPSUM = function() {
+		return "Lorem ipsum dolor";
 	};
 	
 	initializeGetHtml = function(){
 		$('a#getHTML').click(function(){
 			$('#canvas').postProcessing();
 		});
-	}
+	};
 
 	
-	hideElements = function () {
-		$("#navContainer").hide();
-		$("#menuToolbox").hide();
-	};
-	
-	initializeMenuDisplayControl = function() {
-		//TODO: Find a way to bind and unbind hover properly
-		$.fn.bindHover = function(e){
-			$(this).bind({
-				mouseover: function(){
-			    	$(this).css('opacity', '1.0');
-			  },
-			  	mouseout: function(){$(this).css('opacity', '0.4');
-			  }
-			});
-		};
-
-		$.fn.unbindHover = function (){
-			$(this).unbind('mouseover');
-			$(this).unbind('mouseout');
-		};
-	
-		
-		$("#menuDisplayControl").bindHover();
-		
-		$("#menuDisplayControl").click(function(){
-			if($("#navContainer").is(":visible")){
-				$("#navContainer").slideUp("fast");
-				$("#lblDropDown").text("Show Menu");							
-				$("#lblDropDown").css('color', '#292929');	
-				console.log($(this).attr('id') + " hidden");
-				$(this).bindHover();
-			}else{
-				$("#navContainer").slideDown("fast");
-				$("#lblDropDown").text("Hide Menu");
-				$("#lblDropDown").css('color', '#ee4411');
-				console.log($(this).attr('id') + " shown");
-				$(this).unbindHover();
-			}
-		});
-	
-	};
-		
 	/*This funtion populates the MenuBar and Toolbox bar with extensions and their various elements*/	
 	populateNavList = function ()
 	{
@@ -97,25 +41,7 @@ builder.init = (function ()
 				//Add on-click behaviour to MenuBar Items.
 				$('a#' + element.Folder_Name).click(function ()
 				{
-					//If this menu item is active then remove active class and hide Toolbox Bar.
-					if ($(this).hasClass('active'))
-					{
-						$(".active").removeClass("active");
-						$("nav#menuToolbox").slideUp();
-					}
-					else
-					{
-					//Else if any MenuBar item is active, remove active class and hide menu.
-					//Make item clicked active and slide menuToolbox Bar.
-						if ($("nav#menuToolbox").is(":visible"))
-						{
-							$("nav#menuToolbox").hide();
-						}
-						$("nav#menuToolbox").slideDown("fast");
-						$(".active").removeClass("active");
-						$(this).addClass("active");
-					}
-					
+					$(this).hideShowMenuBarItem();
 					populateToolboxList(element.Folder_Name);
 				});
 			});
@@ -133,7 +59,7 @@ builder.init = (function ()
 				
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
-						console.log('Populating ' + folderName +' with element ' + elementInner.name);
+						//console.log('Populating ' + folderName +' with element ' + elementInner.name);
 						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
@@ -145,20 +71,20 @@ builder.init = (function ()
 							var response = elementInner.tag;
 							switch (elementInner.name){
 								case('Text'):
-									response = response.replace('{placeholder}', LONG_LOREM_IPSUM);
+									response = response.replace('{placeholder}', LONG_LOREM_IPSUM());
 									break;
 								case ('Label'):
-									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM);
+									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM());
 									break;
 								case ('Heading'):
-									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM);
+									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM());
 									break;
 								default:
 									response = elementInner.tag;
 									break;
 							}
 							//Return the new tag to be created
-						   return $(response.replace('{placeholder}', LONG_LOREM_IPSUM))[0];
+						   return $(response.replace('{placeholder}', LONG_LOREM_IPSUM()))[0];
 						}
 
 					});
@@ -204,9 +130,19 @@ builder.init = (function ()
 					
 					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
 					if ($(cloned).hasClass("container")) {
-						clearDroppableAreas();
+						var droppableAreas = $("#canvas .container");
+						
+						$.each(droppableAreas, function(index, element) { 
+							$(element).droppable("destroy");
+						});
+
 						initializeDroppableAreas($(cloned));
-						reinitializeDroppableAreas();
+		
+						droppableAreas = $("#canvas .container");
+		
+						$.each(droppableAreas, function(index, element) { 
+							initializeDroppableAreas($(element));
+						});
 					}
 					
 					//Make a custom event to show when element is first added to canvas
@@ -225,33 +161,8 @@ builder.init = (function ()
 			}
 		});
 	};
-	
-	reinitializeDroppableAreas = function() {
-	
-		var droppableAreas = $("#canvas .container");
+
 		
-		$.each(droppableAreas, function(index, element) { 
-			initializeDroppableAreas($(element));
-		});
-		
-	};
-	
-	clearDroppableAreas = function() {
-	
-		var droppableAreas = $("#canvas .container");
-		
-		$.each(droppableAreas, function(index, element) { 
-			$(element).droppable("destroy");
-		});
-	};
-	
-	init.initialize = function ()
-	{
-		initializeMenuDisplayControl();
-		initializeGetHtml();
-		hideElements();
-		populateNavList();
-		initializeDroppableAreas($("#canvas"));
-	};
-	return init;
-}());
+}
+
+)(jQuery);
