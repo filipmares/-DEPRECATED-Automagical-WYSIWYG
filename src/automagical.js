@@ -68,29 +68,85 @@
 						appendTo: "body",
 						containment: "#canvas",
 						helper: function() {
-							var response = elementInner.tag;
-							switch (elementInner.name){
-								case('Text'):
-									response = response.replace('{placeholder}', LONG_LOREM_IPSUM());
-									break;
-								case ('Label'):
-									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM());
-									break;
-								case ('Heading'):
-									response = response.replace('{placeholder}', SHORT_LOREM_IPSUM());
-									break;
-								default:
-									response = elementInner.tag;
-									break;
-							}
-							//Return the new tag to be created
-						   return $(response.replace('{placeholder}', LONG_LOREM_IPSUM()))[0];
+							return initializeElements(elementInner);
 						}
 
 					});
 				});	
 			});
 	};
+	
+	initializeElements = function( elementInner ) 
+	{
+		var tag = $('<'+elementInner.tag+' />');
+	
+		switch (elementInner.name){
+			case('Text'):
+				tag.append(LONG_LOREM_IPSUM());
+				break;
+			case ('Label'):
+				tag.append(SHORT_LOREM_IPSUM());
+				break;
+			case ('Heading'):
+				tag.append(SHORT_LOREM_IPSUM());
+				break;
+			case ('Container'):
+				tag.addClass('container');
+				break;
+			case ('Link'):
+				tag.append('A link');
+				break;
+			case ('Heading'):
+				tag.append('Heading');
+				break;
+			default:
+				response = elementInner.tag;
+				break;
+		}
+		
+		//Each added element is a component
+		tag.addClass('component');
+
+		
+		//Recursively iterate through all properties in json to apply them
+		addStyleElementsRecursively(tag, elementInner.properties);
+
+		
+		//Add a dotted border to all elements for now
+		tag.css('border-width', '1px');
+		tag.css('border-style', 'dotted');
+		
+		if (elementInner.attributes !== undefined) {
+			//Apply all the attributes to the elements
+			$.each(elementInner.attributes,function(attribute, attrValue){
+	
+				tag.attr(attribute, attrValue);
+			
+			});
+		}
+
+		
+		return tag;
+		
+	};
+	
+	addStyleElementsRecursively = function(element, jsonProperties) {
+			
+			$.each(jsonProperties,function(nameInner, elementInner){
+
+				if (typeof elementInner == 'object'){
+					addStyleElementsRecursively(element, elementInner);
+				}
+				else {
+					element.css(nameInner, elementInner);
+				}
+			
+			});
+	};
+	
+	isArray = function(element) {
+    	return Object.prototype.toString.call(element) === '[object Array]';
+	}
 	
 	initializeDroppableAreas = function( droppableAttr )
 	{
