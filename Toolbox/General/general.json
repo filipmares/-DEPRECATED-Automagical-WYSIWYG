@@ -18,9 +18,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"font": 
 							{
@@ -62,9 +71,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"font": 
 							{
@@ -108,9 +126,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"font": 
 							{
@@ -154,9 +181,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"font": 
 							{
@@ -201,9 +237,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{
@@ -238,9 +283,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{
@@ -275,9 +329,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{
@@ -312,9 +375,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{
@@ -354,9 +426,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{
@@ -397,9 +478,18 @@
 							},
 						"border": 
 							{
-								"border-width": "0px",
-								"border-style":	"none",
-								"border-color": "black"
+								"border-top-width": "1px",
+								"border-top-style":	"dotted",
+								"border-top-color": "black",
+								"border-bottom-width": "1px",
+								"border-bottom-style":	"dotted",
+								"border-bottom-color": "black",
+								"border-left-width": "1px",
+								"border-left-style":	"dotted",
+								"border-left-color": "black",
+								"border-right-width": "1px",
+								"border-right-style":	"dotted",
+								"border-right-color": "black"
 							},
 						"margin": 
 							{

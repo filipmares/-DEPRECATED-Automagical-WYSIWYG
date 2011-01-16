@@ -1,15 +1,14 @@
-(function($){
-	$.fn.initialize = function(){
-	
+var automagical = (function(){
+
+	var populateNavList, 
+		initializeGetHtml,
+		initializeDroppableAreas,
 		
-		$.fn.initializeUI();
-		$.fn.automagicalCss();
+		LONG_LOREM_IPSUM,
+		SHORT_LOREM_IPSUM;
 		
-		initializeGetHtml();
-		populateNavList();
-		initializeDroppableAreas($("#canvas"));
-	};
-	
+		
+
 
 	LONG_LOREM_IPSUM = function() { 
 		return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla laoreet venenatis nisl, at viverra urna semper eget. Fusce pellentesque justo id ligula tincidunt volutpat. Suspendisse ut metus sed tellus dictum imperdiet. Nunc vestibulum justo eu velit blandit laoreet. Donec tempor sollicitudin eleifend. Praesent venenatis ante quis magna vulputate ultricies. Duis fringilla pharetra tellus ut sollicitudin. Vivamus tempor nunc eu neque euismod nec adipiscing tellus faucibus. In massa turpis, congue eget ullamcorper nec, laoreet vel odio. Pellentesque a nisl ac erat molestie pharetra sed ac est. Sed tempor luctus odio, eget pretium tellus venenatis pretium. Donec neque lectus, semper egestas consectetur vel, tincidunt sit amet libero. Nam lectus risus, accumsan sit amet volutpat ac, volutpat id nisl. Cras urna velit, aliquet a viverra a, condimentum at justo. Sed non massa non neque molestie interdum mattis eu enim.";
@@ -21,7 +20,10 @@
 	
 	initializeGetHtml = function(){
 		$('a#getHTML').click(function(){
-			$('#canvas').postProcessing();
+			postProcessing.postProcessing();
+
+
+
 		});
 	};
 
@@ -35,13 +37,14 @@
 			//Iterate Through extensions
 			$.each(json.main.tools, function (name, element)
 			{
-				//console.log("Found Folder: " + element.Folder_Name);
+
 				//Populate MenuBar with extension folder names.
 				$("nav#nav").append('<a id="' + element.Folder_Name + '" href="#">' + element.Folder_Name + '</a>');
+				
 				//Add on-click behaviour to MenuBar Items.
 				$('a#' + element.Folder_Name).click(function ()
 				{
-					$(this).hideShowMenuBarItem();
+					automagicalUI.hideShowMenuBarItem($(this));
 					populateToolboxList(element.Folder_Name);
 				});
 			});
@@ -59,7 +62,7 @@
 				
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
-						//console.log('Populating ' + folderName +' with element ' + elementInner.name);
+
 						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
@@ -68,7 +71,7 @@
 						appendTo: "body",
 						containment: "#canvas",
 						helper: function() {
-							return initializeElements(elementInner);
+							return initializeElementToDrop(elementInner);
 						}
 
 					});
@@ -76,7 +79,7 @@
 			});
 	};
 	
-	initializeElements = function( elementInner ) 
+	initializeElementToDrop = function( elementInner ) 
 	{
 		var tag = $('<'+elementInner.tag+' />');
 	
@@ -107,14 +110,22 @@
 		//Each added element is a component
 		tag.addClass('component');
 
+		//To set default id, get how many of this specific tag already exist on document
+		var idNumber = $("#canvas " + elementInner.tag + '.component').size();
+		
+		//If an element with this id number exists already, increment id number until it doesn't
+		while ($('#'+elementInner.tag + '_' + idNumber).size() !== 0) {
+			idNumber++;
+		}
+		
+		//Set default id for element
+		tag.attr('id', elementInner.tag + '-' + idNumber);
 		
 		//Recursively iterate through all properties in json to apply them
-		addStyleElementsRecursively(tag, elementInner.properties);
-
+		addStylePropertyToElementRecursively(tag, elementInner.properties);
 		
-		//Add a dotted border to all elements for now
-		tag.css('border-width', '1px');
-		tag.css('border-style', 'dotted');
+
+	
 		
 		if (elementInner.attributes !== undefined) {
 			//Apply all the attributes to the elements
@@ -130,23 +141,22 @@
 		
 	};
 	
-	addStyleElementsRecursively = function(element, jsonProperties) {
+	addStylePropertyToElementRecursively = function(element, jsonProperties) {
 			
 			$.each(jsonProperties,function(nameInner, elementInner){
 
 				if (typeof elementInner == 'object'){
-					addStyleElementsRecursively(element, elementInner);
+					addStylePropertyToElementRecursively(element, elementInner);
+
 				}
 				else {
-					element.css(nameInner, elementInner);
+					automagicalCss.writeCssSelector('#'+element.attr('id'), nameInner, elementInner);
 				}
+
 			
 			});
 	};
 	
-	isArray = function(element) {
-    	return Object.prototype.toString.call(element) === '[object Array]';
-	}
 	
 	initializeDroppableAreas = function( droppableAttr )
 	{
@@ -167,16 +177,7 @@
 						})
 					);
 					
-					//To set default id, get how many of this specific tag already exist on document
-					var idNumber = $("#canvas " + cloned.get(0).tagName + '.component').size();
-					
-					//If an element with this id number exists already, increment id number until it doesn't
-					while ($('#'+cloned.get(0).tagName + '_' + idNumber).size() !== 0) {
-						idNumber++;
-					}
-					
-					//Set default id for element
-					cloned.attr('id', cloned.get(0).tagName + '-' + idNumber);
+
 					
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
@@ -217,8 +218,20 @@
 			}
 		});
 	};
+	
+	return {
+	
+		initialize : function(){
+		
+			automagicalUI.initializeUI();
+			automagicalCss.initializeCssFunctionality();
+			
+			initializeGetHtml();
+			populateNavList();
+			initializeDroppableAreas($("#canvas"));
+		}
+	};
+	
 
 		
-}
-
-)(jQuery);
+})();

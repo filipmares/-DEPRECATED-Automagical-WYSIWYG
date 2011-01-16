@@ -1,20 +1,9 @@
-(function($){
-	$.fn.postProcessing = function(){
-		
-		/* This function initializes the GetHtml link button*/
-		var canvasHTML="";
-					
-		//We need to recursively go through and do element by element for a multitude of reasons right now
-		$(this).children().each(function() {
-			canvasHTML = recursiveHTMLAppendFunction(canvasHTML, $(this).clone())
-    	});	
-					
-		var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
-		allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
+var postProcessing = (function(){
+	
 
-		//Output HTML to console
-		console.log(allHTML);
-	};
+	
+	var recursiveHTMLAppendFunction;
+
 
 	/* This function recursively iterates through all of an element's children to produce it's html */
     recursiveHTMLAppendFunction = function( canvasHTML, element) {
@@ -24,10 +13,19 @@
 		}
 		
 		//remove all the classes we are using for editing purposes
-		element.removeClass('component container ui-draggable added ui-resizable ');
+		element.removeClass('component container ui-draggable added ui-resizable outline-element outline-element-clicked');
+		
+		var attributes = "";
+		
+		var target = $(element).get(0);
+		$.each($(target.attributes), function(index) {
 
+			attributes += target.attributes[index].name + "=\"" + target.attributes[index].value+ "\" ";
+
+		});
+		
 		//TODO: This doesn't take into acount any other attributes other than 'style', this needs to be changed
-		canvasHTML += "<"+ element.get(0).tagName + " " + defineInlineCssProperty(element) + ">" + element.clone().find("*").remove().end().text();
+		canvasHTML += "<"+ element.get(0).tagName + " "+ attributes +">\n" + element.clone().find("*").remove().end().text();
 		
 		//Go through all of the children of this element
         if (element.children().size() > 0) {
@@ -36,22 +34,30 @@
             });
         }
         
-       	canvasHTML += "</"+ element.get(0).tagName + ">";
+       	canvasHTML += "</"+ element.get(0).tagName + ">\n";
        	
        	return canvasHTML;
 	};
+	
+	return {
+		postProcessing : function(){
+			
+			/* This function initializes the GetHtml link button*/
+			var canvasHTML="";
+						
+			//We need to recursively go through and do element by element for a multitude of reasons right now
+			$('#canvas').children().each(function() {
+				canvasHTML = recursiveHTMLAppendFunction(canvasHTML, $(this).clone())
+	    	});	
+						
+			var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
+			allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
+	
+			//Output HTML to console
+			console.log(allHTML);
+			console.log("\n\n" + $('style[id="temporary"]').html() + "\n\n");
+		}
+	};
     
-    /* This function is used to get all the inline style attributes of an element that is set*/
-    defineInlineCssProperty = function(element) {
-    	
-    	var styleString = "style=\"";
-    	
-    	styleString+= element.attr('style');
-    	
-    	styleString+= "\"";
-    	return styleString;
-    };
 		
-}
-
-)(jQuery);
+})();
