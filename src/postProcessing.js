@@ -52,10 +52,11 @@ var postProcessing = (function(){
 						
 			var allHTML = $.ajax({async:false, url:'template.html',}).responseText;
 			allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
+			allHTML = allHTML.replace(/\{style\}/m, "\n\n" + $('style[id="temporary"]').html() + "\n\n");
+			
 	
 			//Output HTML to console
 			console.log(allHTML);
-			console.log("\n\n" + $('style[id="temporary"]').html() + "\n\n");
 		}
 	};
     
