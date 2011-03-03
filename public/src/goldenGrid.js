@@ -113,7 +113,7 @@
 
 	
 	$.fn.goldenGrid.defaults = {
-		stylesheet : 'Styles/golden-min.css'
+		stylesheet : '/stylesheets/golden-min.css'
 	};
 	
 }

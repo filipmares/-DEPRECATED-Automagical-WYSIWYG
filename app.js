@@ -67,7 +67,9 @@ app.get('/', function(req, res){
 
 app.get('/login', function(req, res){
 	if (req.session.user) {
-		req.session.success = 'Authenticated as ' + req.session.user.name;
+		req.session.success = 'Authenticated as ' + 
+													'<a href=/user/' + req.session.user.userid + 
+													'>' + req.session.user.name + '</a>';
 	} else {
 		req.session.success = 'Please login:';
 	}
@@ -110,6 +112,14 @@ app.get('/logout', function(req,res){
 app.get('/newpage', function(req,res){
 	if (req.session.user){
 		res.render('client')
+	} else {
+		res.redirect('/logout');
+	}
+});
+
+app.post('/savepage', function(req,res){
+	if (req.session.user){
+		console.log('got post request for save page');
 	} else {
 		res.redirect('/logout');
 	}

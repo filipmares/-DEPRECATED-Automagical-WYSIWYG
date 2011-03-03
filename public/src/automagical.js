@@ -22,8 +22,6 @@ var automagical = (function(){
 		$('a#getHTML').click(function(){
 			postProcessing.postProcessing();
 
-
-
 		});
 	};
 
