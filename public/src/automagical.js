@@ -32,7 +32,7 @@ var automagical = (function(){
 	populateNavList = function ()
 	{
 		//Get INDEX JSON file to iterate through extensions
-		$.getJSON('Toolbox/index.json', function (json, status)
+		$.getJSON('src/toolbox/index.json', function (json, status)
 		{
 			//Iterate Through extensions
 			$.each(json.main.tools, function (name, element)
@@ -55,7 +55,7 @@ var automagical = (function(){
 	{
 	
 			//Populate the Toolbox items using the json file in the correct folder pointed to by main json file
-			$.getJSON('Toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
+			$.getJSON('src/toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
 
 				//Clear everything currently in ToolBox
 				$('nav#menuToolbox').html("");
@@ -63,7 +63,7 @@ var automagical = (function(){
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
 
-						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"Toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
+						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"src/toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
 					$("#"+folderName+elementInner.name).draggable({
