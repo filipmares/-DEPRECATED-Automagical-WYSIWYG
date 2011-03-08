@@ -5,10 +5,10 @@ require.paths.unshift(__dirname + '/../../support');
 /**
  * Module dependencies.
  */
-
 var express = require(__dirname + '/lib/express/express')
 	, crypto = require('crypto')
-	, ejs = require('ejs');
+	, ejs = require('ejs')
+	, data = require(__dirname + '/data.js');
 
 // Path to our public directory
 
