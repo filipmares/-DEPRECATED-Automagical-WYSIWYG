@@ -26,6 +26,10 @@ app.use(express.cookieParser());
 app.use(express.session({secret: 'secret salt yay!'}));
 
 app.dynamicHelpers({
+	messages: require('express-messages')
+});
+
+app.dynamicHelpers({
 	message: function(req){
 		var err = req.session.error
 			,	msg = req.session.success;
@@ -58,7 +62,7 @@ app.post('/login', function(req,res){
 			req.session.regenerate(function(){
 				req.session.user = user;
 				//res.render('user', {user: user});
-				res.redirect('/user/' + req.body.username)
+				res.redirect('/user/' + req.body.username);
 			});
 		} else {
 			req.session.error = err.message;
@@ -69,7 +73,7 @@ app.post('/login', function(req,res){
 
 app.get('/user/:username', function(req, res){
 	if (req.session.user){
-		if (req.session.user.userid == req.params.username){
+		if (req.session.user.username == req.params.username){
 			res.render('user', {user: req.session.user});
 		} else {
 			res.redirect('/logout');
@@ -101,6 +105,29 @@ app.post('/savepage', function(req,res){
 	}
 });
 
+app.get('/register', function(req,res){
+	if (req.session.user){
+		req.session.destroy();
+	}
+	res.render('register');
+});
+
+app.post('/register', function(req,res){
+	var user = data.getUser(req.body.username);
+	if (!user){
+		data.addUser(req.body.username, req.body.password);
+		//Login the user right away
+		req.session.regenerate(function(){
+			req.session.user = user;
+			//res.render('user', {user: user});
+			res.redirect('/user/' + req.body.username);
+		});
+	} else{
+		req.flash('error', 'Username already taken');
+		res.redirect('back');
+	}
+});
+
 app.listen(3000);
 console.log('Express app started on port 3000');
 
@@ -108,10 +135,10 @@ console.log('Express app started on port 3000');
 function authenticate(username, pass, fn){
 	var user = data.getUser(username);
 	//query db for user existance
-	if (!user) return fn(new Error('Invalid username and/or password'));
+	if (!user) return fn(new Error('Invalid username'));
 	//Check the password
-	var userPass = data.getPassword(user);
+	var userPass = data.getPassword(user.username);
 	if (userPass == pass) return fn(null, user);
 	//otherwise throw error, password is invalid
-	fn(new Error('Invalid username and/or password'));
+	fn(new Error('Invalid password'));
 };

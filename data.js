@@ -8,10 +8,10 @@ redis.on('error', function(err){
 });
 
 //Data Model
-//user 					== userid
-//user:password == password
-//user:numPages == numPagesUserHas
-//user:page:#num== retrievePageDefinedBy#Num
+//user 						== user Name
+//user:password 	== password
+//user:numPages 	== num Pages User Has
+//user:page:#num	== retrieve Page Defined By #Num
 
 exports.savePage = function(user, page){
 	var pageIndex = redis.get(user + ":numPages") + 1;
@@ -24,12 +24,14 @@ exports.getPage = function(user, pageId){
 
 exports.addUser = function(userid, password){
 	redis.set(userid, userid);
-	redis.set(userid + ":password" = password);
+	redis.set(userid + ":password",  password);
 };
 
 exports.getUser = function(userid){
-	if (redis.exists(userid) == 0) return null;
-	else return redis.get(userid);
+	if (!redis.exists(userid)) return undefined;
+
+	var user = {'username' : redis.get(userid)};
+	return user;
 };
 
 exports.getPassword = function(userid){
