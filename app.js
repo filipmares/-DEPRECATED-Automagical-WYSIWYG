@@ -5,30 +5,24 @@ require.paths.unshift(__dirname + '/../../support');
 /**
  * Module dependencies.
  */
-var express = require(__dirname + '/lib/express/express')
+var express = require('express')
 	, crypto = require('crypto')
 	, ejs = require('ejs')
-	, data = require(__dirname + '/data.js');
+	, data = require(__dirname + '/data');
 
-// Path to our public directory
-
-var pub = __dirname + '/public';
-
-// Auto-compile sass to css with "compiler"
-// and then serve with connect's staticProvider
-
-var app = express.createServer(
-  express.staticProvider(pub)
-);
+var app = module.exports = express.createServer();
 
 // Optional since express defaults to CWD/views
 app.set('views', __dirname + '/views');
 // Set our default template engine to "ejs"
 app.set('view engine', 'html');
 app.register('.html', require('ejs'));
+//Public directory
+var pub = __dirname + '/public';
+app.use(express.static(pub));
 
-app.use(express.bodyDecoder());
-app.use(express.cookieDecoder());
+app.use(express.bodyParser());
+app.use(express.cookieParser());
 app.use(express.session({secret: 'secret salt yay!'}));
 
 app.dynamicHelpers({
@@ -41,25 +35,6 @@ app.dynamicHelpers({
 			if (msg) return msg;
 	}
 });
-
-// Dummy users
-var users = {
-	denis: {
-		name: 'Denis Zgonjanin' ,
-		userid: 'denis',
-		pass: 'hello'
-	},
-	raj: {
-		name: 'Rajkumar Parameswaran',
-		userid: 'raj',
-		pass: 'hello'
-	},
-	brian: {
-		name: "Brian O'Connor",
-		userid: 'brian',
-		pass: 'hello'
-	}
-};
 
 app.get('/', function(req, res){
   res.redirect('/login');
@@ -86,7 +61,7 @@ app.post('/login', function(req,res){
 				res.redirect('/user/' + req.body.username)
 			});
 		} else {
-			req.session.error = err;
+			req.session.error = err.message;
 			res.redirect('back');
 		}
 	});
@@ -120,6 +95,7 @@ app.get('/newpage', function(req,res){
 app.post('/savepage', function(req,res){
 	if (req.session.user){
 		console.log('got post request for save page');
+		savePage(req.session.user.userid, req.body);
 	} else {
 		res.redirect('/logout');
 	}
@@ -129,12 +105,13 @@ app.listen(3000);
 console.log('Express app started on port 3000');
 
 //Helper functions bellow
-function authenticate(name, pass, fn){
-	var user = users[name];
+function authenticate(username, pass, fn){
+	var user = data.getUser(username);
 	//query db for user existance
-	if (!user) return fn(new Error('cannot find user'))
+	if (!user) return fn(new Error('Invalid username and/or password'));
 	//Check the password
-	if (user.pass == pass) return fn(null, user);
+	var userPass = data.getPassword(user);
+	if (userPass == pass) return fn(null, user);
 	//otherwise throw error, password is invalid
-	fn(new Error('invalid password'));
+	fn(new Error('Invalid username and/or password'));
 };
