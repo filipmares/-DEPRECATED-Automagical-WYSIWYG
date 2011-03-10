@@ -2,8 +2,9 @@ Automagical aims to create an easy to use WYSIWYG Editor for HTML and CSS that o
 
 Building
 ================
-* jQuery 1.4.2 is included in the lib folder.
-* The server side runs on Node.js. You will need to install node and npm. The app uses the following packages and versions:
+jQuery 1.4.2 is included in the lib folder.
+The server side runs on Node.js. You will need to install node and npm. The app uses the following packages and versions:
+	
 	connect@1.0.3             High performance middleware framewo
 	connect-redis@1.0.0       Redis session store for Connect    
 	ejs@0.3.0                 Embedded JavaScript templates     t
