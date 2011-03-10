@@ -98,8 +98,7 @@ app.get('/newpage', function(req,res){
 
 app.post('/savepage', function(req,res){
 	if (req.session.user){
-		console.log('got post request for save page');
-		savePage(req.session.user.userid, req.body);
+		data.savePage(req.session.user.username, req.body.data);
 	} else {
 		res.redirect('/logout');
 	}

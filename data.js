@@ -13,8 +13,12 @@ redis.on('error', function(err){
 //user:page:#num	== retrieve Page Defined By #Num
 
 exports.savePage = function(user, page){
-	var pageIndex = redis.get(user + ":numPages") + 1;
-	redis.set(user + ":page:" + pageIndex, page);
+	redis.get(user + ":numPages", function(err, reply){
+		if (err || (reply === null)) return;
+
+		var pageIndex = parseInt(reply.toString());
+		redis.set(user + ":page:" + pageIndex, page);
+	});
 };
 
 exports.getPage = function(user, pageId, callback){
@@ -27,6 +31,7 @@ exports.getPage = function(user, pageId, callback){
 
 exports.addUser = function(username, password){
 	redis.set(username, password);
+	redis.set(username + ":numPages", 0)
 	return makeUser(username, password);
 };
 
