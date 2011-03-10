@@ -18,6 +18,7 @@ exports.savePage = function(user, page){
 
 		var pageIndex = parseInt(reply.toString());
 		redis.set(user + ":page:" + pageIndex, page);
+		redis.incr(user + ":numPages");
 	});
 };
 
@@ -41,6 +42,19 @@ exports.getUser = function(userid, callback){
 		
 		var user = makeUser(userid, reply.toString());
 		callback(user);
+	});
+};
+
+exports.saveImage = function(imageName, imageData){
+	redis.set(imageName, imageData);
+};
+
+exports.getImage = function(imageName, callback){
+	redis.get(imageName, function(err, reply){
+		if (err || !reply) return callback(undefined);
+		
+		var image = reply.toString();
+		callback(image);
 	});
 };
 

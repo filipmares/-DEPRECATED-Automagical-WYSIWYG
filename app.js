@@ -126,6 +126,14 @@ app.post('/register', function(req,res){
 	});
 });
 
+app.get('/img/:imagename', function(req,res){
+	
+});
+
+app.post('/img', function(req,res){
+	data.saveImage(req.body.imagename, req.body.data);
+});
+
 app.listen(3000);
 console.log('Express app started on port 3000');
 
