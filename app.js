@@ -113,19 +113,18 @@ app.get('/register', function(req,res){
 });
 
 app.post('/register', function(req,res){
-	var user = data.getUser(req.body.username);
-	if (!user){
-		data.addUser(req.body.username, req.body.password);
-		//Login the user right away
-		req.session.regenerate(function(){
-			req.session.user = user;
-			//res.render('user', {user: user});
-			res.redirect('/user/' + req.body.username);
-		});
-	} else{
-		req.flash('error', 'Username already taken');
-		res.redirect('back');
-	}
+	register(req.body.username, req.body.password, function(err, user){
+		if (user){
+			req.session.regenerate(function(){
+				req.session.user = user;
+				//res.render('user', {user: user});
+				res.redirect('/user/' + user.username);
+			});
+		} else{
+			req.flash('error', err.message);
+			res.redirect('back');
+		}
+	});
 });
 
 app.listen(3000);
@@ -133,12 +132,23 @@ console.log('Express app started on port 3000');
 
 //Helper functions bellow
 function authenticate(username, pass, fn){
-	var user = data.getUser(username);
-	//query db for user existance
-	if (!user) return fn(new Error('Invalid username'));
-	//Check the password
-	var userPass = data.getPassword(user.username);
-	if (userPass == pass) return fn(null, user);
-	//otherwise throw error, password is invalid
-	fn(new Error('Invalid password'));
+	data.getUser(username, function(user){
+		//user exists?
+		if (!user) return fn(new Error('Invalid username'));
+		//Check the password
+		if (user.password == pass) return fn(null, user);
+		//otherwise throw error, password is invalid
+		fn(new Error('Invalid password'));
+	});
+};
+
+function register(username, pass, fn){
+	//Try to authenticate with credential to see if user exists
+	authenticate(username, pass, function(err, user){
+		if (user || (err.message === 'Invalid password')){
+			return fn(new Error('Username is already taken'));
+		}
+		var newUser = data.addUser(username, pass);
+		fn(null, newUser);
+	});
 };

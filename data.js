@@ -8,8 +8,7 @@ redis.on('error', function(err){
 });
 
 //Data Model
-//user 						== user Name
-//user:password 	== password
+//user 						== the user's password
 //user:numPages 	== num Pages User Has
 //user:page:#num	== retrieve Page Defined By #Num
 
@@ -18,22 +17,30 @@ exports.savePage = function(user, page){
 	redis.set(user + ":page:" + pageIndex, page);
 };
 
-exports.getPage = function(user, pageId){
-	return redis.get(user + ":page:" + pageId);
+exports.getPage = function(user, pageId, callback){
+	redis.get(user + ":page:" + pageId, function(err, reply){
+		if (err || !reply) callback(undefined);
+		
+		callback(reply.toString());
+	});
 };
 
-exports.addUser = function(userid, password){
-	redis.set(userid, userid);
-	redis.set(userid + ":password",  password);
+exports.addUser = function(username, password){
+	redis.set(username, password);
+	return makeUser(username, password);
 };
 
-exports.getUser = function(userid){
-	if (!redis.exists(userid)) return undefined;
+exports.getUser = function(userid, callback){
+	redis.get(userid, function(err, reply){
+		if (err || !reply) return callback(undefined);
+		
+		var user = makeUser(userid, reply.toString());
+		callback(user);
+	});
+};
 
-	var user = {'username' : redis.get(userid)};
+//Convenience methods
+function makeUser(username, password){
+	var user = {'username' : username, 'password' : password};
 	return user;
-};
-
-exports.getPassword = function(userid){
-	return redis.get(userid + ":password");
 };
