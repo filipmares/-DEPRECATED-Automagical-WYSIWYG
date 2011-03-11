@@ -8,7 +8,8 @@ require.paths.unshift(__dirname + '/../../support');
 var express = require('express')
 	, crypto = require('crypto')
 	, ejs = require('ejs')
-	, data = require(__dirname + '/data');
+	, data = require(__dirname + '/data')
+	, docs = require(__dirname + '/docs');
 
 var app = module.exports = express.createServer();
 
@@ -100,6 +101,14 @@ app.get('/user/:username/:pageNum.html', function(req,res){
 	});
 });
 
+app.get('user/:username/edit/:pageNum', function(req,res){
+	if (req.session.user){
+		res.render('client', {layout: false});
+	} else {
+		res.redirect('/logout');
+	}
+});
+
 app.get('/logout', function(req,res){
 	//destroy the session
 	req.session.destroy(function(){
@@ -124,12 +133,7 @@ app.post('/savepage', function(req,res){
 });
 
 app.get('/register', function(req,res){
-	if (req.session.user){
-		req.session.destroy();
-		res.redirect('/logout');
-	} else{
-		res.render('register');
-	}
+	res.render('register');
 });
 
 app.post('/register', function(req,res){

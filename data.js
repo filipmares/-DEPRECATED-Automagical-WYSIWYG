@@ -79,8 +79,9 @@ function makeUser(username, password){
 function makePages(user, numPages){
 	var pages = [];
 	for (var i = 0; i<numPages; i++){
-		var pageUrl = '<a href="/user/' + user.username + '/' + i + '.html">Page' + i + '</a>';
-		pages.push({url : pageUrl});
+		var pageUrl = '<a target="_blank" href="/user/' + user.username + '/' + i + '.html">Page' + i + '</a>';
+		var editUrl = '<a href="/user/' + user.username + '/edit/' + i + '"><i>edit</i></a>';
+		pages.push({url : pageUrl, edit: editUrl});
 	}
 	return pages;
 };
