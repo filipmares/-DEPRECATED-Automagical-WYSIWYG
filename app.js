@@ -42,14 +42,14 @@ app.dynamicHelpers({
 });
 
 app.get('/', function(req, res){
-  res.redirect('/login');
+  res.render('home');
 });
 
 app.get('/login', function(req, res){
 	if (req.session.user) {
-		req.session.success = 'Authenticated as ' + 
-													'<a href=/user/' + req.session.user.userid + 
-													'>' + req.session.user.name + '</a>';
+		req.session.success = 'Welcome, ' + 
+													'<a href=/user/' + req.session.user.username + 
+													'>' + req.session.user.username + '</a>';
 	} else {
 		req.session.success = 'Please login:';
 	}
@@ -95,7 +95,7 @@ app.get('/user/:username/:pageNum.html', function(req,res){
 			res.render('404');
 			//do a 404
 		} else{
-			res.render('page', {data: reply});
+			res.render('page', {data: reply, layout: false});
 		}
 	});
 });
@@ -109,7 +109,7 @@ app.get('/logout', function(req,res){
 
 app.get('/newpage', function(req,res){
 	if (req.session.user){
-		res.render('client')
+		res.render('client', {layout: false});
 	} else {
 		res.redirect('/logout');
 	}
@@ -126,8 +126,10 @@ app.post('/savepage', function(req,res){
 app.get('/register', function(req,res){
 	if (req.session.user){
 		req.session.destroy();
+		res.redirect('/logout');
+	} else{
+		res.render('register');
 	}
-	res.render('register');
 });
 
 app.post('/register', function(req,res){
