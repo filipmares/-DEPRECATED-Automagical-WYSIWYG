@@ -24,6 +24,7 @@ app.use(express.static(pub));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: 'secret salt yay!'}));
+app.use('/', express.errorHandler({dump:true, stack:true}));
 
 app.dynamicHelpers({
 	messages: require('express-messages')
@@ -74,11 +75,29 @@ app.post('/login', function(req,res){
 app.get('/user/:username', function(req, res){
 	if (req.session.user){
 		if (req.session.user.username == req.params.username){
-			res.render('user', {user: req.session.user});
+			data.getPageList(req.session.user, function(err, userPages){
+				if (err) {
+					console.log("Grave error when getting page list!")
+					return;
+				}
+				res.render('user', {user: req.session.user, pages: userPages});
+			});
 		} else {
 			res.redirect('/logout');
 		}
 	}
+});
+
+app.get('/user/:username/:pageNum.html', function(req,res){
+	data.getPage(req.params.username, req.params.pageNum, function(err, reply){
+		if (err){
+			console.log("page could not be found: " + req.params.username + "/" + req.params.pageNum);
+			res.render('404');
+			//do a 404
+		} else{
+			res.render('page', {data: reply});
+		}
+	});
 });
 
 app.get('/logout', function(req,res){

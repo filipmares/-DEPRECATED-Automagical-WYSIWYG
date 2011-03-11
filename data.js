@@ -22,11 +22,13 @@ exports.savePage = function(user, page){
 	});
 };
 
-exports.getPage = function(user, pageId, callback){
-	redis.get(user + ":page:" + pageId, function(err, reply){
-		if (err || !reply) callback(undefined);
+exports.getPage = function(user, pageNum, callback){
+	redis.get(user + ":page:" + pageNum, function(err, reply){
+		if (err || !reply) {
+			return callback(new Error("Could not retrieve page"));
+		}
 		
-		callback(reply.toString());
+		callback(null, reply.toString());
 	});
 };
 
@@ -58,8 +60,27 @@ exports.getImage = function(imageName, callback){
 	});
 };
 
+exports.getPageList = function(user, callback){
+	redis.get(user.username + ":numPages", function(err, reply){
+		if (err) return callback(err);
+		
+		var numPages = parseInt(reply.toString());
+		var pages = makePages(user, numPages);
+		callback(null, pages);
+	})
+};
+
 //Convenience methods
 function makeUser(username, password){
 	var user = {'username' : username, 'password' : password};
 	return user;
+};
+
+function makePages(user, numPages){
+	var pages = [];
+	for (var i = 0; i<numPages; i++){
+		var pageUrl = '<a href="/user/' + user.username + '/' + i + '.html">Page' + i + '</a>';
+		pages.push({url : pageUrl});
+	}
+	return pages;
 };
