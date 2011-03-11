@@ -5,16 +5,18 @@ Building
 jQuery 1.4.2 is included in the lib folder.
 The server side runs on Node.js. You will need to install node and npm. The app uses the following packages and versions:
 	
-	connect@1.0.3             High performance middleware framewo
+	connect@1.0.3             High performance middleware framework
 	connect-redis@1.0.0       Redis session store for Connect    
-	ejs@0.3.0                 Embedded JavaScript templates     t
-	express@2.0.0beta2        Sinatra inspired web development fr
+	ejs@0.3.0                 Embedded JavaScript templates     
+	express@2.0.0beta2        Sinatra inspired web development 
 	express-contrib@0.3.4     Express utilities
 	express-messages@0.0.1    Express flash notification message 
-	hiredis@0.1.8             Wrapper for reply processing code i
+	hiredis@0.1.8             Wrapper for reply processing code 
 	mime@1.2.1                A comprehensive library for mime-ty
 	qs@0.0.6                  querystring parser    
 	redis@0.5.7               Redis client library    
+	jsdom@0.2.0               A javascript implementation of the jsdom
+	
 
 After installing npm, you should be able to install all of the dependancies with 'npm install'. So to install express do:
 	npm install express
