@@ -101,14 +101,6 @@ app.get('/user/:username/:pageNum.html', function(req,res){
 	});
 });
 
-app.get('user/:username/edit/:pageNum', function(req,res){
-	if (req.session.user){
-		res.render('client', {layout: false});
-	} else {
-		res.redirect('/logout');
-	}
-});
-
 app.get('/logout', function(req,res){
 	//destroy the session
 	req.session.destroy(function(){
@@ -116,7 +108,7 @@ app.get('/logout', function(req,res){
 	});
 });
 
-app.get('/newpage', function(req,res){
+app.get('/client/?', function(req,res){
 	if (req.session.user){
 		res.render('client', {layout: false});
 	} else {
@@ -124,9 +116,27 @@ app.get('/newpage', function(req,res){
 	}
 });
 
-app.post('/savepage', function(req,res){
+app.get('/processed/:username/:pageNum', function(req,res){
+	data.getProcessedPage(req.params.username, req.params.pageNum, function(err, reply){
+		if (reply){
+			res.send(reply);
+		} else{
+			console.log('There was an error getting the processed page');
+		}
+	});
+});
+
+app.post('/savepage/:pageNum?', function(req,res){
 	if (req.session.user){
-		data.savePage(req.session.user.username, req.body.data);
+		var username = req.session.user.username;
+		if (req.params.pageNum){
+			var pageNum = req.params.pageNum;
+			data.savePage(username, req.body.data, pageNum);
+			data.saveProcessedPage(username, req.body.canvas, req.body.style, pageNum);
+		} else{
+			data.savePage(username, req.body.data);
+			data.saveProcessedPage(username, req.body.canvas, req.body.style)
+		}
 	} else {
 		res.redirect('/logout');
 	}

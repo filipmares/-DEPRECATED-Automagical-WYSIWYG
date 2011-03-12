@@ -30,7 +30,7 @@ var automagical = (function(){
 	populateNavList = function ()
 	{
 		//Get INDEX JSON file to iterate through extensions
-		$.getJSON('src/toolbox/index.json', function (json, status)
+		$.getJSON('/src/toolbox/index.json', function (json, status)
 		{
 			//Iterate Through extensions
 			$.each(json.main.tools, function (name, element)
@@ -53,7 +53,7 @@ var automagical = (function(){
 	{
 	
 			//Populate the Toolbox items using the json file in the correct folder pointed to by main json file
-			$.getJSON('src/toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
+			$.getJSON('/src/toolbox/'+folderName+'/'+folderName+'.json',function(jsonInner, statusInnter){
 
 				//Clear everything currently in ToolBox
 				$('nav#menuToolbox').html("");
@@ -61,7 +61,7 @@ var automagical = (function(){
 				//Append to the nav
 				$.each(jsonInner.main.elements,function(nameInner, elementInner){
 
-						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"src/toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
+						$('nav#menuToolbox').append('<a href=\"#\" id=\"'+folderName+elementInner.name+'\"><img src=\"/src/toolbox/General/images/'+elementInner.icon+'\" alt=\"'+elementInner.name+'\" width=\"55\" height=\"27\" /></a>');
 						
 					//Make the item draggable
 					$("#"+folderName+elementInner.name).draggable({
@@ -163,50 +163,13 @@ var automagical = (function(){
 			drop: function(ev, ui) { 
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
-					$(this).append(cloned
-						.draggable({containment:"#canvas"})
-						.addClass("added")
-						.removeClass("ui-draggable-dragging")
-						.resizable({
-							containment:"parent",
-							resize: function(event, ui) {
-								//This function can now be removed as the golden grid snapping has been factored out
-							}
-						})
-					);
-					
+					wrapElementInDragAndDrop(cloned, $(this));
 
-					
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);
 					
-
-					
-					//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
-					if ($(cloned).hasClass("container")) {
-						var droppableAreas = $("#canvas .container");
-						
-						$.each(droppableAreas, function(index, element) { 
-							$(element).droppable("destroy");
-						});
-
-						initializeDroppableAreas($(cloned));
-		
-						droppableAreas = $("#canvas .container");
-		
-						$.each(droppableAreas, function(index, element) { 
-							initializeDroppableAreas($(element));
-						});
-					}
-					
-					//Make a custom event to show when element is first added to canvas
-					cloned.trigger('appendToCanvas');
-
-				}
-				else { //Element already on canvas
-					
-
+				} else { //Element already on canvas
 					$(this).append($(ui.draggable));
 					
 					//Need these offsets when appending children to a container that's not the canvas
@@ -217,16 +180,74 @@ var automagical = (function(){
 		});
 	};
 	
+	//Check if a previously saved pages needs to be loaded, and initialize it's components.
+	checkSavedPage = function(){
+		var params = $.getUrlVars();
+		if (params.length <= 1) return;
+		
+		var pageUrl = '/processed/' + params['user'] + '/' + params['page'];
+		console.log('fetching saved page from ' + pageUrl);
+		$.get(pageUrl, function(data){
+			var html = data.canvas.toString();
+			var css = data.style.toString();
+			console.log(html + "\n");
+			console.log(css);
+			
+			$('.container').append(html);
+			$('.temporary').append(css);
+			
+			$('.container').children().each(function(i, el){
+				//console.log($(el).attr('id'));
+				wrapElementInDragAndDrop(el, $('.container'));
+				$(el).addClass('container component')
+			});
+		});
+	};
+	
+	wrapElementInDragAndDrop = function(element, appendTo){
+		console.log($(appendTo).attr('id'));
+		console.log($(element).attr('id'));
+		appendTo.append($(element)
+			.draggable({containment:"#canvas"})
+			.addClass("added")
+			.removeClass("ui-draggable-dragging")
+			.resizable({
+				containment:"parent",
+				resize: function(event, ui) {
+					//This function can now be removed as the golden grid snapping has been factored out
+				}
+			})
+		);
+		//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
+		if ($(element).hasClass("container")) {
+			var droppableAreas = $("#canvas .container");
+			
+			$.each(droppableAreas, function(index, el) { 
+				$(el).droppable("destroy");
+			});
+
+			initializeDroppableAreas(element);
+			droppableAreas = $("#canvas .container");
+			$.each(droppableAreas, function(index, el) { 
+				initializeDroppableAreas($(el));
+			});
+		}
+		//Make a custom event to show when element is first added to canvas
+		$(element).trigger('appendToCanvas');
+	}
+	
 	return {
 	
 		initialize : function(){
-		
+			
 			automagicalUI.initializeUI();
 			automagicalCss.initializeCssFunctionality();
 			
 			initializeGetHtml();
 			populateNavList();
 			initializeDroppableAreas($("#canvas"));
+	
+			checkSavedPage();
 		}
 	};
 	

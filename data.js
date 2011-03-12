@@ -12,16 +12,27 @@ redis.on('error', function(err){
 //user:numPages 	== num Pages User Has
 //user:page:#num	== retrieve Page Defined By #Num
 
-exports.savePage = function(user, page){
-	redis.get(user + ":numPages", function(err, reply){
-		if (err || (reply === null)) return;
-
-		var pageIndex = parseInt(reply.toString());
-		redis.set(user + ":page:" + pageIndex, page);
-		redis.incr(user + ":numPages");
-	});
+//Saves a page to redis. If no page number is given, a new page will be saved and the
+//number of pages incremented. Otherwise the page with the specified number will be
+//overwritten.
+exports.savePage = function(user, pageData, pageNum){
+	//Overwriting a page, or save a new page?
+	if (pageNum){
+		redis.set(user + ":page:" + pageNum, pageData);
+	} else {
+		redis.get(user + ":numPages", function(err, reply){
+			if (err || (reply === null)){
+				console.log('ERROR: while saving page');
+				return;
+			}
+			var pageIndex = parseInt(reply.toString());
+			redis.set(user + ":page:" + pageIndex, pageData);
+			redis.incr(user + ":numPages");
+		});
+	}
 };
 
+//Returns a previously saved page
 exports.getPage = function(user, pageNum, callback){
 	redis.get(user + ":page:" + pageNum, function(err, reply){
 		if (err || !reply) {
@@ -70,6 +81,38 @@ exports.getPageList = function(user, callback){
 	})
 };
 
+exports.saveProcessedPage = function(user, pageHTML, pageCSS, pageNum){
+	if (pageNum){
+		redis.set(user + ":page:" + pageNum + ":processed:html", pageHTML);
+		redis.set(user + ":page:" + pageNum + ":processed:css", pageCSS);
+	} else{
+		redis.get(user + ":numPages", function(err, reply){
+			if (err || (reply === null)){
+				console.log('ERROR: while saving processed page');
+				return;
+			}
+			var pageIndex = parseInt(reply.toString());
+			redis.set(user + ":page:" + pageIndex + ":processed:html", pageHTML);
+			redis.set(user + ":page:" + pageIndex + ":processed:css", pageCSS);
+		});
+	}
+};
+
+exports.getProcessedPage = function(user, page, callback){
+	redis.get(user + ":page:" + page + ":processed:html", function(err, reply){
+		if (err || !reply) return callback(err);
+		
+		var html = reply.toString();
+		redis.get(user + ":page:" + page + ":processed:css", function(err2, reply2){
+			if (err || !reply) return callback(err);
+			
+			var css = reply2.toString();
+			var processed = {canvas: html, style: css};
+			callback(null, processed);
+		});
+	});
+};
+
 //Convenience methods
 function makeUser(username, password){
 	var user = {'username' : username, 'password' : password};
@@ -80,7 +123,7 @@ function makePages(user, numPages){
 	var pages = [];
 	for (var i = 0; i<numPages; i++){
 		var pageUrl = '<a target="_blank" href="/user/' + user.username + '/' + i + '.html">Page' + i + '</a>';
-		var editUrl = '<a href="/user/' + user.username + '/edit/' + i + '"><i>edit</i></a>';
+		var editUrl = '<a href="/client/?user=' + user.username + '&page=' + i + '"><i>edit</i></a>';
 		pages.push({url : pageUrl, edit: editUrl});
 	}
 	return pages;
