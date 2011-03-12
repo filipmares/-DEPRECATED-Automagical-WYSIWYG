@@ -193,14 +193,16 @@ var automagical = (function(){
 			console.log(html + "\n");
 			console.log(css);
 			
-			$('.container').append(html);
 			$('.temporary').append(css);
+			var bodyWrapper = $('<div></div>');
+			bodyWrapper.append(html);
 			
-			$('.container').children().each(function(i, el){
+			$(bodyWrapper).children().each(function(i, el){
 				//console.log($(el).attr('id'));
-				wrapElementInDragAndDrop(el, $('.container'));
+				wrapElementInDragAndDrop(el, $('#canvas'));
 				$(el).addClass('container component')
 			});
+			bodyWrapper.empty().remove();
 		});
 	};
 	

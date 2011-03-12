@@ -36,7 +36,7 @@ var postProcessing = (function(){
         
        	canvasHTML += "</"+ element.get(0).tagName + ">\n";
        	
-       	return canvasHTML;
+       	return canvasHTML; 
 	};
 	
 	return {
