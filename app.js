@@ -73,9 +73,13 @@ app.post('/login', function(req,res){
 	});
 });
 
-app.get('/user/:username', function(req, res){
+app.get('/user/:username?', function(req, res){
 	if (req.session.user){
-		if (req.session.user.username == req.params.username){
+		var username = "";
+		if (req.params.username) username = req.params.username;
+		else username = req.session.user.username;
+		
+		if (req.session.user.username == username){
 			data.getPageList(req.session.user, function(err, userPages){
 				if (err) {
 					console.log("Grave error when getting page list!")
@@ -86,6 +90,8 @@ app.get('/user/:username', function(req, res){
 		} else {
 			res.redirect('/logout');
 		}
+	} else {
+		res.redirect('/logout');
 	}
 });
 
