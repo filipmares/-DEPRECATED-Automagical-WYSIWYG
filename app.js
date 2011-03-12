@@ -167,6 +167,16 @@ app.post('/register', function(req,res){
 	});
 });
 
+app.post('/fetch', function(req,res){
+	if (req.session.user){
+		docs.loadDocument(req.body.pageUrl, function(err, reply){
+			
+		});
+	} else{
+		res.redirect('/logout');
+	}
+});
+
 app.get('/img/:imagename', function(req,res){
 	
 });

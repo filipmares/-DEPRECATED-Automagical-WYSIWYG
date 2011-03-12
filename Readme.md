@@ -16,7 +16,8 @@ The server side runs on Node.js. You will need to install node and npm. The app 
 	qs@0.0.6                  querystring parser    
 	redis@0.5.7               Redis client library    
 	jsdom@0.2.0               A javascript implementation of the jsdom
-	
+	jquery@1.5.0              jQuery
+	request@1.9.0             active http installed simple util utility
 
 After installing npm, you should be able to install all of the dependancies with 'npm install'. So to install express do:
 	npm install express
