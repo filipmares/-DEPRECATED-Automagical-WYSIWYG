@@ -12,19 +12,27 @@ exports.loadDocument = function(url, callback){
 				return callback("error");
 			}
 			
+			//Change relative image paths to absolute image paths
+			window.$('img').each(function(index, element){
+				var absSource = getAbsoluteImagePath(url, window.$(element).get(0).src);
+				window.$(element).attr('src', absSource);
+			});
+			
+			//console.log(window.document.getElementsByTagName('img')[0].src);
+			
+			//Get all styles for every element and save them to a global <style> tag string
 			var style = "<style>\n";
 			window.$('body').find('*').each(function(index, element){
 				style += getCssStyle(window.$(element));
 			});
 			style += "</style>\n";
 			
+			//Get all html for every element and save it to an html string
 			var html = "";
 			window.$('script').remove();
 			window.$('body').children().each(function(index, element){
 				html = recursiveHTMLAppendFunction(window, html, window.$(element));
-				
-				//html+= window.$(element).html() + "\n";
-				console.log(window.$(element).html() + "\n");
+				//console.log(window.$(element).html() + "\n");
 			});
 			
 			var all = "<html><head>" + style + "</head><body>" + html + "</body></html>";
@@ -90,4 +98,16 @@ getCssStyle = function(element) {
 		
 		style += "}\n";
     return style;
-}
+};
+
+getAbsoluteImagePath = function(pageUrl, imageRelativePath){
+	var rootUrl = pageUrl.substr(7);
+	if (imageRelativePath.charAt(0) === "/"){
+		rootUrl = rootUrl.split("/")[0];
+	} else{
+		var index = rootUrl.lastIndexOf("/");
+		rootUrl = rootUrl.slice(0, index + 1);
+	}
+	console.log(rootUrl + imageRelativePath);
+	return "http://" + rootUrl + imageRelativePath;
+};
