@@ -171,11 +171,12 @@ app.post('/fetch', function(req,res){
 	if (req.session.user){
 		console.log("fetching " + req.body.pageUrl);
 		
-		docs.loadDocument(req.body.pageUrl, function(err, reply){
+		docs.loadDocument(req.body.pageUrl, function(err, allHtml, html, style){
 			if (err){
 				res.redirect('404')
 			} else{
-				data.savePage(req.session.user.username, reply);
+				data.savePage(req.session.user.username, allHtml);
+				data.saveProcessedPage(req.session.user.username, html, style);
 				res.redirect('/user');
 			}
 		});

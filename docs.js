@@ -37,7 +37,7 @@ exports.loadDocument = function(url, callback){
 			
 			var all = "<html><head>" + style + "</head><body>" + html + "</body></html>";
 			
-			callback(null, all);
+			callback(null, all, html, style);
 		}
 	);
 };
