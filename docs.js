@@ -101,6 +101,8 @@ getCssStyle = function(element) {
 };
 
 getAbsoluteImagePath = function(pageUrl, imageRelativePath){
+	if (imageRelativePath.indexOf("http://") === 0) return imageRelativePath;
+	
 	var rootUrl = pageUrl.substr(7);
 	if (imageRelativePath.charAt(0) === "/"){
 		rootUrl = rootUrl.split("/")[0];
