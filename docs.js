@@ -14,30 +14,41 @@ exports.loadDocument = function(url, callback){
 			
 			//Change relative image paths to absolute image paths
 			window.$('img').each(function(index, element){
-				var absSource = getAbsoluteImagePath(url, window.$(element).get(0).src);
+				var absSource = getAbsolutePath(url, window.$(element).get(0).src);
 				window.$(element).attr('src', absSource);
-			});
-			
+			});			
 			//console.log(window.document.getElementsByTagName('img')[0].src);
+			
+			//Change relative stylesheet paths to absolute stylesheet paths
+			var stylesheets = "";
+			window.$('link').each(function(index, element){
+				var el = window.$(element);
+				if (el.attr('type') === "text/css"){
+					var absStyleSource = getAbsolutePath(url, el.attr('href'));
+					stylesheets += '<link href="' + absStyleSource + '" type="text/css" rel="stylesheet"/>';
+				}
+			});
+			stylesheets += "\n";
 			
 			//Get all styles for every element and save them to a global <style> tag string
 			var style = "<style>\n";
-			window.$('body').find('*').each(function(index, element){
-				style += getCssStyle(window.$(element));
-			});
+			//window.$('body').find('*').each(function(index, element){
+			//	style += getCssStyle(window.$(element));
+			//});
 			style += "</style>\n";
 			
 			//Get all html for every element and save it to an html string
 			var html = "";
 			window.$('script').remove();
-			window.$('body').children().each(function(index, element){
-				html = recursiveHTMLAppendFunction(window, html, window.$(element));
+			html = window.$('body').html();
+			//window.$('body').children().each(function(index, element){
+			//	html = recursiveHTMLAppendFunction(window, html, window.$(element));
 				//console.log(window.$(element).html() + "\n");
-			});
+			//});
 			
-			var all = "<html><head>" + style + "</head><body>" + html + "</body></html>";
+			var all = "<html><head>" + stylesheets + style + "</head><body>" + html + "</body></html>";
 			
-			callback(null, all, html, style);
+			callback(null, all, html, stylesheets);
 		}
 	);
 };
@@ -91,7 +102,8 @@ getCssStyle = function(element) {
 			var attributeName = attr[i];
 			var attributeValue = element.css(attributeName);
 			if (attributeValue){
-				style += attributeName + ":" + element.css(attributeName) + ";\n";
+				//style += attributeName + ":" + element.css(attributeName) + ";\n";
+				style += attributeName + ":" + element.attr(attributeName) + ";\n";
 			}
 			//obj[attr[i]] = jQuery.fn.css2.call(this, attr[i]);
 		}
@@ -100,11 +112,13 @@ getCssStyle = function(element) {
     return style;
 };
 
-getAbsoluteImagePath = function(pageUrl, imageRelativePath){
+getAbsolutePath = function(pageUrl, imageRelativePath){
 	if (imageRelativePath.indexOf("http://") === 0) return imageRelativePath;
 	
 	var rootUrl = pageUrl.substr(7);
 	if (imageRelativePath.charAt(0) === "/"){
+		rootUrl = rootUrl.split("/")[0];
+	} else if(imageRelativePath.substr(0,2) === "./"){
 		rootUrl = rootUrl.split("/")[0];
 	} else{
 		var index = rootUrl.lastIndexOf("/");

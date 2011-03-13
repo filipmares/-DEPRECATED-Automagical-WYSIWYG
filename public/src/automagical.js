@@ -193,7 +193,8 @@ var automagical = (function(){
 			console.log(html + "\n");
 			console.log(css);
 			
-			$('.temporary').append(css);
+			//$('.temporary').append(css);
+			$('head').append(css);
 			var bodyWrapper = $('<div></div>');
 			bodyWrapper.append(html);
 			
