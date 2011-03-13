@@ -169,8 +169,15 @@ app.post('/register', function(req,res){
 
 app.post('/fetch', function(req,res){
 	if (req.session.user){
+		console.log("fetching " + req.body.pageUrl);
+		
 		docs.loadDocument(req.body.pageUrl, function(err, reply){
-			
+			if (err){
+				res.redirect('404')
+			} else{
+				data.savePage(req.session.user.username, reply);
+				res.redirect('/user');
+			}
 		});
 	} else{
 		res.redirect('/logout');
