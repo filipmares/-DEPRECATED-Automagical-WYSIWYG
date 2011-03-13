@@ -12,14 +12,82 @@ exports.loadDocument = function(url, callback){
 				return callback("error");
 			}
 			
+			var style = "<style>\n";
+			window.$('body').find('*').each(function(index, element){
+				style += getCssStyle(window.$(element));
+			});
+			style += "</style>\n";
+			
 			var html = "";
 			window.$('script').remove();
 			window.$('body').children().each(function(index, element){
-				html+= window.$(element).html() + "\n";
+				html = recursiveHTMLAppendFunction(window, html, window.$(element));
+				
+				//html+= window.$(element).html() + "\n";
 				console.log(window.$(element).html() + "\n");
 			});
 			
-			callback(null, html);
+			var all = "<html><head>" + style + "</head><body>" + html + "</body></html>";
+			
+			callback(null, all);
 		}
 	);
 };
+
+/* This function recursively iterates through all of an element's children to produce it's html */
+recursiveHTMLAppendFunction = function(win, canvasHTML, element) {	
+	var attributes = "";
+	
+	var target = win.$(element).get(0);
+	win.$.each(win.$(target.attributes), function(index) {
+
+		attributes += target.attributes[index].name + "=\"" + target.attributes[index].value+ "\" ";
+
+	});
+	
+	//TODO: This doesn't take into acount any other attributes other than 'style', this needs to be changed
+	canvasHTML += "<"+ element.get(0).tagName + " "+ attributes +">\n" + element.clone().find("*").remove().end().text();
+	
+	//Go through all of the children of this element
+      if (element.children().size() > 0) {
+          element.children().each( function() {
+              canvasHTML += recursiveHTMLAppendFunction(win, "", win.$(this));
+          });
+      }
+      
+     	canvasHTML += "</"+ element.get(0).tagName + ">\n";
+     	
+     	return canvasHTML; 
+};
+
+getCssStyle = function(element) {
+	var attr = ['font-family','font-size','font-weight','font-style','color',
+        'text-transform','text-decoration','letter-spacing','word-spacing',
+        'line-height','text-align','vertical-align','direction','background-color',
+        'background-image','background-repeat','background-position',
+        'background-attachment','opacity','width','height','top','right','bottom',
+        'left','margin-top','margin-right','margin-bottom','margin-left',
+        'padding-top','padding-right','padding-bottom','padding-left',
+        'border-top-width','border-right-width','border-bottom-width',
+        'border-left-width','border-top-color','border-right-color',
+        'border-bottom-color','border-left-color','border-top-style',
+        'border-right-style','border-bottom-style','border-left-style','position',
+        'display','visibility','z-index','overflow-x','overflow-y','white-space',
+        'clip','float','clear','cursor','list-style-image','list-style-position',
+        'list-style-type','marker-offset'];
+    
+		var len = attr.length; 
+		var	style = "#" + element.attr('id') + "{\n";
+				
+    for (var i = 0; i < len; i++){
+			var attributeName = attr[i];
+			var attributeValue = element.css(attributeName);
+			if (attributeValue){
+				style += attributeName + ":" + element.css(attributeName) + ";\n";
+			}
+			//obj[attr[i]] = jQuery.fn.css2.call(this, attr[i]);
+		}
+		
+		style += "}\n";
+    return style;
+}
