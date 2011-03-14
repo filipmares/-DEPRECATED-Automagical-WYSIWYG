@@ -4,3 +4,5 @@
 fileUploads/images/*
 dump.rdb
 
+# Make git create the fileUploads dir
+!fileUploads/images/CARLTON_RAVEN.jpg
