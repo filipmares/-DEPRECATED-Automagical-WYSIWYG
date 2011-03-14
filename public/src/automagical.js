@@ -130,7 +130,7 @@ var automagical = (function(){
 			$.each(elementInner.attributes,function(attribute, attrValue){
 	
 				tag.attr(attribute, attrValue);
-			
+				automagicalCss.writeAttrSelector('#'+tag.attr('id'),attribute,attrValue);
 			});
 		}
 
@@ -163,6 +163,9 @@ var automagical = (function(){
 			drop: function(ev, ui) { 
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
+					
+					
+					
 					$(this).append(cloned
 						.draggable({containment:"#canvas"})
 						.addClass("added")
@@ -175,8 +178,19 @@ var automagical = (function(){
 						})
 					);
 					
-
+					//TODO: Fix this bug where dropped images keep resizing themselves. JQuery has bug making images resizable and droppable
+					if ($(cloned).get(0).tagName == 'IMG') {
+						cloned.css('position', 'absolute');
+						cloned.css('height', '100px');
+						cloned.css('width', '100px');
+						
+				
+					}
 					
+					
+					
+					
+					//cloned.css('resize', 'both');
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);

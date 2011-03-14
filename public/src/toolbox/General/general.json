@@ -406,7 +406,7 @@
 					},
 					"attributes": 
 						{
-							"src": "none"
+							"src": ""
 						}
 					
             },
@@ -416,9 +416,11 @@
                 "tag": "img",
                    "properties": 
 					{
-						"height": "auto",
-						"width": "auto",
 						"color": "black",
+						"resize": "both",
+						"height": "100px",
+						"width": "100px",
+						"position": "absolute",
 						"background": 
 							{
 								"background-color": "white",
@@ -458,7 +460,8 @@
 					"attributes": 
 						{
 							"alt": "To be displayed if no image",
-							"src": "none"
+							"src": "http://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png"
+							
 						}
 					
             },
@@ -509,7 +512,7 @@
 					},
 					"attributes": 
 						{
-							"src": "none"
+							"src": ""
 						}
 					
             } 
