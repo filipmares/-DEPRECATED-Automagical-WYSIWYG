@@ -13,7 +13,7 @@ var postProcessing = (function(){
 		}
 		
 		//remove all the classes we are using for editing purposes
-		element.removeClass('component container ui-draggable added ui-resizable outline-element outline-element-clicked');
+		element.removeClass('component container ui-draggable ui-droppable added ui-resizable outline-element outline-element-clicked');
 		
 		var attributes = "";
 		
@@ -36,7 +36,7 @@ var postProcessing = (function(){
         
        	canvasHTML += "</"+ element.get(0).tagName + ">\n";
        	
-       	return canvasHTML;
+       	return canvasHTML; 
 	};
 	
 	return {
@@ -44,17 +44,27 @@ var postProcessing = (function(){
 			
 			/* This function initializes the GetHtml link button*/
 			var canvasHTML="";
+			var styleHTML ="";
 						
 			//We need to recursively go through and do element by element for a multitude of reasons right now
 			$('#canvas').children().each(function() {
 				canvasHTML = recursiveHTMLAppendFunction(canvasHTML, $(this).clone())
 	    	});	
-						
-			var allHTML = $.ajax({async:false, url:'src/template.html',}).responseText;
-			allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
-			allHTML = allHTML.replace(/\{style\}/m, "\n\n" + $('style[id="temporary"]').html() + "\n\n");
 			
-			$.post("/savepage", {data: allHTML}, 
+			styleHTML = $('style[id="temporary"]').html();
+						
+			var allHTML = $.ajax({async:false, url:'/src/template.html',}).responseText;
+			allHTML = allHTML.replace(/\{body\}/m, canvasHTML);
+			allHTML = allHTML.replace(/\{style\}/m, "\n\n" + styleHTML + "\n\n");
+			
+			//get page number, if an existing page is being edited.
+			var params = $.getUrlVars();
+			var pageNum = "";
+			if (params.length > 1){
+				pageNum = "/" + params['page'];
+			}
+			
+			$.post("/savepage" + pageNum, {data: allHTML, style: styleHTML, canvas: canvasHTML}, 
 				function(data){
 					//Show some page saved confirmation
 				}

@@ -9,12 +9,14 @@ var express = require('express')
 	, crypto = require('crypto')
 	, ejs = require('ejs')
 	, url = require('url')
-	, data = require(__dirname + '/data')
 	, formidable = require('formidable')
 	, sys = require('sys')
 	, util = require('util')
 	, fs = require('fs')
 	, path = require('path');
+	, data = require(__dirname + '/data')
+	, docs = require(__dirname + '/docs');
+
 
 var app = module.exports = express.createServer();
 
@@ -83,9 +85,13 @@ app.post('/login', function(req,res){
 	});
 });
 
-app.get('/user/:username', function(req, res){
+app.get('/user/:username?', function(req, res){
 	if (req.session.user){
-		if (req.session.user.username == req.params.username){
+		var username = "";
+		if (req.params.username) username = req.params.username;
+		else username = req.session.user.username;
+		
+		if (req.session.user.username == username){
 			data.getPageList(req.session.user, function(err, userPages){
 				if (err) {
 					console.log("Grave error when getting page list!")
@@ -96,6 +102,8 @@ app.get('/user/:username', function(req, res){
 		} else {
 			res.redirect('/logout');
 		}
+	} else {
+		res.redirect('/logout');
 	}
 });
 
@@ -118,7 +126,7 @@ app.get('/logout', function(req,res){
 	});
 });
 
-app.get('/newpage', function(req,res){
+app.get('/client/?', function(req,res){
 	if (req.session.user){
 		res.render('client', {layout: false});
 	} else {
@@ -126,21 +134,34 @@ app.get('/newpage', function(req,res){
 	}
 });
 
-app.post('/savepage', function(req,res){
+app.get('/processed/:username/:pageNum', function(req,res){
+	data.getProcessedPage(req.params.username, req.params.pageNum, function(err, reply){
+		if (reply){
+			res.send(reply);
+		} else{
+			console.log('There was an error getting the processed page');
+		}
+	});
+});
+
+app.post('/savepage/:pageNum?', function(req,res){
 	if (req.session.user){
-		data.savePage(req.session.user.username, req.body.data);
+		var username = req.session.user.username;
+		if (req.params.pageNum){
+			var pageNum = req.params.pageNum;
+			data.savePage(username, req.body.data, pageNum);
+			data.saveProcessedPage(username, req.body.canvas, req.body.style, pageNum);
+		} else{
+			data.savePage(username, req.body.data);
+			data.saveProcessedPage(username, req.body.canvas, req.body.style)
+		}
 	} else {
 		res.redirect('/logout');
 	}
 });
 
 app.get('/register', function(req,res){
-	if (req.session.user){
-		req.session.destroy();
-		res.redirect('/logout');
-	} else{
-		res.render('register');
-	}
+	res.render('register');
 });
 
 app.post('/register', function(req,res){
@@ -156,6 +177,24 @@ app.post('/register', function(req,res){
 			res.redirect('back');
 		}
 	});
+});
+
+app.post('/fetch', function(req,res){
+	if (req.session.user){
+		console.log("fetching " + req.body.pageUrl);
+		
+		docs.loadDocument(req.body.pageUrl, function(err, allHtml, html, style){
+			if (err){
+				res.redirect('404')
+			} else{
+				data.savePage(req.session.user.username, allHtml);
+				data.saveProcessedPage(req.session.user.username, html, style);
+				res.redirect('/user');
+			}
+		});
+	} else{
+		res.redirect('/logout');
+	}
 });
 
 app.get('/img/:imagename', function(req,res){

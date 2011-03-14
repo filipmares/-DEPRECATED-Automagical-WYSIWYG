@@ -2,3 +2,5 @@
 .tmp_index.html.*
 .DS_Store
 fileUploads/images/*
+dump.rdb
+
