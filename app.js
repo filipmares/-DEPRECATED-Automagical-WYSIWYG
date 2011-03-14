@@ -13,7 +13,7 @@ var express = require('express')
 	, sys = require('sys')
 	, util = require('util')
 	, fs = require('fs')
-	, path = require('path');
+	, path = require('path')
 	, data = require(__dirname + '/data')
 	, docs = require(__dirname + '/docs');
 
@@ -199,7 +199,7 @@ app.post('/fetch', function(req,res){
 
 app.get('/img/:imagename', function(req,res){
      
-     returnImage(req,res,req.session.user.username, eq.params.imagename);
+     returnImage(req,res,req.session.user.username, req.params.imagename, true);
 
 });
 
@@ -212,6 +212,12 @@ app.post('/img', function(req,res){
 	//data.saveImage(urlObj.query['qqfile'], req.body.data);
 	upload_file(req,res,req.session.user.username );
 
+
+});
+
+app.get('/img/:imagename', function(req,res){
+     
+     returnImage(req,res,req.session.user.username, req.params.imagename);
 
 });
 
@@ -268,7 +274,7 @@ function upload_file(req, res, user) {
 		      	if (exists) { 
 		      		stats = fs.lstatSync('fileUploads/images/'+ user);		      	
 		      		if (stats.isDirectory()) {
-		      			console.log(file);
+		      			
 		        		
 		        		fs.rename(file.path,'fileUploads/images/'+ user + "/"+file.name, function() { 
 		        			console.log("Image saved");
@@ -276,7 +282,7 @@ function upload_file(req, res, user) {
 
 		        	}
 		        	else {
-			        	console.log("Making a directory");
+			        	
 						//Make a folder for any file uploads
 						fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
 						    if (err) {
@@ -293,7 +299,7 @@ function upload_file(req, res, user) {
 		        
 		        }
 		        else {
-		        	console.log("Making a directory");
+		        	
 					//Make a folder for any file uploads
 					fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
 					    if (err) {
@@ -308,7 +314,7 @@ function upload_file(req, res, user) {
 		        	} );
 		        }
 	        });
-        console.log("wrote to image");
+        
 		 
         
       })
@@ -345,7 +351,7 @@ function listImages(req, res, user) {
 						});
 		        	}
 		        	else {
-			        	console.log("Making a directory");
+			        	
 						//Make a folder for any file uploads
 						fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
 						    if (err) {
@@ -354,8 +360,8 @@ function listImages(req, res, user) {
 						        console.log('Directory created');
 						    }
 						});
-						res.writeHead(404, {'content-type': 'text/plain'});
-    					res.end();
+						res.writeHead(200, {'content-type': 'text/plain'});
+    					res.end(list);
 		        	}
 		        
 		        }
@@ -370,8 +376,8 @@ function listImages(req, res, user) {
 					    }
 					});
 
-	        		res.writeHead(404, {'content-type': 'text/plain'});
-    				res.end();
+	        		res.writeHead(200, {'content-type': 'text/plain'});
+    				res.end(list);
 
 		        }
 		        
@@ -384,6 +390,8 @@ function returnImage(req, res, user, image) {
 	
 		var stats;
 		
+
+		
 		path.exists('fileUploads/images/'+ user, function (exists) {
 
 		      	if (exists) { 
@@ -391,7 +399,7 @@ function returnImage(req, res, user, image) {
 		      		if (stats.isFile()) {
 
      						res.writeHead(200, {'content-type': 'text/plain'});
-     						res.end('images/'+user+'/'+ image);	
+     						res.end('/images/'+user+'/'+ image);	
 							
 						
 		        	}

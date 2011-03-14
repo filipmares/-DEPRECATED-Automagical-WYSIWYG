@@ -60,7 +60,7 @@ var automagicalCss = (function(){
 				
 				$.ajax({  
   					type: "GET",  
-  					url: "img/"+selected,
+  					url: "/img/"+selected,
   					success: function(data) {  
 
 						
@@ -114,7 +114,7 @@ var automagicalCss = (function(){
 	initializeFileList = function() {
 		$.ajax({  
   			type: "GET",  
-  			url: "imglist",
+  			url: "/imglist/",
   			success: function(data) {  
 				var files = data.split(",");
 				$('#selectableUploads').empty();
