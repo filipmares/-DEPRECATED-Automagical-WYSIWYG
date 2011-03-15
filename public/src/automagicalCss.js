@@ -46,8 +46,22 @@ var automagicalCss = (function(){
 			
 			for (value in cssInformation[idSelector]){
 				
-				attributes_list.append('<label>' + value + '</label> <input class="cssInput" type="text" value="' + 
-										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+				if (value == "background-color") {
+					attributes_list.append('<label>' + value + '</label> <input class="cssInput color" type="text" value="' +
+					selected.css(value) +
+					'" cssValue="' +
+					value +
+					'" /> <br/>');
+					jscolor.init();
+				}
+				else {
+					attributes_list.append('<label>' + value + '</label> <input class="cssInput" type="text" value="' +
+					selected.css(value) +
+					'" cssValue="' +
+					value +
+					'" /> <br/>');
+				}				
+										
 			}
 			
 			
