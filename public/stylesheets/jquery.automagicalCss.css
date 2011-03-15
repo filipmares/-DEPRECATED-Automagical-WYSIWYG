@@ -96,3 +96,11 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
+
+/* File Upload Box Styling */
+#selectableUploads .ui-selecting {
+	background: silver;
+}
+#selectableUploads .ui-selected {
+	background: gray;
+}

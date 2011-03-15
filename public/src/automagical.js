@@ -130,7 +130,7 @@ var automagical = (function(){
 			$.each(elementInner.attributes,function(attribute, attrValue){
 	
 				tag.attr(attribute, attrValue);
-			
+				automagicalCss.writeAttrSelector('#'+tag.attr('id'),attribute,attrValue);
 			});
 		}
 
@@ -163,8 +163,15 @@ var automagical = (function(){
 			drop: function(ev, ui) { 
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
-					wrapElementInDragAndDrop(cloned, $(this));
 
+					
+
+
+
+					wrapElementInDragAndDrop(cloned, $(this));
+					
+
+					
 					//Need these offsets when appending children to a container that's not the canvas
 					cloned.css('top', ui.position.top - $(this).offset().top);
 					cloned.css('left', ui.position.left - $(this).offset().left);
@@ -202,6 +209,14 @@ var automagical = (function(){
 				//console.log($(el).attr('id'));
 				wrapElementInDragAndDrop(el, $('#canvas'));
 				$(el).addClass('container component')
+				
+				
+				//TODO: Fix this bug where dropped images keep resizing themselves. JQuery has bug making images resizable and droppable
+				if ($(el).get(0).tagName == 'IMG') {
+					
+					$(el).css('position', 'absolute');
+				}
+				
 			});
 			bodyWrapper.empty().remove();
 		});
@@ -210,17 +225,35 @@ var automagical = (function(){
 	wrapElementInDragAndDrop = function(element, appendTo){
 		console.log($(appendTo).attr('id'));
 		console.log($(element).attr('id'));
-		appendTo.append($(element)
-			.draggable({containment:"#canvas"})
-			.addClass("added")
-			.removeClass("ui-draggable-dragging")
-			.resizable({
-				containment:"parent",
-				resize: function(event, ui) {
-					//This function can now be removed as the golden grid snapping has been factored out
-				}
-			})
-		);
+		
+		
+		//TODO: Fix this bug where dropped images keep resizing themselves. JQuery has bug making images resizable and droppable
+		if ($(element).get(0).tagName == 'IMG') {
+			
+			appendTo.append($(element)
+				.addClass("added")
+				.removeClass("ui-draggable-dragging")
+				.draggable({containment:"#canvas"})
+			);
+		}
+		else {
+			appendTo.append($(element)
+				.draggable({containment:"#canvas"})
+				.addClass("added")
+				.removeClass("ui-draggable-dragging")
+				.resizable({
+					containment:"parent",
+					resize: function(event, ui) {
+						//This function can now be removed as the golden grid snapping has been factored out
+					}
+				})
+			);
+		}
+		
+		
+
+		
+		
 		//TODO: Find a better solution. Hack so that nested dynamic droppables will work.
 		if ($(element).hasClass("container")) {
 			var droppableAreas = $("#canvas .container");

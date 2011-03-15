@@ -7,10 +7,129 @@ var automagicalCss = (function(){
 		populateAttributesBox,
 		changeWidthHeightAttributesBox,
 		extractElementId,
-	
-		cssInformation = {};
+		initializeFileUploadDialog,
+		initializeFileList,
+		submitFile,
+
+		cssInformation = {},
+		attrInformation = {},
+		fileUploadDialog;
 		
 	
+	initializeFileUploadDialog = function() {
+		fileUploadDialog = $('<div></div>')
+			.html('	<form action="/img" id="frmsample" name="frmSample" enctype="multipart/form-data" method="post">'+
+					'Upload A File</br>'+
+    				'<input size="-4" type="file" name="upload" multiple="multiple" class="multi" accept="gif|jpg"/><br>'+
+    				'<input size="-4" type="submit" value="Upload">'+
+    				'</form><br/>' +
+    				'Choose From Uploaded Files'+
+    				'<ul id="selectableUploads" size="-6" style="background-color:white; border: 1px solid black; list-style-type: none; float:left;">' +
+					'</ul>'
+    				)
+			.dialog({
+				autoOpen: false,
+				title: 'File Upload',
+				open: function(event, ui) {
+					initializeFileList();
+				
+				},
+				resizable: false,
+				buttons: {
+        			'Submit': function(){
+        				submitFile();
+        				
+            			
+        			},
+        			'Cancel': function(){
+        				$('.fileUploadInput').removeClass('fileUploading');
+            			fileUploadDialog.dialog('close');
+        			},
+
+    			}
+				
+			});
+		$('#selectableUploads').selectable();
+	};
+	
+	submitFile = function() {
+
+
+				fileUploadDialog.dialog('close');
+				var selected = $('#selectableUploads .ui-selected').html();
+				
+				$.ajax({  
+  					type: "GET",  
+  					url: "/img/"+selected,
+  					success: function(data) {  
+
+						
+						//console.log(data);
+						//data = '\"/'+ data + '\"';
+						
+						var selected = $('.outline-element-clicked');
+						
+						if ($('.fileUploading').attr('cssValue')) {
+				
+							var property = $('.fileUploading').attr('cssValue');
+						
+							//checks to see if selector based on ID present in css
+							if (cssInformation['#'+selected.attr('id')][property] != null) {
+				
+								selected.css(property, data);
+								automagicalCss.writeCssSelector('#'+selected.attr('id'),property,data);
+								automagicalCss.updatePageCss();
+							}
+							else {
+								//TODO: What to do if class or element selector
+							}
+						}
+						else if ($('.fileUploading').attr('attrValue')){
+							var attrib = $('.fileUploading').attr('attrValue');
+				
+							//checks to see if selector based on ID present in css
+							if (attrInformation['#'+selected.attr('id')][attrib] != null) {
+							
+								if ((selected).attr(attrib) != undefined) { 
+									(selected).attr(attrib, data);
+								}
+								automagicalCss.writeAttrSelector('#'+selected.attr('id'),attrib,data);
+							}
+							else {
+								//TODO: What to do if class or element selector
+							}
+						
+						}
+							
+						$('.fileUploading').val(data);	
+						$('.fileUploadInput').removeClass('fileUploading');
+							}
+		    		}); 
+				
+
+
+		
+	};
+	
+	initializeFileList = function() {
+		$.ajax({  
+  			type: "GET",  
+  			url: "/imglist/",
+  			success: function(data) {  
+				var files = data.split(",");
+				$('#selectableUploads').empty();
+				
+				for (file in files) {
+
+					$('#selectableUploads').append('<li>'+ files[file] + '</li>');
+				}
+				
+				
+				
+			}
+    		});  
+	};
+	 
 	highlightElement = function(element) {
 		$('#canvas *').removeClass('outline-element');
 		$(element).addClass('outline-element');
@@ -46,8 +165,45 @@ var automagicalCss = (function(){
 			
 			for (value in cssInformation[idSelector]){
 				
-				attributes_list.append('<label>' + value + '</label> <input class="cssInput" type="text" value="' + 
+				if (value == 'background-image') {
+				
+				
+					attributes_list.append('<label>' + value + '</label> <input class="fileUploadInput" type="text" value="' + selected.css(value) + '" readonly="readonly" cssValue="' + value + '" /><br/>');
+				
+				
+				
+				
+				}
+				else {
+					attributes_list.append('<label>' + value + '</label> <input class="cssInput" type="text" value="' + 
 										selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+				}
+			}
+			
+			for (value in attrInformation[idSelector]){
+				
+				var attrValue = "";
+				if (!selected.attr(value)) {
+					attrValue = "none";
+				}	
+				else {
+					attrValue = selected.attr(value);
+				}
+				
+				if (value == 'src') {
+					
+
+				
+					attributes_list.append('<label>' + value + '</label> <input class="fileUploadInput" type="text" value="' + attrValue + '" readonly="readonly" attrValue="' + value + '" /> <br/>');
+				
+				
+				
+				
+				}
+				else {
+					attributes_list.append('<label>' + value + '</label> <input class="attrInput" type="text" value="' + 
+										attrValue + '" attrValue="' + value + '" /><br/>');
+				}
 			}
 			
 			
@@ -194,6 +350,27 @@ var automagicalCss = (function(){
 	
 			});
 			
+			//Listen to when the user changes a attribute, then change the attribute value
+			$('.attrInput').live('change', function(event){
+				var selected = $('.outline-element-clicked');
+				var attrib = $(this).attr('attrValue');
+	
+				//checks to see if selector based on ID present in css
+				if (attrInformation['#'+selected.attr('id')][attrib] != null) {
+				
+					if ((selected).attr(attrib) != undefined) { 
+						(selected).attr(attrib, $(this).val());
+					}
+					automagicalCss.writeAttrSelector('#'+selected.attr('id'),attrib,$(this).val());
+				}
+				else {
+					//TODO: What to do if class or element selector
+				}
+			
+
+	
+			});
+			
 			//Support for outlining the current element
 			
 			//Need mouseover event so that outline stays even when mousing over resizing div's on east and south of component
@@ -209,8 +386,37 @@ var automagicalCss = (function(){
 			$('#canvas .component').live('mouseout', function(event){
 				unHighlightElement(this);
 			});
+			
+			//Need event for when the label is clicked for a file upload
+			$('.fileUploadInput').live('click', function(event){
+				$(this).addClass('fileUploading');
+				fileUploadDialog.dialog('open');
+				
+
+			});
+			
+				
+			$('#frmsample').live('submit', function(event) {
+			  
+				event.preventDefault();
+			    event.stopPropagation();
+			    if ($.browser.msie) {
+			        event.originalEvent.keyCode = 0;
+			        event.originalEvent.cancelBubble = true;
+			        event.originalEvent.returnValue = false;
+			    }
+			    $(this).ajaxSubmit(function() {
+			    	//fileUploadDialog.dialog('close');	
+			    	initializeFileList();	
+			    
+			    }); 
+		
+			  return false
+  			});
 	
 	
+			initializeFileUploadDialog();
+
 		},
 		
 		writeCssSelector : function(selector, property, value){
@@ -228,6 +434,25 @@ var automagicalCss = (function(){
 			}
 			
 			automagicalCss.updatePageCss();
+	
+	
+	
+		},
+		
+		writeAttrSelector : function(selector, attr, value){
+			
+			if (!(selector in attrInformation)){
+				var properties = {};
+				
+				properties[attr] = value;
+				attrInformation[selector] = properties;
+				
+			}
+			else {
+				attrInformation[selector][attr] = value;
+			}
+			
+
 	
 	
 	

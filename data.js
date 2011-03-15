@@ -7,6 +7,7 @@ redis.on('error', function(err){
 	console.log('Error on data layer ' + err);
 });
 
+
 //Data Model
 //user 															== the user's password
 //user:numPages 										== num Pages User Has

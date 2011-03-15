@@ -8,8 +8,15 @@ require.paths.unshift(__dirname + '/../../support');
 var express = require('express')
 	, crypto = require('crypto')
 	, ejs = require('ejs')
+	, url = require('url')
+	, formidable = require('formidable')
+	, sys = require('sys')
+	, util = require('util')
+	, fs = require('fs')
+	, path = require('path')
 	, data = require(__dirname + '/data')
 	, docs = require(__dirname + '/docs');
+
 
 var app = module.exports = express.createServer();
 
@@ -21,6 +28,11 @@ app.register('.html', require('ejs'));
 //Public directory
 var pub = __dirname + '/public';
 app.use(express.static(pub));
+
+
+//Uploads directory
+var uploads = __dirname + '/fileUploads';
+app.use(express.static(uploads));
 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
@@ -186,11 +198,27 @@ app.post('/fetch', function(req,res){
 });
 
 app.get('/img/:imagename', function(req,res){
-	
+     
+     returnImage(req,res,req.session.user.username, req.params.imagename, true);
+
+});
+
+app.get('/imglist', function(req,res){
+	listImages(req, res, req.session.user.username);
 });
 
 app.post('/img', function(req,res){
-	data.saveImage(req.body.imagename, req.body.data);
+
+	//data.saveImage(urlObj.query['qqfile'], req.body.data);
+	upload_file(req,res,req.session.user.username );
+
+
+});
+
+app.get('/img/:imagename', function(req,res){
+     
+     returnImage(req,res,req.session.user.username, req.params.imagename);
+
 });
 
 app.listen(3000);
@@ -217,4 +245,176 @@ function register(username, pass, fn){
 		var newUser = data.addUser(username, pass);
 		fn(null, newUser);
 	});
+};
+
+
+
+
+/*
+ * Handle file upload
+ */
+function upload_file(req, res, user) {
+
+    // parse a file upload
+   var form = new formidable.IncomingForm(),
+       outstream,
+       stats;
+
+
+
+	
+    form
+      .on('filebegin', function(name, file) {
+			file.path = "fileUploads/images/";
+      })
+      .on('file', function(field, file) {
+      
+	      path.exists('fileUploads/images/'+ user, function (exists) {
+
+		      	if (exists) { 
+		      		stats = fs.lstatSync('fileUploads/images/'+ user);		      	
+		      		if (stats.isDirectory()) {
+		      			
+		        		
+		        		fs.rename(file.path,'fileUploads/images/'+ user + "/"+file.name, function() { 
+		        			console.log("Image saved");
+		        		} );
+
+		        	}
+		        	else {
+			        	
+						//Make a folder for any file uploads
+						fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
+						    if (err) {
+						        console.log(err);
+						    } else {
+						        console.log('Directory created');
+						    }
+						});
+						fs.rename(file.path,'fileUploads/images/'+ user + "/"+file.name, function() { 
+							console.log("Image saved");
+						} );
+
+		        	}
+		        
+		        }
+		        else {
+		        	
+					//Make a folder for any file uploads
+					fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
+					    if (err) {
+					        console.log(err);
+					    } else {
+					        console.log('Directory created');
+					    }
+					});
+		        	fs.rename(file.path,'fileUploads/images/'+ user + "/"+file.name, function() { 
+		        		console.log("Image saved");
+		        	
+		        	} );
+		        }
+	        });
+        
+		 
+        
+      })
+      .on('end', function() {
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.end();
+      });
+    form.parse(req);
+
+
+};
+
+function listImages(req, res, user) {
+	
+		var list= "";
+		
+		path.exists('fileUploads/images/'+ user, function (exists) {
+
+		      	if (exists) { 
+		      		stats = fs.lstatSync('fileUploads/images/'+ user);		      	
+		      		if (stats.isDirectory()) {
+						fs.readdir('fileUploads/images/'+ user, function(err,files){
+							
+							if (files) {
+								for (file in files) {
+									if ((files[file] != '') && (files[file] != '.DS_Store')){
+										list+= files[file] + ",";
+									}
+								}
+							}
+	        				res.writeHead(200, {'content-type': 'text/plain'});
+    						res.end(list);
+							
+						});
+		        	}
+		        	else {
+			        	
+						//Make a folder for any file uploads
+						fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
+						    if (err) {
+						        console.log(err);
+						    } else {
+						        console.log('Directory created');
+						    }
+						});
+						res.writeHead(200, {'content-type': 'text/plain'});
+    					res.end(list);
+		        	}
+		        
+		        }
+		        else {
+
+					//Make a folder for any file uploads
+					fs.mkdir('fileUploads/images/' + user, 0777, function (err) {
+					    if (err) {
+					        console.log(err);
+					    } else {
+					        console.log('Directory created');
+					    }
+					});
+
+	        		res.writeHead(200, {'content-type': 'text/plain'});
+    				res.end(list);
+
+		        }
+		        
+
+	  });
+
+};
+
+function returnImage(req, res, user, image) {
+	
+		var stats;
+		
+
+		
+		path.exists('fileUploads/images/'+ user, function (exists) {
+
+		      	if (exists) { 
+		      		stats = fs.lstatSync('fileUploads/images/'+ user + "/" + image);		      	
+		      		if (stats.isFile()) {
+
+     						res.writeHead(200, {'content-type': 'text/plain'});
+     						res.end('/images/'+user+'/'+ image);	
+							
+						
+		        	}
+		        	else {
+						res.render('404');
+		        	}
+		        
+		        }
+		        else {
+
+					res.render('404');
+
+		        }
+		        
+
+	  });
+
 };
