@@ -18,6 +18,7 @@ The server side runs on Node.js. You will need to install node and npm. The app 
 	jsdom@0.2.0               A javascript implementation of the jsdom
 	jquery@1.5.0              jQuery
 	request@1.9.0             active http installed simple util utility
+	formidable@0.9.11
 
 After installing npm, you should be able to install all of the dependancies with 'npm install'. So to install express do:
 	npm install express
