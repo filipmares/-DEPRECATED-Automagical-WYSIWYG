@@ -8,9 +8,11 @@ redis.on('error', function(err){
 });
 
 //Data Model
-//user 						== the user's password
-//user:numPages 	== num Pages User Has
-//user:page:#num	== retrieve Page Defined By #Num
+//user 															== the user's password
+//user:numPages 										== num Pages User Has
+//user:page:#num										== retrieve Page Defined By #Num
+//user:page:#num:processed:html			== only the html (dom) elements of the page
+//user:page:#num:processed:css			== only the css styles associated with the page
 
 //Saves a page to redis. If no page number is given, a new page will be saved and the
 //number of pages incremented. Otherwise the page with the specified number will be
