@@ -14,8 +14,8 @@
 			var html = data.canvas.toString();
 			var css = data.style.toString();
 			
-			console.log(html);
-			console.log(css);
+			//console.log(html);
+			//console.log(css);
 
 			$('head').append(css);
 			$('#canvas').append(html);

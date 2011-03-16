@@ -187,45 +187,145 @@
 	};
 	
 	$.fn.cssEditor.commonStyles = {
-		width: ['width'],
-		height: ['height'],
-		position: ['position'],
-		bkgcolor: ['backgroundColor'],
-		display: ['display'],
-		opacity: ['opacity'],
-		radius: ['-webkit-border-radius', 'border-radius', '-moz-border-radius',
+		width: widthSelector,
+		height: heightSelector,
+		position: positionSelector,
+		bkgcolor: bkgcolorSelector,
+		display: displaySelector,
+		opacity: opacitySelector,
+		radius: radiusSelector,
+		font: fontSelector,
+		txtSize: txtSizeSelector,
+		txtWeight: txtWeightSelector,
+		txtStyle: fontStyleSelector,
+		txtColor: txtColorSelector,
+		txtSpacing: txtSpacingSelector,
+		txtAlign: txtAlignSelector,
+		txtWrap: txtWrapSelector,
+		bkgImage: bkgImageSelector,
+		bkgRepeat: bkgRepeatSelector,
+		bkgPosition: bkgPositionSelector,
+		bkgAttach: bkgAttachSelector,
+		top: topSelector,
+		right: rightSelector,
+		bottom: bottomSelector,
+		left: leftSelector,
+		margin: marginSelector,
+		padding: paddingSelector,
+		borderWidth: borderWidthSelector,
+		borderColor: borderColorSelector,
+		borderStyle: borderStyleSelector,
+		visibility: visibilitySelector,
+		zIndex: zIndexSelector,
+		floats : floatsSelector
+	};
+	
+	var widthSelector = {
+		type: 'input', styles: ['width']
+	};
+	var heightSelector = {
+		type: 'input', styles: ['height']
+	};
+	var positionSelector = {
+		type: 'select', options: ['absolute', 'fixed', 'static', 'relative', 'inherit'],
+		styles: ['position']
+	};
+	var bkgcolorSelector = {
+		type: 'colorpicker', styles: ['backgroundColor'] 
+	};
+	var displaySelector = {
+		type: 'select', styles: ['display'],
+		options: ['none', 'block', 'inline', 'table', 'inherit']
+	};
+	var opacitySelector = {
+		type: 'input', styles: ['opacity']
+	};
+	var radiusSelector = {
+		type: 'input', styles: ['-webkit-border-radius', 'border-radius', '-moz-border-radius',
 				'-webkit-border-bottom-left-radius', '-moz-border-radius-bottomleft', 'border-bottom-left-radius',
 				'-webkit-border-bottom-right-radius', '-moz-border-radius-bottomright', 'border-bottom-right-radius',
 				'-webkit-border-top-right-radius', '-moz-border-radius-topright', 'border-top-right-radius',
-				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius'],
-		font: ['font-family'],
-		txtSize: ['font-size'],
-		txtWeight:['font-weight'],
-		txtStyle:['font-style'],
-		txtColor:['color'],
-		txtSpacing:['line-height'],
-		txtAlign:['text-align'],
-		txtWrap: ['white-space'],
-		bkgImage:['background-image'],
-		bkgRepeat:['background-repeat'],
-		bkgPosition:['background-position'],
-		bkgAttach:['background-attachment'],
-		top: ['top'],
-		right: ['right'],
-		bottom: ['bottom'],
-		left: ['left'],
-		margin: ['margin-top','margin-right','margin-bottom','margin-left'],
-		padding: ['padding-top','padding-right','padding-bottom','padding-left'],
-		borderWidth: ['border-top-width','border-right-width','border-bottom-width','border-left-width'],
-		borderColor: ['border-top-color','border-right-color', 'border-bottom-color','border-left-color'],
-		borderStyle: ['border-top-style','border-right-style','border-bottom-style','border-left-style'],
-		visibility: ['visibility'],
-		zIndex: ['z-index'],
-		floats : ['float']
+				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius']
 	};
-	
-	$.fn.cssEditor.tagMappings = {
-		DIV : $.fn.cssEditor.commonStyles
+	var fontSelector = {
+		type: 'input', styles: ['font-family']
+	};
+	var txtSizeSelector = {
+		type: 'input', styles: ['font-size']
+	};
+	var txtWeightSelector = {
+		type: 'input', styles: ['font-weight']
+	};
+	var txtStyleSelector = {
+		type: 'select', styles: ['font-style'], 
+		options: ['normal', 'italic', 'oblique', 'inherit']
+	};
+	var txtColorSelector = {
+		type: 'colorpicker', styles: ['color']
+	};
+	var txtSpacingSelector = {
+		type: 'input', styles: ['line-height']
+	};
+	var txtAlignSelector = {
+		type: 'select', styles: ['text-align'], 
+		options: ['left', 'right', 'center', 'justify', 'inherit']
+	};
+	var txtWrapSelector = {
+		type: 'select', styles: ['white-space'], 
+		options: ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit']
+	};
+	var bkgImageSelector = {
+		type: 'input', styles: ['background-image']
+	};
+	var bkgRepeatSelector = {
+		type: 'select', styles: ['background-repeat'],
+		options: ['repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'inherit']
+	};
+	var bkgPositionSelector = {
+		type: 'input', styles: ['background-position'] 
+	};
+	var bkgAttachSelector = {
+		type: 'select', styles: ['background-attachment'],
+		options: ['scroll', 'fixed', 'inherit']
+	};
+	var topSelector = {
+		type: 'input', styles: ['top']
+	};
+	var rightSelector = {
+		type: 'input', styles: ['right']
+	};
+	var bottomSelector = {
+		type: 'input', styles: ['bottom']
+	};
+	var leftSelector = {
+		type: 'input', styles: ['left']
+	};
+	var marginSelector = {
+		type: 'input', styles: ['margin-top','margin-right','margin-bottom','margin-left']
+	};
+	var paddingSelector = {
+		type: 'input', styles: ['padding-top','padding-right','padding-bottom','padding-left']
+	};
+	var borderWidthSelector = {
+		type: 'input', styles: ['border-top-width','border-right-width','border-bottom-width','border-left-width']
+	};
+	var borderColorSelector = {
+		type: 'colorpicker', styles: ['border-top-color','border-right-color', 'border-bottom-color','border-left-color']
+	};
+	var borderStyleSelector = {
+		type: 'select', styles: ['border-top-style','border-right-style','border-bottom-style','border-left-style'],
+		options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit']
+	};
+	var visibilitySelector = {
+		type: 'select', styles: ['visibility'], 
+		options: ['vissible', 'hidden', 'collapse', 'inherit']
+	};
+	var zIndexSelector = {
+		type: 'input', styles: ['z-index']
+	};
+	var floatsSelector = {
+		type: 'select', styles: ['float'], 
+		options: ['left', 'right', 'none', 'inherit']
 	};
 	
 }
