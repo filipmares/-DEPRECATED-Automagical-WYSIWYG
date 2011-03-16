@@ -418,9 +418,9 @@
 					{
 						"color": "black",
 						"resize": "both",
+						"position": "absolute",
 						"height": "100px",
 						"width": "100px",
-						"position": "absolute",
 						"background": 
 							{
 								"background-color": "white",
