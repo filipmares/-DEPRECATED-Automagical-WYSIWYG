@@ -4,6 +4,7 @@ var automagical = (function(){
 		initializeGetHtml,
 		initializeDroppableAreas,
 		addContextMenu,
+		initializeSavedElementProperties,
 		
 		LONG_LOREM_IPSUM,
 		SHORT_LOREM_IPSUM;
@@ -212,7 +213,7 @@ var automagical = (function(){
 				$(el).addClass('container component')
 				
 				
-				
+				initializeSavedElementProperties(el);
 				
 			});
 			bodyWrapper.empty().remove();
@@ -273,6 +274,36 @@ var automagical = (function(){
 		$(element).trigger('appendToCanvas');
 	}
 	
+	initializeSavedElementProperties = function(element){
+		
+		$.getJSON('/src/toolbox/General/general.json', function (json, status)
+		{
+			//Iterate Through extensions
+			$.each(json.main.elements, function (nameInner, elInner)
+			{
+					
+
+				if (elInner.tag == $(element).get(0).tagName) {
+					
+
+					$.each(elInner.properties, function (nameSecond, elSecond)
+					{
+						//console.log($(element).attr('id') + ' ' + nameSecond+ ' ' + $(element).css(nameSecond));
+						automagicalCss.writeCssSelector('#'+$(element).attr('id'), nameSecond, $(element).css(nameSecond));
+					});
+					
+					if (elInner.attributes) {
+						$.each(elInner.attributes, function (nameSecond, elSecond)
+						{
+							automagicalCss.writeAttrSelector('#'+$(element).attr('id'), nameSecond, $(element).attr(nameSecond));
+						});
+					}
+				}
+			
+			});
+		});
+	
+	}
 	addContextMenu = function(element) {
 	
 	        $(element).contextMenu('context-menu-1', {
