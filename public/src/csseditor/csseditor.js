@@ -60,7 +60,7 @@
 			selector_field.val($.fn.cssEditor.extractCssSelectorPath(selected));
 			attributes_list.empty();
 			
-			var typeMapping = $.fn.cssEditor.tagMappings[selected.get(0).tagName];
+			var typeMapping = $.fn.cssEditor.commonStyles;
 			
 			jQuery.each(typeMapping, function(key, value){
 				var validStyle = "";
@@ -103,7 +103,7 @@
 		//Listen to when the user changes a css property, then change the property
 		$('.cssInput').live('keyup', function(event){
 			var element = $(this);
-			var typeMapping = $.fn.cssEditor.tagMappings[selected.get(0).tagName];
+			var typeMapping = $.fn.cssEditor.commonStyles;
 			var styleMapping = null;
 			if (typeMapping[element.attr('cssValue')] != null) styleMapping = typeMapping[element.attr('cssValue')];
 			jQuery.each(styleMapping, function(index, value){
@@ -186,19 +186,46 @@
 		position: 'right'
 	};
 	
-	$.fn.cssEditor.divCommonStyles = {
+	$.fn.cssEditor.commonStyles = {
 		width: ['width'],
 		height: ['height'],
+		position: ['position'],
 		bkgcolor: ['backgroundColor'],
+		display: ['display'],
+		opacity: ['opacity'],
 		radius: ['-webkit-border-radius', 'border-radius', '-moz-border-radius',
 				'-webkit-border-bottom-left-radius', '-moz-border-radius-bottomleft', 'border-bottom-left-radius',
 				'-webkit-border-bottom-right-radius', '-moz-border-radius-bottomright', 'border-bottom-right-radius',
 				'-webkit-border-top-right-radius', '-moz-border-radius-topright', 'border-top-right-radius',
-				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius']
+				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius'],
+		font: ['font-family'],
+		txtSize: ['font-size'],
+		txtWeight:['font-weight'],
+		txtStyle:['font-style'],
+		txtColor:['color'],
+		txtSpacing:['line-height'],
+		txtAlign:['text-align'],
+		txtWrap: ['white-space'],
+		bkgImage:['background-image'],
+		bkgRepeat:['background-repeat'],
+		bkgPosition:['background-position'],
+		bkgAttach:['background-attachment'],
+		top: ['top'],
+		right: ['right'],
+		bottom: ['bottom'],
+		left: ['left'],
+		margin: ['margin-top','margin-right','margin-bottom','margin-left'],
+		padding: ['padding-top','padding-right','padding-bottom','padding-left'],
+		borderWidth: ['border-top-width','border-right-width','border-bottom-width','border-left-width'],
+		borderColor: ['border-top-color','border-right-color', 'border-bottom-color','border-left-color'],
+		borderStyle: ['border-top-style','border-right-style','border-bottom-style','border-left-style'],
+		visibility: ['visibility'],
+		zIndex: ['z-index'],
+		floats : ['float']
 	};
 	
 	$.fn.cssEditor.tagMappings = {
-		DIV : $.fn.cssEditor.divCommonStyles
+		DIV : $.fn.cssEditor.commonStyles
 	};
 	
 }
