@@ -2,519 +2,390 @@
     "main": {
         "title": "General",
         "elements": [
-			{
-		  		"name": "Heading",
-	            "icon": "heading.gif",
-	            "tag": "h1",
-	            "properties": 
-	            	{
-	            		"height": "auto",
-						"width": "auto",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"font": 
-							{
-								"font-style": "normal",
-								"font-variant": "normal",
-								"font-weight": "normal",
-								"font-size": "medium",
-								"font-family": "Arial"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-	            	}
-	        },{
-	        
+            {
+                "name": "Heading",
+                "icon": "heading.gif",
+                "tag": "H1",
+                "properties": {
+                    "height": "auto",
+                    "width": "auto",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px" 
+                } 
+            },
+            {
                 "name": "Text",
                 "icon": "text.gif",
-                "tag": "p",
-                "properties": 
-                	{
-                		"height": "auto",
-						"width": "auto",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"font": 
-							{
-								"font-style": "normal",
-								"font-variant": "normal",
-								"font-weight": "normal",
-								"font-size": "medium",
-								"font-family": "Arial"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-                	}
-                
-                
+                "tag": "P",
+                "properties": {
+                    "height": "auto",
+                    "width": "auto",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px" 
+                } 
             },
             {
                 "name": "Label",
                 "icon": "label.gif",
-                "tag": "label",
-                "properties": 
-                	{
-                		"height": "auto",
-						"width": "auto",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"font": 
-							{
-								"font-style": "normal",
-								"font-variant": "normal",
-								"font-weight": "normal",
-								"font-size": "medium",
-								"font-family": "Arial"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-                	}
-                
-                
+                "tag": "LABEL",
+                "properties": {
+                    "height": "auto",
+                    "width": "auto",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px" 
+                } 
             },
             {
                 "name": "Link",
                 "icon": "link.gif",
-                "tag": "a",
-                "properties": 
-                	{
-                		"height": "auto",
-						"width": "auto",
-						"color": "blue",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"font": 
-							{
-								"font-style": "normal",
-								"font-variant": "normal",
-								"font-weight": "normal",
-								"font-size": "medium",
-								"font-family": "Arial"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-                	},
-                	"attributes":{
-						"href": "#"
-				}
+                "tag": "A",
+                "properties": {
+                    "height": "auto",
+                    "width": "auto",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px" 
+                },
+                "attributes": {
+                    "href": "#"
+                } 
             },
-			{
-				"name": "Header",
+            {
+                "name": "Header",
                 "icon": "header.gif",
-                "tag": "header",
-                "properties": 
-					{
-						"height": "25px",
-						"width": "100%",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					}
-			},
-			{
-				"name": "Footer",
+                "tag": "HEADER",
+                "properties": {
+                    "height": "25px",
+                    "width": "100%",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                }
+            },
+            {
+                "name": "Footer",
                 "icon": "footer.gif",
-                "tag": "footer",
-                "properties": 
-					{
-						"height": "25px",
-						"width": "100%",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					}
-			},
+                "tag": "FOOTER",
+                "properties": {
+                    "height": "25px",
+                    "width": "100%",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                }
+            },
             {
                 "name": "Container",
                 "icon": "container.gif",
-                "tag": "div",
-                "properties": 
-					{
-						"height": "140px",
-						"width": "140px",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					}
+                "tag": "DIV",
+                "properties": {
+                    "height": "140px",
+                    "width": "140px",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                } 
             },
             {
                 "name": "Audio",
                 "icon": "audio.gif",
-                "tag": "audio",
-                "properties": 
-					{
-						"height": "auto",
-						"width": "auto",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					},
-					"attributes": 
-						{
-							"src": ""
-						}
-					
+                "tag": "AUDIO",
+                "properties": {
+                    "height": "140px",
+                    "width": "140px",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                },
+                "attributes": {
+                    "src": ""
+                } 
             },
             {
                 "name": "Image",
                 "icon": "image.gif",
-                "tag": "img",
-                   "properties": 
-					{
-						"color": "black",
-						"resize": "both",
-						"height": "100px",
-						"width": "100px",
-						"position": "absolute",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					},
-					"attributes": 
-						{
-							"alt": "To be displayed if no image",
-							"src": "http://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png"
-							
-						}
-					
+                "tag": "IMG",
+                "properties": {
+                    "color": "black",
+                    "resize": "both",
+                    "position": "absolute",
+                    "height": "100px",
+                    "width": "100px",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                },
+                "attributes": {
+                    "alt": "To be displayed if no image",
+                    "src": "http://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png"
+                } 
             },
             {
                 "name": "Video",
                 "icon": "video.gif",
-                "tag": "<video style=\"border: 1px dotted #464646;\">Video not found</video>",
-                "properties": 
-					{
-						"height": "auto",
-						"width": "auto",
-						"color": "black",
-						"background": 
-							{
-								"background-color": "white",
-								"background-image": "none"
-							},
-						"border": 
-							{
-								"border-top-width": "1px",
-								"border-top-style":	"dotted",
-								"border-top-color": "black",
-								"border-bottom-width": "1px",
-								"border-bottom-style":	"dotted",
-								"border-bottom-color": "black",
-								"border-left-width": "1px",
-								"border-left-style":	"dotted",
-								"border-left-color": "black",
-								"border-right-width": "1px",
-								"border-right-style":	"dotted",
-								"border-right-color": "black"
-							},
-						"margin": 
-							{
-								"margin-top": "0px",
-								"margin-bottom": "0px",
-								"margin-right": "0px",
-								"margin-left": "0px"
-							},
-						"padding": 
-							{
-								"padding-top": "0px",
-								"padding-bottom": "0px",
-								"padding-right": "0px",
-								"padding-left": "0px"
-							}
-							
-					},
-					"attributes": 
-						{
-							"src": ""
-						}
-					
+                "tag": "VIDEO",
+                "properties": {
+                    "height": "140px",
+                    "width": "140px",
+                    "color": "black",
+                    "background-color": "white",
+                    "background-image": "none",
+                    "border-top-width": "1px",
+                    "border-top-style": "dotted",
+                    "border-top-color": "black",
+                    "border-bottom-width": "1px",
+                    "border-bottom-style": "dotted",
+                    "border-bottom-color": "black",
+                    "border-left-width": "1px",
+                    "border-left-style": "dotted",
+                    "border-left-color": "black",
+                    "border-right-width": "1px",
+                    "border-right-style": "dotted",
+                    "border-right-color": "black",
+                    "font-style": "normal",
+                    "font-variant": "normal",
+                    "font-weight": "normal",
+                    "font-size": "medium",
+                    "font-family": "Arial",
+                    "margin-top": "0px",
+                    "margin-bottom": "0px",
+                    "margin-right": "0px",
+                    "margin-left": "0px",
+                    "padding-top": "0px",
+                    "padding-bottom": "0px",
+                    "padding-right": "0px",
+                    "padding-left": "0px"
+                },
+                "attributes": {
+                    "src": ""
+                } 
             } 
         ] 
     }
