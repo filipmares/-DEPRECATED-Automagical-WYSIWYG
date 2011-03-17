@@ -25,6 +25,10 @@ var automagical = (function(){
 		return "Lorem ipsum dolor";
 	};
 	
+	SHORT_SHORT_LOREM_IPSUM = function() {
+		return "Lorem";
+	};
+	
 	initializeGetHtml = function(){
 		$('a#getHTML').click(function(){
 			postProcessing.postProcessing();
@@ -98,11 +102,11 @@ var automagical = (function(){
 			case ('Heading'):
 				tag.text(SHORT_LOREM_IPSUM());
 				break;
+			case ('Button'):
+				tag.text(SHORT_SHORT_LOREM_IPSUM ());
+				break;
 			case ('Input'):
 				tag.val(SHORT_LOREM_IPSUM());
-				break;
-			case ('Button'):
-				tag.text(SHORT_LOREM_IPSUM());
 				break;
 			case ('Container'):
 				tag.addClass('container');
@@ -402,7 +406,24 @@ var automagical = (function(){
 	            'Delete': {
 	                click: function(element){ 
 	                	
-	                	element.empty().remove();
+	                	
+	                			
+						if (($(element).children().size() > 0)) {
+							
+							
+							$(element).children().each(function(){
+								var el = $(this);
+								el.remove();
+							
+							})
+							
+							element.remove();
+							
+							
+						}
+						else {
+							element.empty().remove();
+						}
 
 	                },
 	                klass: "menu-item-2"
@@ -450,7 +471,7 @@ var automagical = (function(){
 						containment:"#canvas",
 						cancel: null,
 						stop: function(event, ui) {
-							element.css('top', helper.css('top'));
+							element.css('top', helper.css('top'));	//we want the positions to stay the same for wrapping div because we remove wrapping div after
 							element.css('left', helper.css('left'));
 						}
 					})
