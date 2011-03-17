@@ -10,6 +10,7 @@ var automagicalCss = (function(){
 		initializeFileUploadDialog,
 		initializeChangeContentDialog,
 		initializeFileList,
+		initializeColorPicker,
 		submitFile,
 		justText,
 		stopEvent,
@@ -56,16 +57,22 @@ var automagicalCss = (function(){
 				resizable: false,
 				buttons: {
         			'Change': function(){
-        				var el = $('#canvas .component.outline-element-clicked');
+        				var el = $('.component.outline-element-clicked');
         				
 						if (el.size() > 0) {
+							//console.log(el.get(0).tagName());
 								$(el)
 		  							.contents()
 		  							.filter(function() {
 		    							return this.nodeType == 3; //Node.TEXT_NODE
 		  							}).replaceWith($('#newContent').val());
-		  					
-
+								
+								if ($(el).attr('value')) {
+									$(el).val($('#newContent').val());
+								}
+		  				}
+		  				else {
+		  				
 		  				}
 
 						changeContentDialog.dialog('close');
@@ -194,6 +201,37 @@ var automagicalCss = (function(){
 			}
     		});  
 	};
+	
+	initializeColorPicker = function(selected, value) {
+	
+		var el = $('input[cssValue="'+ value +'"]');
+		$(el).val(selected.css(value));
+		
+		$(el).ColorPicker({
+			onSubmit: function(hsb, hex, rgb, el) {
+				$(el).val('rgb('+rgb.r+','+rgb.g+','+rgb.b+')');
+				$(el).ColorPickerHide();
+				//$(el).trigger('change');
+				//console.log(rgb);
+				//console.log(el);
+				if (cssInformation['#'+selected.attr('id')][value] != null) {
+	
+					selected.css(value, $(el).val());
+					automagicalCss.writeCssSelector('#'+selected.attr('id'),value,$(el).val());
+					automagicalCss.updatePageCss();
+				}
+				else {
+					//TODO: What to do if class or element selector
+				}
+				
+			},
+			onBeforeShow: function () {
+				$(this).ColorPickerSetColor(el.val());
+			}
+		});
+		
+		
+	}
 	 
 	highlightElement = function(element) {
 		$('#canvas *').removeClass('outline-element');
@@ -231,8 +269,10 @@ var automagicalCss = (function(){
 			for (value in cssInformation[idSelector]){
 				
 				if (value == "background-color" || value == 'color' || value == 'border-top-color' || value == 'border-bottom-color' || value == 'border-left-color' || value == 'border-right-color') {
-					attributes_list.append('<label>' + value + '</label> <input class="color colorPicker" value="' + selected.css(value) + '"cssValue="' + value + '" /> <br/>');
-											jscolor.init();
+					attributes_list.append('<label>' + value + '</label> <input class="colorPicker value="' + selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+					//jscolor.init();
+				
+					initializeColorPicker(selected,value);
 				}
 
 				else if (value == 'background-image') {
@@ -421,7 +461,7 @@ var automagicalCss = (function(){
 			});
 			
 			//Listen to when the user changes a css color property, then change the property
-			$('.colorPicker').live('change', function(event){
+			/*$('.colorPicker').live('change', function(event){
 				var selected = $('.outline-element-clicked');
 				var property = $(this).attr('cssValue');
 	
@@ -437,7 +477,7 @@ var automagicalCss = (function(){
 				}
 					
 	
-			});
+			});*/
 			
 			//Listen to when the user changes a attribute, then change the attribute value
 			$('.attrInput').live('change', function(event){
