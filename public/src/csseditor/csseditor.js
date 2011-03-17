@@ -86,7 +86,11 @@
 					attributes_list.append('<label>' + key + '</label>' + selectBox + '<br/>');
 				
 				}	else if (value.type === "colorpicker"){
-					
+					attributes_list.append('<label>' + key + 
+																 '</label> <input class="color colorPicker" value="' +
+																 $.fn.cssEditor.selected.css(value) +
+																 '"cssValue="' + key + '" /> <br/>');
+					jscolor.init();
 				}	
 				
 			});
@@ -132,8 +136,22 @@
 			}
 		});
 		
-		//Support for outlining the current element
+		//Listen to when the user changes a css color property, then change the property
+		$('.colorPicker').live('change', function(event){
+			var element = $(this);
+			var typeMapping = $.fn.cssEditor.commonStyles;
+			var styleMapping = null;
+
+			if (typeMapping[element.attr('cssValue')] != null) {
+				styleMapping = typeMapping[element.attr('cssValue')].styles;
+				
+				jQuery.each(styleMapping, function(index, value){
+					$.fn.cssEditor.selected.css(value, element.css('background-color'));
+				});
+			}
+		});
 		
+		//Support for outlining the current element
 		//Need mouseover event so that outline stays even when mousing over resizing div's on east and south of component
 		$('#canvas *').live('mouseover', function(event){
 			$('#canvas *').removeClass('outline-element');
@@ -202,7 +220,10 @@
 			return path + ' .' + element.attr('class');
 		}
 		
-		return path + ' ' + element.get(0).tagName().toLowerCase(); 
+		if (element.get(0).tagName) {
+			path += ' ' + element.get(0).tagName.toLowerCase(); 
+		}
+		return path;
 	};
 	
 	$.fn.cssEditor.changeWidthHeight = function(width, height){
@@ -270,7 +291,8 @@
 		type: 'input', styles: ['font-size']
 	};
 	$.fn.cssEditor.txtWeightSelector = {
-		type: 'input', styles: ['font-weight']
+		type: 'select', styles: ['font-weight'],
+		options: ['normal', 'bold', 'bolder', 'lighter']
 	};
 	$.fn.cssEditor.txtStyleSelector = {
 		type: 'select', styles: ['font-style'], 

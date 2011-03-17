@@ -20,7 +20,7 @@ var jscolor = {
 
 
 	install : function() {
-		jscolor.addEvent(window, 'load', jscolor.init);
+		//jscolor.addEvent(window, 'load', jscolor.init);
 	},
 
 
@@ -343,7 +343,7 @@ var jscolor = {
 		this.pickerBorderColor = 'ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight'; // CSS color
 		this.pickerInset = 1; // px
 		this.pickerInsetColor = 'ThreeDShadow ThreeDHighlight ThreeDHighlight ThreeDShadow'; // CSS color
-		this.pickerZIndex = 10000;
+		this.pickerZIndex = 1000001;
 
 
 		for(var p in prop) {
@@ -568,6 +568,15 @@ var jscolor = {
 				jscolor.picker.box.appendChild(jscolor.picker.padB);
 				jscolor.picker.box.appendChild(jscolor.picker.padM);
 				jscolor.picker.boxB.appendChild(jscolor.picker.box);
+				
+				$(jscolor.picker.box).attr('id', 'colorBox');
+				$(jscolor.picker.boxB).attr('id', 'colorBoxB');
+				$(jscolor.picker.pad).attr('id', 'colorPad');
+				$(jscolor.picker.padB).attr('id', 'colorPadB');
+				$(jscolor.picker.padM).attr('id', 'colorPadM');
+				$(jscolor.picker.sld).attr('id', 'colorSld');
+				$(jscolor.picker.sldB).attr('id', 'colorSldB');
+				$(jscolor.picker.sldM).attr('id', 'colorSldM');
 			}
 
 			var p = jscolor.picker;
@@ -595,7 +604,7 @@ var jscolor = {
 			// picker
 			p.box.style.width = 4*THIS.pickerInset + 2*THIS.pickerFace + jscolor.images.pad[0] + 2*jscolor.images.arrow[0] + jscolor.images.sld[0] + 'px';
 			p.box.style.height = 2*THIS.pickerInset + 2*THIS.pickerFace + jscolor.images.pad[1] + 'px';
-
+			
 			// picker border
 			p.boxB.style.position = 'absolute';
 			p.boxB.style.clear = 'both';
@@ -605,6 +614,7 @@ var jscolor = {
 			p.boxB.style.border = THIS.pickerBorder+'px solid';
 			p.boxB.style.borderColor = THIS.pickerBorderColor;
 			p.boxB.style.background = THIS.pickerFaceColor;
+			p.boxB.style.height = p.box.style.height;
 
 			// pad image
 			p.pad.style.width = jscolor.images.pad[0]+'px';
@@ -616,6 +626,7 @@ var jscolor = {
 			p.padB.style.top = THIS.pickerFace+'px';
 			p.padB.style.border = THIS.pickerInset+'px solid';
 			p.padB.style.borderColor = THIS.pickerInsetColor;
+			p.padB.style.height = 100 + 'px';
 
 			// pad mouse area
 			p.padM.style.position = 'absolute';
@@ -636,6 +647,7 @@ var jscolor = {
 			p.sldB.style.top = THIS.pickerFace+'px';
 			p.sldB.style.border = THIS.pickerInset+'px solid';
 			p.sldB.style.borderColor = THIS.pickerInsetColor;
+			p.sldB.style.height = 100 + 'px';
 
 			// slider mouse area
 			p.sldM.style.position = 'absolute';
