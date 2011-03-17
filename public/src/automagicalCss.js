@@ -57,14 +57,17 @@ var automagicalCss = (function(){
 				buttons: {
         			'Change': function(){
         				var el = $('#canvas .component.outline-element-clicked');
-														
-						//Have to do it this way to keep it resizable	
-						$(el)
-  							.contents()
-  							.filter(function() {
-    							return this.nodeType == 3; //Node.TEXT_NODE
-  							}).replaceWith($('#newContent').val());
-  
+        				
+						if (el.size() > 0) {
+								$(el)
+		  							.contents()
+		  							.filter(function() {
+		    							return this.nodeType == 3; //Node.TEXT_NODE
+		  							}).replaceWith($('#newContent').val());
+		  					
+
+		  				}
+
 						changeContentDialog.dialog('close');
         				
             			

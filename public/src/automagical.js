@@ -12,7 +12,7 @@ var automagical = (function(){
 		SHORT_LOREM_IPSUM
 		
 		keepHTMLTidy = false,
-		levelsDeeps = false;
+		levelsDeep = true;
 		
 		
 
@@ -228,7 +228,7 @@ var automagical = (function(){
 		$.get(pageUrl, function(data){
 			var html = data.canvas.toString();
 			var css = data.style.toString();
-			//console.log(html + "\n");
+			console.log(html + "\n");
 			//console.log(css);
 			
 			//$('.temporary').append(css);
