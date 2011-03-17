@@ -6,7 +6,7 @@ var postProcessing = (function(){
 
 
 	/* This function recursively iterates through all of an element's children to produce it's html */
-    recursiveHTMLAppendFunction = function( canvasHTML, element) {
+    recursiveHTMLAppendFunction = function( canvasHTML, element, positioning) {
 		//if the div is only being used for resizing purposes, don't include it in final html
 		if ((element.filter('.ui-resizable-handle, .ui-resizable-e, .ui-resizable-handle, .ui-resizable-s, .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se')).size() > 0) {
 			return "";
@@ -17,24 +17,43 @@ var postProcessing = (function(){
 		
 		var attributes = "";
 		
+				
+		if (positioning) {
+			element.css('position', positioning);
+			//console.log("changed " + element.attr('id'));
+		}
+		
 		var target = $(element).get(0);
 		$.each($(target.attributes), function(index) {
 
 			attributes += target.attributes[index].name + "=\"" + target.attributes[index].value+ "\" ";
 
 		});
+
 		
 		//TODO: This doesn't take into acount any other attributes other than 'style', this needs to be changed
-		canvasHTML += "<"+ element.get(0).tagName + " "+ attributes +">\n" + element.clone().find("*").remove().end().text();
-		
-		//Go through all of the children of this element
-        if (element.children().size() > 0) {
-            element.children().each( function() {
-                canvasHTML += recursiveHTMLAppendFunction("", $(this));
-            });
-        }
-        
-       	canvasHTML += "</"+ element.get(0).tagName + ">\n";
+		if (!element.hasClass('ui-wrapper')) {
+			canvasHTML += "<"+ element.get(0).tagName + " "+ attributes +">\n" + element.clone().find("*").remove().end().text();
+			
+			//Go through all of the children of this element
+	        if (element.children().size() > 0) {
+	            element.children().each( function() {
+	                canvasHTML += recursiveHTMLAppendFunction("", $(this));
+	            });
+	        }
+	        
+	       	canvasHTML += "</"+ element.get(0).tagName + ">\n";
+
+		}
+		else {
+			//Go through all of the children of this element
+	        if (element.children().size() > 0) {
+	            element.children().each( function() {
+	                canvasHTML += recursiveHTMLAppendFunction("", $(this), 'absolute');
+	            });
+	        }
+		}
+
        	
        	return canvasHTML; 
 	};

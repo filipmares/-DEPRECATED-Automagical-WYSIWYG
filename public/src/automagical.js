@@ -5,9 +5,14 @@ var automagical = (function(){
 		initializeDroppableAreas,
 		addContextMenu,
 		initializeSavedElementProperties,
+		initializeNonResizableElements,
+		initializePulledInChildElement,
 		
 		LONG_LOREM_IPSUM,
-		SHORT_LOREM_IPSUM;
+		SHORT_LOREM_IPSUM
+		
+		keepHTMLTidy = false,
+		levelsDeeps = false;
 		
 		
 
@@ -93,6 +98,12 @@ var automagical = (function(){
 			case ('Heading'):
 				tag.text(SHORT_LOREM_IPSUM());
 				break;
+			case ('Input'):
+				tag.val(SHORT_LOREM_IPSUM());
+				break;
+			case ('Button'):
+				tag.text(SHORT_LOREM_IPSUM());
+				break;
 			case ('Container'):
 				tag.addClass('container');
 				break;
@@ -150,6 +161,11 @@ var automagical = (function(){
 
 				}
 				else {
+					//If height or width are specified, set it					
+					if ((nameInner == 'height') || (nameInner =='width')) {
+						element.css(nameInner, elementInner);
+						
+					}
 					automagicalCss.writeCssSelector('#'+element.attr('id'), nameInner, elementInner);
 				}
 
@@ -166,17 +182,18 @@ var automagical = (function(){
 				if (!ui.draggable.hasClass("added")) {	//Hasn't been placed on canvas yet
 					var cloned = ui.helper.clone();
 
+					var clonedCopy = wrapElementInDragAndDrop(cloned, $(this));
 					
 
-
-
-					wrapElementInDragAndDrop(cloned, $(this));
-					
-
-					
+					clonedCopy.css('position', 'absolute');
 					//Need these offsets when appending children to a container that's not the canvas
-					cloned.css('top', ui.position.top - $(this).offset().top);
-					cloned.css('left', ui.position.left - $(this).offset().left);
+					clonedCopy.css('top', ui.position.top - $(this).offset().top);
+					clonedCopy.css('left', ui.position.left - $(this).offset().left);
+					
+					if (clonedCopy != cloned) { //if you have a ui-wrapper present
+						cloned.css('top', clonedCopy.css('top'));
+						cloned.css('left', clonedCopy.css('left'));
+					}
 					
 				} else { //Element already on canvas
 					$(this).append($(ui.draggable));
@@ -199,50 +216,102 @@ var automagical = (function(){
 		$.get(pageUrl, function(data){
 			var html = data.canvas.toString();
 			var css = data.style.toString();
-			console.log(html + "\n");
-			console.log(css);
+			//console.log(html + "\n");
+			//console.log(css);
 			
 			//$('.temporary').append(css);
 			$('head').append(css);
 			var bodyWrapper = $('<div></div>');
 			bodyWrapper.append(html);
 			
-			$(bodyWrapper).children().each(function(i, el){
-				//console.log($(el).attr('id'));
-				wrapElementInDragAndDrop(el, $('#canvas'));
-				$(el).addClass('container component')
+			$(bodyWrapper).children().each(function(){
 				
+				var el=$(this);
 				
+				if ($(el).get(0).tagName == 'DIV'){
+					$(el).addClass('container component');
+				}
+				else {
+					$(el).addClass('component');
+				}	
 				initializeSavedElementProperties(el);
+				
+				el = wrapElementInDragAndDrop(el, $('#canvas'));
+				
+
+
+					
+				
+				initializePulledInChildElements(el);
+				
 				
 			});
 			bodyWrapper.empty().remove();
 		});
 	};
 	
-	wrapElementInDragAndDrop = function(element, appendTo){
-		console.log($(appendTo).attr('id'));
-		console.log($(element).attr('id'));
+	initializePulledInChildElements = function(element) {
 		
+		if (($(element).children().size() > 0)) {
+			
+			
+			$(element).children().each(function(){
+				
+				var el = $(this);
+				
+				//Stuff we put on for draggable and resizable functionality, we don't want to pull any of these in
+				if (!($(el).filter('.ui-resizable-handle, .ui-resizable-e, .ui-resizable-handle, .ui-resizable-s, .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se')).size() > 0) {
+					//
+					var elCopy = el.detach();
+					
+					
+					if ($(elCopy).get(0).tagName == 'DIV'){
+						$(elCopy).addClass('container component');
+					}
+					else {
+						$(elCopy).addClass('component');
+					}
+					initializeSavedElementProperties(elCopy);
+					
+					elCopy = wrapElementInDragAndDrop(elCopy, $(element));
+
+					
+					if (levelsDeep) {
+						initializePulledInChildElements(el);
+					}
+		        }
+				
+
+
+				
+			});
+		}
+
+	};
+	
+	wrapElementInDragAndDrop = function(element, appendTo){
+
+		
+
 		
 		//TODO: Fix this bug where dropped images keep resizing themselves. JQuery has bug making images resizable and droppable
-		if ($(element).get(0).tagName == 'IMG') {
+		if (($(element).get(0).tagName == 'IMG') || ($(element).get(0).tagName == 'INPUT')|| ($(element).get(0).tagName == 'BUTTON') || ($(element).hasClass('ui-wrapper'))) {
 			
-			appendTo.append($(element)
-				.addClass("added")
-				.removeClass("ui-draggable-dragging")
-				.draggable({containment:"#canvas"})
-			);
-			
-			$(element).css('position', 'absolute');
+			element = initializeNonResizableElements(element, appendTo);
+
+
 		}
 		else {
 			appendTo.append($(element)
-				.draggable({containment:"#canvas"})
+				.draggable({
+					containment:"#canvas",
+					cancel: null
+				})
 				.addClass("added")
 				.removeClass("ui-draggable-dragging")
 				.resizable({
 					containment:"parent",
+					cancel: null,
 					resize: function(event, ui) {
 						//This function can now be removed as the golden grid snapping has been factored out
 					}
@@ -272,7 +341,12 @@ var automagical = (function(){
 		}
 		//Make a custom event to show when element is first added to canvas
 		$(element).trigger('appendToCanvas');
+		
+		
+		return element;
 	}
+	
+
 	
 	initializeSavedElementProperties = function(element){
 		
@@ -315,7 +389,9 @@ var automagical = (function(){
 	            },
 	            'Delete': {
 	                click: function(element){ 
-	                	element.remove();
+	                	
+	                	element.empty().remove();
+
 	                },
 	                klass: "menu-item-2"
 	            }
@@ -326,6 +402,58 @@ var automagical = (function(){
 	
 	
 
+	};
+	
+	initializeNonResizableElements = function(element, appendTo) {
+			
+			if (keepHTMLTidy){ //Don't give it resizable option, keeps our html clean (well...somewhat clean)
+				appendTo.append($(element)
+					.addClass("added")
+					.removeClass("ui-draggable-dragging")
+					.draggable({
+						containment:"#canvas",
+						cancel: null
+					})
+					
+	
+				);
+			}
+			else { //wraps imgs, inputs, in div so they can be resized on the fly
+				
+				if (!$(element).parent().hasClass('ui-wrapper')) {
+					$(element).removeClass("ui-draggable-dragging");
+					appendTo.append($(element));
+					$(element).resizable({
+						containment:"parent",
+						cancel: null,
+						resize: function(event, ui) {
+							//This function can now be removed as the golden grid snapping has been factored out
+						}
+					})
+
+					
+					var helper = $(element).parent(); //These are elements which need a ui-wrapper
+					$(helper).addClass("added");
+					$(helper).draggable({
+						containment:"#canvas",
+						cancel: null,
+						stop: function(event, ui) {
+							element.css('top', helper.css('top'));
+							element.css('left', helper.css('left'));
+						}
+					})
+					
+					element.css('top', helper.css('top'));
+					element.css('left', helper.css('left'));
+					
+				}
+			
+
+			}
+			
+			return helper;
+	
+	
 	};
 	
 	return {

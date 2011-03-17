@@ -12,12 +12,23 @@ var automagicalCss = (function(){
 		initializeFileList,
 		submitFile,
 		justText,
+		stopEvent,
+		
 
 		cssInformation = {},
 		attrInformation = {},
 		fileUploadDialog,
 		changeContentDialog;
-		
+	
+	stopEvent = function(event) {
+				event.preventDefault();
+			    event.stopPropagation();
+			    if ($.browser.msie) {
+			        event.originalEvent.keyCode = 0;
+			        event.originalEvent.cancelBubble = true;
+			        event.originalEvent.returnValue = false;
+			    }
+	};	
 	
 	justText = function(element) {
 	 
@@ -45,7 +56,7 @@ var automagicalCss = (function(){
 				resizable: false,
 				buttons: {
         			'Change': function(){
-        				var el = $('#canvas .outline-element-clicked');
+        				var el = $('#canvas .component.outline-element-clicked');
 														
 						//Have to do it this way to keep it resizable	
 						$(el)
@@ -118,7 +129,7 @@ var automagicalCss = (function(){
 						//console.log(data);
 						//data = '\"/'+ data + '\"';
 						
-						var selected = $('.outline-element-clicked');
+						var selected = $('.component.outline-element-clicked');
 						
 						if ($('.fileUploading').attr('cssValue')) {
 				
@@ -267,7 +278,7 @@ var automagicalCss = (function(){
 
 
 		//Highlight clicked element
-		unHighlightClickedElement('#canvas .component');
+		unHighlightClickedElement('#canvas *');
 		highlightClickedElement(selected);
 
 		
@@ -303,9 +314,10 @@ var automagicalCss = (function(){
 			
 	
 			//When an element on the canvas is clicked, populate the css attributes list
-			$('#canvas .component').live('click', function(){
+			$('#canvas .component').live('click', function(event){
 					populateAttributesBox(this);
-	
+					stopEvent(event);
+					return false;
 			});
 	
 			//When an element on the canvas is dropped onto canvas, populate the css attributes list		
@@ -360,7 +372,7 @@ var automagicalCss = (function(){
 			//Listen to when the user changes id, then change the id
 			$('#attributes-selector-input').live('change', function(event){
 				var element = $(this);
-				var selected = $('.outline-element-clicked');
+				var selected = $('.component.outline-element-clicked');
 				
 				if (element.val() !== "") {
 				
@@ -383,7 +395,7 @@ var automagicalCss = (function(){
 			
 			//Listen to when the user changes a css property, then change the property
 			$('.cssInput').live('change', function(event){
-				var selected = $('.outline-element-clicked');
+				var selected = $('.component.outline-element-clicked');
 				var property = $(this).attr('cssValue');
 	
 				//checks to see if selector based on ID present in css
@@ -402,7 +414,7 @@ var automagicalCss = (function(){
 			
 			//Listen to when the user changes a attribute, then change the attribute value
 			$('.attrInput').live('change', function(event){
-				var selected = $('.outline-element-clicked');
+				var selected = $('.component.outline-element-clicked');
 				var attrib = $(this).attr('attrValue');
 	
 				//checks to see if selector based on ID present in css
@@ -426,15 +438,21 @@ var automagicalCss = (function(){
 			//Need mouseover event so that outline stays even when mousing over resizing div's on east and south of component
 			$('#canvas .component').live('mouseover', function(event){
 				highlightElement(this);
+				stopEvent(event);
+				return false;
 			});
 			
 			//Show/hide the outline when we hover over an element. We could probably use hover() for this
 			$('#canvas .component').live('mouseenter', function(event){
 				highlightElement(this);
+				stopEvent(event);
+				return false;
 			});
 			
 			$('#canvas .component').live('mouseout', function(event){
 				unHighlightElement(this);
+				stopEvent(event);
+				return false;
 			});
 			
 			//Need event for when the label is clicked for a file upload
@@ -448,13 +466,7 @@ var automagicalCss = (function(){
 				
 			$('#frmsample').live('submit', function(event) {
 			  
-				event.preventDefault();
-			    event.stopPropagation();
-			    if ($.browser.msie) {
-			        event.originalEvent.keyCode = 0;
-			        event.originalEvent.cancelBubble = true;
-			        event.originalEvent.returnValue = false;
-			    }
+				
 			    $(this).ajaxSubmit(function() {
 			    	//fileUploadDialog.dialog('close');	
 			    	initializeFileList();	
