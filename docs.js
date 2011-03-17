@@ -19,6 +19,11 @@ exports.loadDocument = function(url, callback){
 			});			
 			//console.log(window.document.getElementsByTagName('img')[0].src);
 			
+			//String all <a> of links so we can click on buttons etc.. w/o being redirected
+			window.$('a').each(function(index, element){
+				window.$(element).attr('href', "");
+			});
+			
 			//Change relative stylesheet paths to absolute stylesheet paths
 			var stylesheets = "";
 			window.$('link').each(function(index, element){

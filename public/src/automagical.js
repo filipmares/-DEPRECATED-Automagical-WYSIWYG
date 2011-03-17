@@ -211,7 +211,19 @@ var automagical = (function(){
 		var params = $.getUrlVars();
 		if (params.length <= 1) return;
 		
-		var pageUrl = '/processed/' + params['user'] + '/' + params['page'];
+		var page = params['user'] + '/' + params['page'];
+		var getDirty = '/dirty/' + page;
+
+		$.get(getDirty, function(data){
+			var isDirty = data.dirty;
+			if (!isDirty){
+				loadOriginalPage(page);
+			}
+		});
+	};
+	
+	loadOriginalPage = function(page){
+		var pageUrl = '/processed/' + page;
 		console.log('fetching saved page from ' + pageUrl);
 		$.get(pageUrl, function(data){
 			var html = data.canvas.toString();

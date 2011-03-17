@@ -227,7 +227,12 @@ var automagicalCss = (function(){
 			
 			for (value in cssInformation[idSelector]){
 				
-				if (value == 'background-image') {
+				if (value == "background-color" || value == 'color' || value == 'border-top-color' || value == 'border-bottom-color' || value == 'border-left-color' || value == 'border-right-color') {
+					attributes_list.append('<label>' + value + '</label> <input class="color colorPicker" value="' + selected.css(value) + '"cssValue="' + value + '" /> <br/>');
+											jscolor.init();
+				}
+
+				else if (value == 'background-image') {
 				
 				
 					attributes_list.append('<label>' + value + '</label> <input class="fileUploadInput" type="text" value="' + selected.css(value) + '" readonly="readonly" cssValue="' + value + '" /><br/>');
@@ -403,6 +408,25 @@ var automagicalCss = (function(){
 	
 					selected.css(property, $(this).val());
 					automagicalCss.writeCssSelector('#'+selected.attr('id'),property,$(this).val());
+					automagicalCss.updatePageCss();
+				}
+				else {
+					//TODO: What to do if class or element selector
+				}
+					
+	
+			});
+			
+			//Listen to when the user changes a css color property, then change the property
+			$('.colorPicker').live('change', function(event){
+				var selected = $('.outline-element-clicked');
+				var property = $(this).attr('cssValue');
+	
+				//checks to see if selector based on ID present in css
+				if (cssInformation['#'+selected.attr('id')][property] != null) {
+	
+					selected.css(property, $(this).css('background-color'));
+					automagicalCss.writeCssSelector('#'+selected.attr('id'),property,$(this).css('background-color'));
 					automagicalCss.updatePageCss();
 				}
 				else {

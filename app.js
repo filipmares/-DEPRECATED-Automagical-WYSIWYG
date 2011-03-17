@@ -128,7 +128,20 @@ app.get('/logout', function(req,res){
 
 app.get('/client/?', function(req,res){
 	if (req.session.user){
-		res.render('client', {layout: false});
+		if (req.query.user){
+			var username = req.query.user;
+			var page = req.query.page;
+			data.getDirtyBit(username, page, function(reply){
+				if (reply){
+					res.render('editor', {layout: false});
+				} else{
+					res.render('client', {layout: false});
+				}
+			});
+			
+		} else{
+			res.render('client', {layout: false});
+		}
 	} else {
 		res.redirect('/logout');
 	}
@@ -140,6 +153,16 @@ app.get('/processed/:username/:pageNum', function(req,res){
 			res.send(reply);
 		} else{
 			console.log('There was an error getting the processed page');
+		}
+	});
+});
+
+app.get('/dirty/:username/:pageNum', function(req,res){
+	data.getDirtyBit(req.params.username, req.params.pageNum, function(reply){
+		if (reply){
+			res.send({dirty: true});
+		} else{
+			res.send({dirty: false});
 		}
 	});
 });
@@ -187,7 +210,7 @@ app.post('/fetch', function(req,res){
 			if (err){
 				res.redirect('404')
 			} else{
-				data.savePage(req.session.user.username, allHtml);
+				data.savePage(req.session.user.username, allHtml, false, true);
 				data.saveProcessedPage(req.session.user.username, html, style);
 				res.redirect('/user');
 			}
