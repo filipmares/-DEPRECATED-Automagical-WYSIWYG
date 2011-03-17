@@ -32,7 +32,6 @@
 		
 		var selector_field = $('#attributes-selector-input', wrapper);
 		var attributes_list = $('#attributes-list', wrapper);
-		var selected = null;
 		
 		$('#showHide', wrapper).click(function(){
 			var panel = $('#attributes-panel');
@@ -53,25 +52,43 @@
 
 		//When an element on the canvas is clicked, populate the css attributes list
 		$('#canvas *').live('click', function(){
-			selected = $(this);
+			$.fn.cssEditor.selected = $(this);
 			var marginDiv = $('#marginDiv');
 			var label = $('#showHideLabel');
 			
-			selector_field.val($.fn.cssEditor.extractCssSelectorPath(selected));
+			selector_field.val($.fn.cssEditor.extractCssSelectorPath($.fn.cssEditor.selected));
 			attributes_list.empty();
 			
 			var typeMapping = $.fn.cssEditor.commonStyles;
-			
+			//Build the Attributes Box
 			jQuery.each(typeMapping, function(key, value){
+				//Find a style (from a set of related styles) that is set, and use that as default
 				var validStyle = "";
-				jQuery.each(value, function(index, style){
-					if (selected.css(style) != null) {
+				jQuery.each(value.styles, function(index, style){
+					if ($.fn.cssEditor.selected.css(style) != null) {
 						validStyle = style;
 					}
 				});
+				//Find the type of selector to build, and build that selector
+				if (value.type === "input"){
+					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
+											$.fn.cssEditor.selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
 				
-				attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
-										selected.css(validStyle) + '" cssValue="' + key + '" /> <br/>');
+				} else if (value.type === "select"){
+					var selectBox = '<select class="cssEditSelect" ' + 
+													' cssValue="' + key + '"' +
+													' onchange="$.fn.cssEditor.changeSelectValue(this)">';
+					//Add the whole set of options to the select element
+					jQuery.each(value.options, function(index, option){
+						selectBox += '<option value="' + option + '">' + option + '</option>';
+					});
+					selectBox += '</select>';
+					attributes_list.append('<label>' + key + '</label>' + selectBox + '<br/>');
+				
+				}	else if (value.type === "colorpicker"){
+					
+				}	
+				
 			});
 
 			//Highlight clicked element
@@ -105,10 +122,14 @@
 			var element = $(this);
 			var typeMapping = $.fn.cssEditor.commonStyles;
 			var styleMapping = null;
-			if (typeMapping[element.attr('cssValue')] != null) styleMapping = typeMapping[element.attr('cssValue')];
-			jQuery.each(styleMapping, function(index, value){
-				selected.css(value, element.val());
-			});
+			
+			if (typeMapping[element.attr('cssValue')] != null) {
+				styleMapping = typeMapping[element.attr('cssValue')].styles;
+				
+				jQuery.each(styleMapping, function(index, value){
+					$.fn.cssEditor.selected.css(value, element.val());
+				});
+			}
 		});
 		
 		//Support for outlining the current element
@@ -126,6 +147,16 @@
 		
 		$('#canvas *').live('mouseout', function(event){
 			$(this).removeClass('outline-element');
+		});
+		
+		//Prevent links from opening new windows, so we can safely click on them
+		$('a').click(function(event){
+			event.preventDefault();
+		});
+		
+		//Prevent forms from opening new windows, so we can safely click on them
+		$('form').click(function(event){
+			event.preventDefault();
 		});
 		
 		/*$('#canvas .component').live('click', function(event){
@@ -158,6 +189,8 @@
 
 	};
 	
+	$.fn.cssEditor.selected = null;
+	
 	$.fn.cssEditor.extractCssSelectorPath = function(element){
 		if (element.attr('id')){
 			return '#' + element.attr('id');
@@ -186,146 +219,165 @@
 		position: 'right'
 	};
 	
-	$.fn.cssEditor.commonStyles = {
-		width: widthSelector,
-		height: heightSelector,
-		position: positionSelector,
-		bkgcolor: bkgcolorSelector,
-		display: displaySelector,
-		opacity: opacitySelector,
-		radius: radiusSelector,
-		font: fontSelector,
-		txtSize: txtSizeSelector,
-		txtWeight: txtWeightSelector,
-		txtStyle: fontStyleSelector,
-		txtColor: txtColorSelector,
-		txtSpacing: txtSpacingSelector,
-		txtAlign: txtAlignSelector,
-		txtWrap: txtWrapSelector,
-		bkgImage: bkgImageSelector,
-		bkgRepeat: bkgRepeatSelector,
-		bkgPosition: bkgPositionSelector,
-		bkgAttach: bkgAttachSelector,
-		top: topSelector,
-		right: rightSelector,
-		bottom: bottomSelector,
-		left: leftSelector,
-		margin: marginSelector,
-		padding: paddingSelector,
-		borderWidth: borderWidthSelector,
-		borderColor: borderColorSelector,
-		borderStyle: borderStyleSelector,
-		visibility: visibilitySelector,
-		zIndex: zIndexSelector,
-		floats : floatsSelector
+	$.fn.cssEditor.changeSelectValue = function(element){
+		var el = $(element);
+		var typeMapping = $.fn.cssEditor.commonStyles;
+		var styleMapping = null;
+		var elementValue = element.options[element.selectedIndex].value;
+		
+		if (typeMapping[el.attr('cssValue')] != null) {
+			styleMapping = typeMapping[el.attr('cssValue')].styles;
+			
+			jQuery.each(styleMapping, function(index, value){
+				$.fn.cssEditor.selected.css(value, elementValue);
+			});
+		}
 	};
 	
-	var widthSelector = {
+	
+	
+	$.fn.cssEditor.widthSelector = {
 		type: 'input', styles: ['width']
 	};
-	var heightSelector = {
+	$.fn.cssEditor.heightSelector = {
 		type: 'input', styles: ['height']
 	};
-	var positionSelector = {
+	$.fn.cssEditor.positionSelector = {
 		type: 'select', options: ['absolute', 'fixed', 'static', 'relative', 'inherit'],
 		styles: ['position']
 	};
-	var bkgcolorSelector = {
+	$.fn.cssEditor.bkgcolorSelector = {
 		type: 'colorpicker', styles: ['backgroundColor'] 
 	};
-	var displaySelector = {
+	$.fn.cssEditor.displaySelector = {
 		type: 'select', styles: ['display'],
 		options: ['none', 'block', 'inline', 'table', 'inherit']
 	};
-	var opacitySelector = {
+	$.fn.cssEditor.opacitySelector = {
 		type: 'input', styles: ['opacity']
 	};
-	var radiusSelector = {
+	$.fn.cssEditor.radiusSelector = {
 		type: 'input', styles: ['-webkit-border-radius', 'border-radius', '-moz-border-radius',
 				'-webkit-border-bottom-left-radius', '-moz-border-radius-bottomleft', 'border-bottom-left-radius',
 				'-webkit-border-bottom-right-radius', '-moz-border-radius-bottomright', 'border-bottom-right-radius',
 				'-webkit-border-top-right-radius', '-moz-border-radius-topright', 'border-top-right-radius',
 				'-webkit-border-top-left-radius', '-moz-border-radius-topleft', 'border-top-left-radius']
 	};
-	var fontSelector = {
+	$.fn.cssEditor.fontSelector = {
 		type: 'input', styles: ['font-family']
 	};
-	var txtSizeSelector = {
+	$.fn.cssEditor.txtSizeSelector = {
 		type: 'input', styles: ['font-size']
 	};
-	var txtWeightSelector = {
+	$.fn.cssEditor.txtWeightSelector = {
 		type: 'input', styles: ['font-weight']
 	};
-	var txtStyleSelector = {
+	$.fn.cssEditor.txtStyleSelector = {
 		type: 'select', styles: ['font-style'], 
 		options: ['normal', 'italic', 'oblique', 'inherit']
 	};
-	var txtColorSelector = {
+	$.fn.cssEditor.txtColorSelector = {
 		type: 'colorpicker', styles: ['color']
 	};
-	var txtSpacingSelector = {
+	$.fn.cssEditor.txtSpacingSelector = {
 		type: 'input', styles: ['line-height']
 	};
-	var txtAlignSelector = {
+	$.fn.cssEditor.txtAlignSelector = {
 		type: 'select', styles: ['text-align'], 
 		options: ['left', 'right', 'center', 'justify', 'inherit']
 	};
-	var txtWrapSelector = {
+	$.fn.cssEditor.txtWrapSelector = {
 		type: 'select', styles: ['white-space'], 
 		options: ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'inherit']
 	};
-	var bkgImageSelector = {
+	$.fn.cssEditor.bkgImageSelector = {
 		type: 'input', styles: ['background-image']
 	};
-	var bkgRepeatSelector = {
+	$.fn.cssEditor.bkgRepeatSelector = {
 		type: 'select', styles: ['background-repeat'],
 		options: ['repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'inherit']
 	};
-	var bkgPositionSelector = {
+	$.fn.cssEditor.bkgPositionSelector = {
 		type: 'input', styles: ['background-position'] 
 	};
-	var bkgAttachSelector = {
+	$.fn.cssEditor.bkgAttachSelector = {
 		type: 'select', styles: ['background-attachment'],
 		options: ['scroll', 'fixed', 'inherit']
 	};
-	var topSelector = {
+	$.fn.cssEditor.topSelector = {
 		type: 'input', styles: ['top']
 	};
-	var rightSelector = {
+	$.fn.cssEditor.rightSelector = {
 		type: 'input', styles: ['right']
 	};
-	var bottomSelector = {
+	$.fn.cssEditor.bottomSelector = {
 		type: 'input', styles: ['bottom']
 	};
-	var leftSelector = {
+	$.fn.cssEditor.leftSelector = {
 		type: 'input', styles: ['left']
 	};
-	var marginSelector = {
+	$.fn.cssEditor.marginSelector = {
 		type: 'input', styles: ['margin-top','margin-right','margin-bottom','margin-left']
 	};
-	var paddingSelector = {
+	$.fn.cssEditor.paddingSelector = {
 		type: 'input', styles: ['padding-top','padding-right','padding-bottom','padding-left']
 	};
-	var borderWidthSelector = {
+	$.fn.cssEditor.borderWidthSelector = {
 		type: 'input', styles: ['border-top-width','border-right-width','border-bottom-width','border-left-width']
 	};
-	var borderColorSelector = {
+	$.fn.cssEditor.borderColorSelector = {
 		type: 'colorpicker', styles: ['border-top-color','border-right-color', 'border-bottom-color','border-left-color']
 	};
-	var borderStyleSelector = {
+	$.fn.cssEditor.borderStyleSelector = {
 		type: 'select', styles: ['border-top-style','border-right-style','border-bottom-style','border-left-style'],
 		options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit']
 	};
-	var visibilitySelector = {
+	$.fn.cssEditor.visibilitySelector = {
 		type: 'select', styles: ['visibility'], 
 		options: ['vissible', 'hidden', 'collapse', 'inherit']
 	};
-	var zIndexSelector = {
+	$.fn.cssEditor.zIndexSelector = {
 		type: 'input', styles: ['z-index']
 	};
-	var floatsSelector = {
+	$.fn.cssEditor.floatsSelector = {
 		type: 'select', styles: ['float'], 
 		options: ['left', 'right', 'none', 'inherit']
+	};
+	
+	
+	
+	$.fn.cssEditor.commonStyles = {
+		width: $.fn.cssEditor.widthSelector,
+		height: $.fn.cssEditor.heightSelector,
+		position: $.fn.cssEditor.positionSelector,
+		bkgcolor: $.fn.cssEditor.bkgcolorSelector,
+		display: $.fn.cssEditor.displaySelector,
+		opacity: $.fn.cssEditor.opacitySelector,
+		radius: $.fn.cssEditor.radiusSelector,
+		font: $.fn.cssEditor.fontSelector,
+		txtSize: $.fn.cssEditor.txtSizeSelector,
+		txtWeight: $.fn.cssEditor.txtWeightSelector,
+		txtStyle: $.fn.cssEditor.txtStyleSelector,
+		txtColor: $.fn.cssEditor.txtColorSelector,
+		txtSpacing: $.fn.cssEditor.txtSpacingSelector,
+		txtAlign: $.fn.cssEditor.txtAlignSelector,
+		txtWrap: $.fn.cssEditor.txtWrapSelector,
+		bkgImage: $.fn.cssEditor.bkgImageSelector,
+		bkgRepeat: $.fn.cssEditor.bkgRepeatSelector,
+		bkgPosition: $.fn.cssEditor.bkgPositionSelector,
+		bkgAttach: $.fn.cssEditor.bkgAttachSelector,
+		top: $.fn.cssEditor.topSelector,
+		right: $.fn.cssEditor.rightSelector,
+		bottom: $.fn.cssEditor.bottomSelector,
+		left: $.fn.cssEditor.leftSelector,
+		margin: $.fn.cssEditor.marginSelector,
+		padding: $.fn.cssEditor.paddingSelector,
+		borderWidth: $.fn.cssEditor.borderWidthSelector,
+		borderColor: $.fn.cssEditor.borderColorSelector,
+		borderStyle: $.fn.cssEditor.borderStyleSelector,
+		visibility: $.fn.cssEditor.visibilitySelector,
+		zIndex: $.fn.cssEditor.zIndexSelector,
+		floats : $.fn.cssEditor.floatsSelector
 	};
 	
 }

@@ -6,6 +6,13 @@
 	outline: 1px solid #00c;
 }
 
+.cssEditSelect{
+	width: 125px;
+	padding: 1px;
+	margin-right: 6px;
+	margin-left: 6px;
+}
+
 /* Attributed Box STYLING*/
 #showHide{
 	color:#292929;
