@@ -8,14 +8,65 @@ var automagicalCss = (function(){
 		changeWidthHeightAttributesBox,
 		extractElementId,
 		initializeFileUploadDialog,
+		initializeChangeContentDialog,
 		initializeFileList,
 		submitFile,
+		justText,
 
 		cssInformation = {},
 		attrInformation = {},
-		fileUploadDialog;
+		fileUploadDialog,
+		changeContentDialog;
 		
 	
+	justText = function(element) {
+	 
+	    return $(element)  .clone()
+	            .children()
+	            .remove()
+	            .end()
+	            .text();
+	 
+	};
+	
+	initializeChangeContentDialog = function() {
+		changeContentDialog = $('<div></div>')
+			.html(	' <label> Enter new content here: </label> </br>' +
+					' <textarea id="newContent" ROWS=3 COLS=30 > </textarea></br>'
+    				)
+			.dialog({
+				autoOpen: false,
+				title: 'Change Content',
+				modal: true,
+				open: function(event, ui) {
+					$('textarea#newContent').text('');
+				
+				},
+				resizable: false,
+				buttons: {
+        			'Change': function(){
+        				var el = $('#canvas .outline-element-clicked');
+														
+						//Have to do it this way to keep it resizable	
+						$(el)
+  							.contents()
+  							.filter(function() {
+    							return this.nodeType == 3; //Node.TEXT_NODE
+  							}).replaceWith($('#newContent').val());
+  
+						changeContentDialog.dialog('close');
+        				
+            			
+        			},
+        			'Cancel': function(){
+            			changeContentDialog.dialog('close');
+        			},
+
+    			}
+				
+			});
+	}
+			
 	initializeFileUploadDialog = function() {
 		fileUploadDialog = $('<div></div>')
 			.html('	<form action="/img" id="frmsample" name="frmSample" enctype="multipart/form-data" method="post">'+
@@ -256,7 +307,6 @@ var automagicalCss = (function(){
 		initializeCssFunctionality : function(){
 			
 	
-	
 			//When an element on the canvas is clicked, populate the css attributes list
 			$('#canvas .component').live('click', function(){
 					populateAttributesBox(this);
@@ -440,6 +490,7 @@ var automagicalCss = (function(){
 	
 	
 			initializeFileUploadDialog();
+			initializeChangeContentDialog();
 
 		},
 		
@@ -506,6 +557,11 @@ var automagicalCss = (function(){
 			
 							
 	
+		},
+		
+		changeCurrentElementContent : function(){
+		
+			changeContentDialog.dialog('open');
 		}
 		
 

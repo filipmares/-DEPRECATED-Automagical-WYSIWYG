@@ -3,6 +3,8 @@ var automagical = (function(){
 	var populateNavList, 
 		initializeGetHtml,
 		initializeDroppableAreas,
+		addContextMenu,
+		initializeSavedElementProperties,
 		
 		LONG_LOREM_IPSUM,
 		SHORT_LOREM_IPSUM;
@@ -83,22 +85,22 @@ var automagical = (function(){
 	
 		switch (elementInner.name){
 			case('Text'):
-				tag.append(LONG_LOREM_IPSUM());
+				tag.text(LONG_LOREM_IPSUM());
 				break;
 			case ('Label'):
-				tag.append(SHORT_LOREM_IPSUM());
+				tag.text(SHORT_LOREM_IPSUM());
 				break;
 			case ('Heading'):
-				tag.append(SHORT_LOREM_IPSUM());
+				tag.text(SHORT_LOREM_IPSUM());
 				break;
 			case ('Container'):
 				tag.addClass('container');
 				break;
 			case ('Link'):
-				tag.append('A link');
+				tag.text('A link');
 				break;
 			case ('Heading'):
-				tag.append('Heading');
+				tag.text('Heading');
 				break;
 			default:
 				response = elementInner.tag;
@@ -192,7 +194,19 @@ var automagical = (function(){
 		var params = $.getUrlVars();
 		if (params.length <= 1) return;
 		
-		var pageUrl = '/processed/' + params['user'] + '/' + params['page'];
+		var page = params['user'] + '/' + params['page'];
+		var getDirty = '/dirty/' + page;
+
+		$.get(getDirty, function(data){
+			var isDirty = data.dirty;
+			if (!isDirty){
+				loadOriginalPage(page);
+			}
+		});
+	};
+	
+	loadOriginalPage = function(page){
+		var pageUrl = '/processed/' + page;
 		console.log('fetching saved page from ' + pageUrl);
 		$.get(pageUrl, function(data){
 			var html = data.canvas.toString();
@@ -211,11 +225,7 @@ var automagical = (function(){
 				$(el).addClass('container component')
 				
 				
-				//TODO: Fix this bug where dropped images keep resizing themselves. JQuery has bug making images resizable and droppable
-				if ($(el).get(0).tagName == 'IMG') {
-					
-					$(el).css('position', 'absolute');
-				}
+				initializeSavedElementProperties(el);
 				
 			});
 			bodyWrapper.empty().remove();
@@ -235,6 +245,8 @@ var automagical = (function(){
 				.removeClass("ui-draggable-dragging")
 				.draggable({containment:"#canvas"})
 			);
+			
+			$(element).css('position', 'absolute');
 		}
 		else {
 			appendTo.append($(element)
@@ -249,6 +261,8 @@ var automagical = (function(){
 				})
 			);
 		}
+		
+		addContextMenu(element);
 		
 		
 
@@ -272,6 +286,60 @@ var automagical = (function(){
 		$(element).trigger('appendToCanvas');
 	}
 	
+	initializeSavedElementProperties = function(element){
+		
+		$.getJSON('/src/toolbox/General/general.json', function (json, status)
+		{
+			//Iterate Through extensions
+			$.each(json.main.elements, function (nameInner, elInner)
+			{
+					
+
+				if (elInner.tag == $(element).get(0).tagName) {
+					
+
+					$.each(elInner.properties, function (nameSecond, elSecond)
+					{
+						//console.log($(element).attr('id') + ' ' + nameSecond+ ' ' + $(element).css(nameSecond));
+						automagicalCss.writeCssSelector('#'+$(element).attr('id'), nameSecond, $(element).css(nameSecond));
+					});
+					
+					if (elInner.attributes) {
+						$.each(elInner.attributes, function (nameSecond, elSecond)
+						{
+							automagicalCss.writeAttrSelector('#'+$(element).attr('id'), nameSecond, $(element).attr(nameSecond));
+						});
+					}
+				}
+			
+			});
+		});
+	
+	}
+	addContextMenu = function(element) {
+	
+	        $(element).contextMenu('context-menu-1', {
+	            'Change Text': {
+	                click: function(element) {  // element is the jquery obj clicked on when context menu launched
+	                    automagicalCss.changeCurrentElementContent();
+	                },
+	                klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
+	            },
+	            'Delete': {
+	                click: function(element){ 
+	                	element.remove();
+	                },
+	                klass: "menu-item-2"
+	            }
+	        });
+
+	    
+
+	
+	
+
+	};
+	
 	return {
 	
 		initialize : function(){
@@ -282,7 +350,7 @@ var automagical = (function(){
 			initializeGetHtml();
 			populateNavList();
 			initializeDroppableAreas($("#canvas"));
-	
+			
 			checkSavedPage();
 		}
 	};

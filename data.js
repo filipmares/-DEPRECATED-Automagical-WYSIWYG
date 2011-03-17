@@ -9,14 +9,17 @@ redis.on('error', function(err){
 
 
 //Data Model
-//user 						== the user's password
-//user:numPages 	== num Pages User Has
-//user:page:#num	== retrieve Page Defined By #Num
+//user 															== the user's password
+//user:numPages 										== num Pages User Has
+//user:page:#num										== retrieve Page Defined By #Num
+//user:page:#num:processed:html			== only the html (dom) elements of the page
+//user:page:#num:processed:css			== only the css styles associated with the page
+//user:page:#num:dirty							== set if page was externally fetched
 
 //Saves a page to redis. If no page number is given, a new page will be saved and the
 //number of pages incremented. Otherwise the page with the specified number will be
 //overwritten.
-exports.savePage = function(user, pageData, pageNum){
+exports.savePage = function(user, pageData, pageNum, dirty){
 	//Overwriting a page, or save a new page?
 	if (pageNum){
 		redis.set(user + ":page:" + pageNum, pageData);
@@ -29,6 +32,11 @@ exports.savePage = function(user, pageData, pageNum){
 			var pageIndex = parseInt(reply.toString());
 			redis.set(user + ":page:" + pageIndex, pageData);
 			redis.incr(user + ":numPages");
+			
+			//Set dirty bit for externally fetched pages
+			if (dirty){
+				redis.set(user + ":page:" + pageIndex + ":dirty", "true");
+			}
 		});
 	}
 };
@@ -56,19 +64,6 @@ exports.getUser = function(userid, callback){
 		
 		var user = makeUser(userid, reply.toString());
 		callback(user);
-	});
-};
-
-exports.saveImage = function(imageName, imageData){
-	redis.set(imageName, imageData);
-};
-
-exports.getImage = function(imageName, callback){
-	redis.get(imageName, function(err, reply){
-		if (err || !reply) return callback(undefined);
-		
-		var image = reply.toString();
-		callback(image);
 	});
 };
 
@@ -104,13 +99,23 @@ exports.getProcessedPage = function(user, page, callback){
 		if (err || !reply) return callback(err);
 		
 		var html = reply.toString();
+		
 		redis.get(user + ":page:" + page + ":processed:css", function(err2, reply2){
 			if (err || !reply) return callback(err);
 			
 			var css = reply2.toString();
+			
 			var processed = {canvas: html, style: css};
 			callback(null, processed);
 		});
+	});
+};
+
+exports.getDirtyBit = function(user, page, callback){
+	redis.get(user + ":page:" + page + ":dirty", function(err, reply){
+		if (err || !reply) return callback(false);
+		
+		callback(true);
 	});
 };
 
