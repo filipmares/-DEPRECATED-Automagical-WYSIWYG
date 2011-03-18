@@ -69,6 +69,7 @@
 						validStyle = style;
 					}
 				});
+				
 				//Find the type of selector to build, and build that selector
 				if (value.type === "input"){
 					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
@@ -88,7 +89,7 @@
 				}	else if (value.type === "colorpicker"){
 					attributes_list.append('<label>' + key + 
 																 '</label> <input class="color colorPicker" value="' +
-																 $.fn.cssEditor.selected.css(value) +
+																 $.fn.cssEditor.selected.css(validStyle) +
 																 '"cssValue="' + key + '" /> <br/>');
 					jscolor.init();
 				}	
@@ -338,11 +339,29 @@
 	$.fn.cssEditor.leftSelector = {
 		type: 'input', styles: ['left']
 	};
-	$.fn.cssEditor.marginSelector = {
-		type: 'input', styles: ['margin-top','margin-right','margin-bottom','margin-left']
+	$.fn.cssEditor.marginTopSelector = {
+		type: 'input', styles: ['margin-top']
 	};
-	$.fn.cssEditor.paddingSelector = {
-		type: 'input', styles: ['padding-top','padding-right','padding-bottom','padding-left']
+	$.fn.cssEditor.marginRightSelector = {
+		type: 'input', styles: ['margin-right']
+	};
+	$.fn.cssEditor.marginBottomSelector = {
+		type: 'input', styles: ['margin-bottom']
+	};
+	$.fn.cssEditor.marginLeftSelector = {
+		type: 'input', styles: ['margin-left']
+	};
+	$.fn.cssEditor.paddingTopSelector = {
+		type: 'input', styles: ['padding-top']
+	};
+	$.fn.cssEditor.paddingRightSelector = {
+		type: 'input', styles: ['padding-right']
+	};
+	$.fn.cssEditor.paddingBottomSelector = {
+		type: 'input', styles: ['padding-bottom']
+	};
+	$.fn.cssEditor.paddingLeftSelector = {
+		type: 'input', styles: ['padding-left']
 	};
 	$.fn.cssEditor.borderWidthSelector = {
 		type: 'input', styles: ['border-top-width','border-right-width','border-bottom-width','border-left-width']
@@ -392,8 +411,14 @@
 		right: $.fn.cssEditor.rightSelector,
 		bottom: $.fn.cssEditor.bottomSelector,
 		left: $.fn.cssEditor.leftSelector,
-		margin: $.fn.cssEditor.marginSelector,
-		padding: $.fn.cssEditor.paddingSelector,
+		marginTop: $.fn.cssEditor.marginTopSelector,
+		marginRight: $.fn.cssEditor.marginRightSelector,
+		marginBottom: $.fn.cssEditor.marginBottomSelector,
+		marginLeft: $.fn.cssEditor.marginLeftSelector,
+		paddingTop: $.fn.cssEditor.paddingTopSelector,
+		paddingRight: $.fn.cssEditor.paddingRightSelector,
+		paddingBottom: $.fn.cssEditor.paddingBottomSelector,
+		paddingLeft: $.fn.cssEditor.paddingLeftSelector,
 		borderWidth: $.fn.cssEditor.borderWidthSelector,
 		borderColor: $.fn.cssEditor.borderColorSelector,
 		borderStyle: $.fn.cssEditor.borderStyleSelector,
