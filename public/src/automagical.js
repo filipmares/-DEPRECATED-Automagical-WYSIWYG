@@ -103,7 +103,7 @@ var automagical = (function(){
 				tag.text(SHORT_LOREM_IPSUM());
 				break;
 			case ('Button'):
-				tag.text(SHORT_SHORT_LOREM_IPSUM ());
+				tag.val(SHORT_SHORT_LOREM_IPSUM ());
 				break;
 			case ('Input'):
 				tag.val(SHORT_LOREM_IPSUM());
