@@ -80,11 +80,18 @@
 													' cssValue="' + key + '"' +
 													' onchange="$.fn.cssEditor.changeSelectValue(this)">';
 					//Add the whole set of options to the select element
+					var selectedIndex = 0;
+					var selectedStyle = $.fn.cssEditor.selected.css(validStyle);
 					jQuery.each(value.options, function(index, option){
 						selectBox += '<option value="' + option + '">' + option + '</option>';
+						if (option === selectedStyle) selectedIndex = index;
 					});
 					selectBox += '</select>';
-					attributes_list.append('<label>' + key + '</label>' + selectBox + '<br/>');
+					var jBox = $(selectBox);
+					jBox.attr('selectedIndex', selectedIndex);
+					attributes_list.append('<label>' + key + '</label>');
+					attributes_list.append(jBox);
+					attributes_list.append('<br/>');
 				
 				}	else if (value.type === "colorpicker"){
 					attributes_list.append('<label>' + key + 
