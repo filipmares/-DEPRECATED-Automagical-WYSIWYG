@@ -69,6 +69,7 @@
 						validStyle = style;
 					}
 				});
+				
 				//Find the type of selector to build, and build that selector
 				if (value.type === "input"){
 					attributes_list.append('<label>' + key + '</label> <input class="cssInput" type="text" value="' + 
@@ -79,14 +80,25 @@
 													' cssValue="' + key + '"' +
 													' onchange="$.fn.cssEditor.changeSelectValue(this)">';
 					//Add the whole set of options to the select element
+					var selectedIndex = 0;
+					var selectedStyle = $.fn.cssEditor.selected.css(validStyle);
 					jQuery.each(value.options, function(index, option){
 						selectBox += '<option value="' + option + '">' + option + '</option>';
+						if (option === selectedStyle) selectedIndex = index;
 					});
 					selectBox += '</select>';
-					attributes_list.append('<label>' + key + '</label>' + selectBox + '<br/>');
+					var jBox = $(selectBox);
+					jBox.attr('selectedIndex', selectedIndex);
+					attributes_list.append('<label>' + key + '</label>');
+					attributes_list.append(jBox);
+					attributes_list.append('<br/>');
 				
 				}	else if (value.type === "colorpicker"){
-					
+					attributes_list.append('<label>' + key + 
+																 '</label> <input class="color colorPicker" value="' +
+																 $.fn.cssEditor.selected.css(validStyle) +
+																 '"cssValue="' + key + '" /> <br/>');
+					jscolor.init();
 				}	
 				
 			});
@@ -132,8 +144,22 @@
 			}
 		});
 		
-		//Support for outlining the current element
+		//Listen to when the user changes a css color property, then change the property
+		$('.colorPicker').live('change', function(event){
+			var element = $(this);
+			var typeMapping = $.fn.cssEditor.commonStyles;
+			var styleMapping = null;
+
+			if (typeMapping[element.attr('cssValue')] != null) {
+				styleMapping = typeMapping[element.attr('cssValue')].styles;
+				
+				jQuery.each(styleMapping, function(index, value){
+					$.fn.cssEditor.selected.css(value, element.css('background-color'));
+				});
+			}
+		});
 		
+		//Support for outlining the current element
 		//Need mouseover event so that outline stays even when mousing over resizing div's on east and south of component
 		$('#canvas *').live('mouseover', function(event){
 			$('#canvas *').removeClass('outline-element');
@@ -202,7 +228,10 @@
 			return path + ' .' + element.attr('class');
 		}
 		
-		return path + ' ' + element.get(0).tagName().toLowerCase(); 
+		if (element.get(0).tagName) {
+			path += ' ' + element.get(0).tagName.toLowerCase(); 
+		}
+		return path;
 	};
 	
 	$.fn.cssEditor.changeWidthHeight = function(width, height){
@@ -270,7 +299,8 @@
 		type: 'input', styles: ['font-size']
 	};
 	$.fn.cssEditor.txtWeightSelector = {
-		type: 'input', styles: ['font-weight']
+		type: 'select', styles: ['font-weight'],
+		options: ['normal', 'bold', 'bolder', 'lighter']
 	};
 	$.fn.cssEditor.txtStyleSelector = {
 		type: 'select', styles: ['font-style'], 
@@ -316,11 +346,29 @@
 	$.fn.cssEditor.leftSelector = {
 		type: 'input', styles: ['left']
 	};
-	$.fn.cssEditor.marginSelector = {
-		type: 'input', styles: ['margin-top','margin-right','margin-bottom','margin-left']
+	$.fn.cssEditor.marginTopSelector = {
+		type: 'input', styles: ['margin-top']
 	};
-	$.fn.cssEditor.paddingSelector = {
-		type: 'input', styles: ['padding-top','padding-right','padding-bottom','padding-left']
+	$.fn.cssEditor.marginRightSelector = {
+		type: 'input', styles: ['margin-right']
+	};
+	$.fn.cssEditor.marginBottomSelector = {
+		type: 'input', styles: ['margin-bottom']
+	};
+	$.fn.cssEditor.marginLeftSelector = {
+		type: 'input', styles: ['margin-left']
+	};
+	$.fn.cssEditor.paddingTopSelector = {
+		type: 'input', styles: ['padding-top']
+	};
+	$.fn.cssEditor.paddingRightSelector = {
+		type: 'input', styles: ['padding-right']
+	};
+	$.fn.cssEditor.paddingBottomSelector = {
+		type: 'input', styles: ['padding-bottom']
+	};
+	$.fn.cssEditor.paddingLeftSelector = {
+		type: 'input', styles: ['padding-left']
 	};
 	$.fn.cssEditor.borderWidthSelector = {
 		type: 'input', styles: ['border-top-width','border-right-width','border-bottom-width','border-left-width']
@@ -370,8 +418,14 @@
 		right: $.fn.cssEditor.rightSelector,
 		bottom: $.fn.cssEditor.bottomSelector,
 		left: $.fn.cssEditor.leftSelector,
-		margin: $.fn.cssEditor.marginSelector,
-		padding: $.fn.cssEditor.paddingSelector,
+		marginTop: $.fn.cssEditor.marginTopSelector,
+		marginRight: $.fn.cssEditor.marginRightSelector,
+		marginBottom: $.fn.cssEditor.marginBottomSelector,
+		marginLeft: $.fn.cssEditor.marginLeftSelector,
+		paddingTop: $.fn.cssEditor.paddingTopSelector,
+		paddingRight: $.fn.cssEditor.paddingRightSelector,
+		paddingBottom: $.fn.cssEditor.paddingBottomSelector,
+		paddingLeft: $.fn.cssEditor.paddingLeftSelector,
 		borderWidth: $.fn.cssEditor.borderWidthSelector,
 		borderColor: $.fn.cssEditor.borderColorSelector,
 		borderStyle: $.fn.cssEditor.borderStyleSelector,

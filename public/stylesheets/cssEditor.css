@@ -13,6 +13,14 @@
 	margin-left: 6px;
 }
 
+.cssInput{
+	width: 125px;
+}
+
+#attributes-selector-input{
+	width: 125px;
+}
+
 /* Attributed Box STYLING*/
 #showHide{
 	color:#292929;
