@@ -14,7 +14,7 @@ var automagicalCss = (function(){
 		submitFile,
 		justText,
 		stopEvent,
-		
+		rgb2hex,
 
 		cssInformation = {},
 		attrInformation = {},
@@ -39,6 +39,14 @@ var automagicalCss = (function(){
 	            .end()
 	            .text();
 	 
+	};
+	
+ 	rgb2hex = function(rgb) {
+	    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+	    function hex(x) {
+	        return ("0" + parseInt(x).toString(16)).slice(-2);
+	    }
+    return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 	};
 	
 	initializeChangeContentDialog = function() {
@@ -269,10 +277,13 @@ var automagicalCss = (function(){
 			for (value in cssInformation[idSelector]){
 				
 				if (value == "background-color" || value == 'color' || value == 'border-top-color' || value == 'border-bottom-color' || value == 'border-left-color' || value == 'border-right-color') {
-					attributes_list.append('<label>' + value + '</label> <input class="colorPicker value="' + selected.css(value) + '" cssValue="' + value + '" /> <br/>');
-					//jscolor.init();
-				
-					initializeColorPicker(selected,value);
+					attributes_list.append('<label>' + value + '</label> <input class="color {hash:true} colorPicker value="' + selected.css(value) + '" cssValue="' + value + '" /> <br/>');
+					jscolor.init();
+					var el = $('input[cssValue="'+ value +'"]');
+					$(el).get(0).color.fromString(rgb2hex(selected.css(value)));
+					$(el).val(selected.css(value));
+					//Move away from this colorpicker
+					//initializeColorPicker(selected,value);
 				}
 
 				else if (value == 'background-image') {
@@ -461,15 +472,18 @@ var automagicalCss = (function(){
 			});
 			
 			//Listen to when the user changes a css color property, then change the property
-			/*$('.colorPicker').live('change', function(event){
+			$('.colorPicker').live('change', function(event){
 				var selected = $('.outline-element-clicked');
 				var property = $(this).attr('cssValue');
-	
+				
+				//var RGB = 'rgb('+this.color.rgb[0]*100+','+this.color.rgb[1]*100+','+this.color.rgb[2]*100+')';
+				//$(this).val(RGB);
+				
 				//checks to see if selector based on ID present in css
 				if (cssInformation['#'+selected.attr('id')][property] != null) {
 	
-					selected.css(property, $(this).css('background-color'));
-					automagicalCss.writeCssSelector('#'+selected.attr('id'),property,$(this).css('background-color'));
+					selected.css(property, $(this).val());
+					automagicalCss.writeCssSelector('#'+selected.attr('id'),property,$(this).val());
 					automagicalCss.updatePageCss();
 				}
 				else {
@@ -477,7 +491,7 @@ var automagicalCss = (function(){
 				}
 					
 	
-			});*/
+			});
 			
 			//Listen to when the user changes a attribute, then change the attribute value
 			$('.attrInput').live('change', function(event){
