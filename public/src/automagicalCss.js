@@ -15,6 +15,7 @@ var automagicalCss = (function(){
 		justText,
 		stopEvent,
 		rgb2hex,
+		rgba2hex,
 
 		cssInformation = {},
 		attrInformation = {},
@@ -46,7 +47,15 @@ var automagicalCss = (function(){
 	    function hex(x) {
 	        return ("0" + parseInt(x).toString(16)).slice(-2);
 	    }
-    return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    	return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+	};
+	
+	 rgba2hex = function(rgb) {
+	    rgb = rgb.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+)\)$/);
+	    function hex(x) {
+	        return ("0" + parseInt(x).toString(16)).slice(-2);
+	    }
+    	return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 	};
 	
 	initializeChangeContentDialog = function() {
@@ -280,7 +289,19 @@ var automagicalCss = (function(){
 					attributes_list.append('<label>' + value + '</label> <input class="color {hash:true} colorPicker value="' + selected.css(value) + '" cssValue="' + value + '" /> <br/>');
 					jscolor.init();
 					var el = $('input[cssValue="'+ value +'"]');
-					$(el).get(0).color.fromString(rgb2hex(selected.css(value)));
+					var cssVal = selected.css(value);
+					var rgb = cssVal.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+					
+					if (rgb) {
+						$(el).get(0).color.fromString(rgb2hex(selected.css(value)));
+					}
+					else {
+						var rgba = cssVal.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+)\)$/);
+						
+						if (rgba) {
+							$(el).get(0).color.fromString(rgba2hex(selected.css(value)));
+						}
+					}
 					$(el).val(selected.css(value));
 					//Move away from this colorpicker
 					//initializeColorPicker(selected,value);
