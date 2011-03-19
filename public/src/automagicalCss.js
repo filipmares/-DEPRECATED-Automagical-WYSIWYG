@@ -16,11 +16,16 @@ var automagicalCss = (function(){
 		stopEvent,
 		rgb2hex,
 		rgba2hex,
-
+		recursiveListAppendFunction,
+		makeList,
+		initalizeListDialog,
+		
 		cssInformation = {},
 		attrInformation = {},
 		fileUploadDialog,
-		changeContentDialog;
+		changeContentDialog,
+		listDialog,
+		list;
 	
 	stopEvent = function(event) {
 				event.preventDefault();
@@ -57,6 +62,71 @@ var automagicalCss = (function(){
 	    }
     	return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 	};
+	
+	initializeListDialog = function() {
+
+		
+		listDialog = $('<div></div>')
+			.html(	' <label> Tree </label> </br>' +
+					' <div id="listStart" > </div></br>'
+    				)
+			.dialog({
+				autoOpen: false,
+				title: 'Show Hierarchy',
+				modal: true,
+				open: function(event, ui) {
+				
+					
+					$("#listStart").bind("loaded.jstree", function (event, data) {
+        				$("#listStart").jstree("open_all");
+    				});
+    				
+				 	$("#listStart").jstree({
+				        "core" : { "initially_open" : [ "root" ] },
+				        "html_data" : {
+				            "data" : list
+				        },		 
+						"ui" : {
+				            "select_limit" : 2,
+				            "select_multiple_modifier" : "alt",
+				            "selected_parent_close" : "select_parent",
+            				"initially_select" : [ $('.component.outline-element-clicked').attr('id')+ "_li" ]
+
+				        },
+       
+				        "themes" : {
+				            "theme" : "default",
+				            "dots" : false,
+				            "icons" : false
+				        },
+				        "plugins" : [ "themes", "html_data", "ui" ]
+				    });
+				    $("#listStart").jstree("open_all");
+				    
+				   /* $("#listStart").delegate("a","click", function(e) { 
+  						$("#listStart").jstree("toggle_node", this); 
+					}); */
+					/*
+    				
+					$("#listStart").bind("refresh.jstree", function (event, data) {
+       					 $("#listStart").jstree("open_all");
+    				});*/
+					//console.log($('.component.outline-element-clicked').attr('id')+ "_li");
+				
+				},
+				resizable: false,
+				buttons: {
+        			'Close': function(){
+
+						listDialog.dialog('close');
+        				
+            			
+        			}
+
+    			}
+				
+			});
+	}
 	
 	initializeChangeContentDialog = function() {
 		changeContentDialog = $('<div></div>')
@@ -387,7 +457,60 @@ var automagicalCss = (function(){
 		
 		return path + ' ' + element.get(0).tagName().toLowerCase(); 
 	};
+	
 
+
+    recursiveListAppendFunction = function( canvasHTML, element) {
+
+		
+		if ((element.filter('.ui-resizable-handle, .ui-resizable-e, .ui-resizable-handle, .ui-resizable-s, .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se')).size() > 0) {
+			return "";
+		}
+		
+		//TODO: This doesn't take into acount any other attributes other than 'style', this needs to be changed
+		if (!element.hasClass('ui-wrapper')) {
+			canvasHTML += "<li id=\""+extractElementId(element) +"_li\"><a>"+ extractElementId(element) +"</a>\n";
+			
+			//Go through all of the children of this element
+	        if (element.children().size() > 0) {
+	        	canvasHTML = canvasHTML + '<ul>';
+	            element.children().each( function() {
+	                canvasHTML += recursiveListAppendFunction("", $(this));
+	            });
+	            
+	            canvasHTML = canvasHTML+'</ul>';
+	        }
+	        
+	       	canvasHTML += "</li>\n";
+
+		}
+		else {
+			//Go through all of the children of this element
+	        if (element.children().size() > 0) {
+	        	//canvasHTML = "<ul>"+canvasHTML;
+	            element.children().each( function() {
+	                canvasHTML += recursiveListAppendFunction("", $(this), 'absolute');
+	            });
+	            //canvasHTML = canvasHTML+'</ul>';
+	        }
+		}
+
+       	
+       	return canvasHTML; 
+	};
+
+	makeList = function() {
+				/* This function initializes the GetHtml link button*/
+			var canvasHTML="<div id=\"demo1\"><ul>";
+						
+			//We need to recursively go through and do element by element for a multitude of reasons right now
+			$('#canvas').children().each(function() {
+				canvasHTML = recursiveListAppendFunction(canvasHTML, $(this).clone())
+	    	});	
+	    	canvasHTML += '</ul></div>';
+	    	return canvasHTML;
+	}
+	
 	return {
 	
 		initializeCssFunctionality : function(){
@@ -581,6 +704,7 @@ var automagicalCss = (function(){
 	
 			initializeFileUploadDialog();
 			initializeChangeContentDialog();
+			initializeListDialog();
 
 		},
 		
@@ -652,7 +776,15 @@ var automagicalCss = (function(){
 		changeCurrentElementContent : function(){
 		
 			changeContentDialog.dialog('open');
+		},
+		
+		checkStructure : function(){
+			
+			console.log(makeList());
+			list = makeList();
+			listDialog.dialog('open');
 		}
+
 		
 
 	};

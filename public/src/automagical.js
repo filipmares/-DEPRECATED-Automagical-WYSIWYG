@@ -403,6 +403,12 @@ var automagical = (function(){
 	                },
 	                klass: "menu-item-1" // a custom css class for this menu item (usable for styling)
 	            },
+	            'Check Hierarchy': {
+	                click: function(element) {  // element is the jquery obj clicked on when context menu launched
+	                    automagicalCss.checkStructure();
+	                },
+	                klass: "menu-item-3" // a custom css class for this menu item (usable for styling)
+	            },
 	            'Delete': {
 	                click: function(element){ 
 	                	
